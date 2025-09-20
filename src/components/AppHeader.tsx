@@ -17,22 +17,25 @@ export const AppHeader = ({ onSearch, searchPlaceholder = "البحث..." }: App
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-card/95 backdrop-blur-lg border-b border-border">
+    <header className="sticky top-0 z-40 bg-card/80 backdrop-blur-xl border-b border-border/30">
       <div className="flex items-center gap-4 p-4">
         {/* Logo */}
         <div className="flex items-center gap-3 flex-shrink-0">
-          <img 
-            src={daleelLogo} 
-            alt="دليل" 
-            className="h-10 w-10 rounded-lg"
-          />
-          <h1 className="text-xl font-bold text-primary">دليل</h1>
+          <div className="relative">
+            <img 
+              src={daleelLogo} 
+              alt="دليل" 
+              className="h-12 w-12 rounded-lg interactive-hover"
+            />
+            <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-primary rounded-full animate-pulse" />
+          </div>
+          <h1 className="text-2xl font-bold gradient-text">دليل</h1>
         </div>
 
         {/* Search Bar */}
         <div className="relative flex-1 max-w-md">
           <Search 
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" 
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground transition-colors duration-200" 
             size={18} 
           />
           <Input
@@ -40,7 +43,7 @@ export const AppHeader = ({ onSearch, searchPlaceholder = "البحث..." }: App
             placeholder={searchPlaceholder}
             value={searchQuery}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="pr-10 bg-muted/50 border-border focus:bg-background"
+            className="pr-10 bg-muted/30 border-border/50 focus:bg-background focus:border-primary/50 transition-all duration-300 rounded-lg"
             dir="rtl"
           />
         </div>

@@ -6,6 +6,7 @@ export interface University {
   established: number;
   description: string;
   logo?: string;
+  banner?: string;
   website?: string;
   faculties: Faculty[];
 }
@@ -25,6 +26,8 @@ export const syrianUniversities: University[] = [
     city: "دمشق",
     established: 1923,
     description: "أقدم وأعرق الجامعات السورية، تأسست عام 1923 وتضم العديد من الكليات والمعاهد المتخصصة في مختلف المجالات العلمية والإنسانية.",
+    logo: "/src/assets/damascus-logo.png",
+    banner: "/src/assets/damascus-university-banner.jpg",
     website: "www.damascusuniversity.edu.sy",
     faculties: [
       {
@@ -66,6 +69,8 @@ export const syrianUniversities: University[] = [
     city: "حلب",
     established: 1958,
     description: "ثاني أكبر الجامعات السورية، تأسست عام 1958 وتشتهر بكلياتها الهندسية والطبية المتميزة.",
+    logo: "/src/assets/aleppo-logo.png",
+    banner: "/src/assets/aleppo-university-banner.jpg",
     website: "www.alepuniv.edu.sy",
     faculties: [
       {
@@ -101,6 +106,8 @@ export const syrianUniversities: University[] = [
     city: "اللاذقية",
     established: 1971,
     description: "جامعة تشرين هي جامعة حكومية تقع في مدينة اللاذقية، تأسست عام 1971 وتشتهر بكلياتها البحرية والزراعية.",
+    logo: "/src/assets/tishreen-logo.png",
+    banner: "/src/assets/tishreen-university-banner.jpg",
     website: "www.tishreen.edu.sy",
     faculties: [
       {
