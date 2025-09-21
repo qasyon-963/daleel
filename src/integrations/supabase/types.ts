@@ -14,7 +14,166 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      branches: {
+        Row: {
+          city: string
+          created_at: string
+          id: string
+          name: string
+          university_id: string
+          updated_at: string
+        }
+        Insert: {
+          city: string
+          created_at?: string
+          id?: string
+          name: string
+          university_id: string
+          updated_at?: string
+        }
+        Update: {
+          city?: string
+          created_at?: string
+          id?: string
+          name?: string
+          university_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "branches_university_id_fkey"
+            columns: ["university_id"]
+            isOneToOne: false
+            referencedRelation: "universities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      faculties: {
+        Row: {
+          branch_id: string | null
+          created_at: string
+          id: string
+          name: string
+          name_en: string | null
+          type: string
+          university_id: string
+          updated_at: string
+        }
+        Insert: {
+          branch_id?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          name_en?: string | null
+          type?: string
+          university_id: string
+          updated_at?: string
+        }
+        Update: {
+          branch_id?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          name_en?: string | null
+          type?: string
+          university_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "faculties_branch_id_fkey"
+            columns: ["branch_id"]
+            isOneToOne: false
+            referencedRelation: "branches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "faculties_university_id_fkey"
+            columns: ["university_id"]
+            isOneToOne: false
+            referencedRelation: "universities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      majors: {
+        Row: {
+          created_at: string
+          faculty_id: string
+          id: string
+          name: string
+          name_en: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          faculty_id: string
+          id?: string
+          name: string
+          name_en?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          faculty_id?: string
+          id?: string
+          name?: string
+          name_en?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "majors_faculty_id_fkey"
+            columns: ["faculty_id"]
+            isOneToOne: false
+            referencedRelation: "faculties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      universities: {
+        Row: {
+          banner_url: string | null
+          city: string
+          created_at: string
+          description: string | null
+          established: number | null
+          id: string
+          logo_url: string | null
+          name: string
+          name_en: string
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          banner_url?: string | null
+          city: string
+          created_at?: string
+          description?: string | null
+          established?: number | null
+          id?: string
+          logo_url?: string | null
+          name: string
+          name_en: string
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          banner_url?: string | null
+          city?: string
+          created_at?: string
+          description?: string | null
+          established?: number | null
+          id?: string
+          logo_url?: string | null
+          name?: string
+          name_en?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
