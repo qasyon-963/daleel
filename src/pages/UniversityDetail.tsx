@@ -229,7 +229,7 @@ export const UniversityDetail = () => {
                       {faculty.name}
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      {faculty.name_en || faculty.nameEn}
+                      {faculty.name_en}
                     </p>
                   </div>
                   
