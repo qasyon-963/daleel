@@ -4,7 +4,7 @@ import { Home, GraduationCap, Newspaper, User } from "lucide-react";
 const navigationItems = [
   {
     id: "universities",
-    label: "الجامعات",
+    label: "جامعات",
     icon: Home,
     path: "/",
   },
