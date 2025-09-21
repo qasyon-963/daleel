@@ -4,7 +4,6 @@ import { ArrowRight, MapPin, Calendar, Globe, BookOpen, Users, ExternalLink, Bui
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { syrianUniversities } from "@/data/universities";
 import { getUniversityDetails, UniversityDetails } from "@/services/university";
 import damascusLogo from "@/assets/damascus-logo.png";
 import aleppoLogo from "@/assets/aleppo-logo.png";
@@ -13,16 +12,16 @@ import damascusBanner from "@/assets/damascus-university-banner.jpg";
 import aleppoBanner from "@/assets/aleppo-university-banner.jpg";
 import tishreenBanner from "@/assets/tishreen-university-banner.jpg";
 
-const logoMap: Record<string, string> = {
-  damascus: damascusLogo,
-  aleppo: aleppoLogo,
-  tishreen: tishreenLogo,
+const logoMapByName: Record<string, string> = {
+  "جامعة دمشق": damascusLogo,
+  "جامعة حلب": aleppoLogo,
+  "جامعة تشرين": tishreenLogo,
 };
 
-const bannerMap: Record<string, string> = {
-  damascus: damascusBanner,
-  aleppo: aleppoBanner,
-  tishreen: tishreenBanner,
+const bannerMapByName: Record<string, string> = {
+  "جامعة دمشق": damascusBanner,
+  "جامعة حلب": aleppoBanner,
+  "جامعة تشرين": tishreenBanner,
 };
 
 export const UniversityDetail = () => {
@@ -31,31 +30,21 @@ export const UniversityDetail = () => {
   const [universityDetails, setUniversityDetails] = useState<UniversityDetails | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   
-  // Fallback to static data for non-damascus universities
-  const staticUniversity = syrianUniversities.find(u => u.id === id);
-
   useEffect(() => {
     const fetchUniversityDetails = async () => {
       if (!id) return;
-      
       setIsLoading(true);
-      
-      // Try to fetch from database first (for Damascus University)
-      if (id === 'damascus') {
-        const details = await getUniversityDetails('a1111111-1111-1111-1111-111111111111');
-        if (details) {
-          setUniversityDetails(details);
-        }
+      const details = await getUniversityDetails(id);
+      if (details) {
+        setUniversityDetails(details);
       }
-      
       setIsLoading(false);
     };
 
     fetchUniversityDetails();
   }, [id]);
 
-  // Use database data for Damascus, fallback to static data for others
-  const university = universityDetails || staticUniversity;
+  const university = universityDetails;
 
   if (isLoading) {
     return (
@@ -80,8 +69,8 @@ export const UniversityDetail = () => {
     );
   }
 
-  const universityLogo = logoMap[university.id];
-  const universityBanner = bannerMap[university.id];
+  const universityLogo = university ? (logoMapByName[university.name] || university.logo_url) : undefined;
+  const universityBanner = university ? (bannerMapByName[university.name] || university.banner_url) : undefined;
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -133,7 +122,7 @@ export const UniversityDetail = () => {
                     {university.name}
                   </h1>
                   <p className="text-xl text-white/90 mb-3 animate-slide-up" style={{ animationDelay: '0.1s' }}>
-                    {universityDetails ? universityDetails.name_en : (university as any).nameEn}
+                    {university?.name_en}
                   </p>
                   
                   {/* Quick Info */}
