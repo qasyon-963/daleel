@@ -1,14 +1,24 @@
-import { Search } from "lucide-react";
+import { Search, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import daleelLogo from "@/assets/daleel-logo.png";
 
 interface AppHeaderProps {
+  title?: string;
   onSearch?: (query: string) => void;
   searchPlaceholder?: string;
+  showBackButton?: boolean;
+  onBackClick?: () => void;
 }
 
-export const AppHeader = ({ onSearch, searchPlaceholder = "البحث..." }: AppHeaderProps) => {
+export const AppHeader = ({ 
+  title, 
+  onSearch, 
+  searchPlaceholder = "البحث...", 
+  showBackButton = false,
+  onBackClick 
+}: AppHeaderProps) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (value: string) => {
@@ -19,6 +29,18 @@ export const AppHeader = ({ onSearch, searchPlaceholder = "البحث..." }: App
   return (
     <header className="sticky top-0 z-40 bg-card/80 backdrop-blur-xl border-b border-border/30">
       <div className="flex items-center gap-4 p-4">
+        {/* Back Button */}
+        {showBackButton && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onBackClick}
+            className="flex-shrink-0"
+          >
+            <ArrowRight className="w-4 h-4" />
+          </Button>
+        )}
+        
         {/* Logo */}
         <div className="flex items-center gap-3 flex-shrink-0">
           <div className="relative">
@@ -29,7 +51,7 @@ export const AppHeader = ({ onSearch, searchPlaceholder = "البحث..." }: App
             />
             <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-primary rounded-full animate-pulse" />
           </div>
-          <h1 className="text-2xl font-bold gradient-text">دليل</h1>
+          <h1 className="text-2xl font-bold gradient-text">{title || "دليل"}</h1>
         </div>
 
         {/* Search Bar */}

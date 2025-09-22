@@ -9,6 +9,9 @@ import { UniversityDetail } from "./pages/UniversityDetail";
 import { Majors } from "./pages/Majors";
 import { News } from "./pages/News";
 import { Profile } from "./pages/Profile";
+import { AdminLogin } from "./pages/AdminLogin";
+import { AdminDashboard } from "./pages/AdminDashboard";
+import { AdminNews } from "./pages/AdminNews";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +30,9 @@ const App = () => (
             <Route path="news" element={<News />} />
             <Route path="profile" element={<Profile />} />
           </Route>
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/news" element={<AdminNews />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

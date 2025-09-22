@@ -1,165 +1,145 @@
-import { AppHeader } from "@/components/AppHeader";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, ExternalLink, Bell } from "lucide-react";
-import { useState } from "react";
+import { AppHeader } from "@/components/AppHeader";
+import { supabase } from "@/integrations/supabase/client";
 
 interface NewsItem {
   id: string;
   title: string;
   summary: string;
-  date: string;
-  category: "announcement" | "admission" | "scholarship" | "exam";
-  isImportant: boolean;
+  content: string;
+  created_at: string;
+  category: string;
+  is_important: boolean;
   source: string;
+  image_url: string;
 }
 
-// Sample news data - في التطبيق الحقيقي سيتم جلب هذه البيانات من API
-const newsData: NewsItem[] = [
-  {
-    id: "1",
-    title: "إعلان مواعيد التسجيل للعام الدراسي الجديد 2024-2025",
-    summary: "أعلنت وزارة التعليم العالي والبحث العلمي عن مواعيد التسجيل للعام الدراسي الجديد في الجامعات الحكومية السورية.",
-    date: "2024-09-15",
-    category: "admission",
-    isImportant: true,
-    source: "وزارة التعليم العالي والبحث العلمي"
-  },
-  {
-    id: "2", 
-    title: "منح دراسية للطلاب المتفوقين في الجامعات السورية",
-    summary: "تعلن الوزارة عن توفر منح دراسية للطلاب المتفوقين أكاديمياً في مختلف التخصصات الجامعية.",
-    date: "2024-09-12",
-    category: "scholarship",
-    isImportant: false,
-    source: "وزارة التعليم العالي والبحث العلمي"
-  },
-  {
-    id: "3",
-    title: "تعديل مواعيد الامتحانات النهائية لكليات الطب",
-    summary: "تم تعديل جدول الامتحانات النهائية لكليات الطب في الجامعات السورية نظراً للظروف الاستثنائية.",
-    date: "2024-09-10",
-    category: "exam",
-    isImportant: true,
-    source: "اتحاد كليات الطب السورية"
-  },
-  {
-    id: "4",
-    title: "افتتاح معمل جديد للحاسوب في جامعة دمشق",
-    summary: "تم افتتاح معمل حديث للحاسوب مجهز بأحدث التقنيات في كلية الهندسة المعلوماتية بجامعة دمشق.",
-    date: "2024-09-08",
-    category: "announcement",
-    isImportant: false,
-    source: "جامعة دمشق"
-  },
-  {
-    id: "5",
-    title: "ورشة عمل حول ريادة الأعمال للطلاب الجامعيين",
-    summary: "تنظم الوزارة ورشة عمل مجانية حول ريادة الأعمال والابتكار موجهة لجميع الطلاب الجامعيين.",
-    date: "2024-09-05",
-    category: "announcement",
-    isImportant: false,
-    source: "وزارة التعليم العالي والبحث العلمي"
-  }
-];
-
-const categoryLabels = {
-  announcement: "إعلان",
-  admission: "قبول جامعي",
-  scholarship: "منح دراسية", 
-  exam: "امتحانات"
+// Category labels in Arabic
+const categoryLabels: Record<string, string> = {
+  general: "عام",
+  admissions: "قبول",
+  exams: "امتحانات", 
+  events: "فعاليات",
+  scholarships: "منح",
 };
 
-const categoryColors = {
-  announcement: "bg-blue-100 text-blue-800",
-  admission: "bg-green-100 text-green-800",
-  scholarship: "bg-purple-100 text-purple-800",
-  exam: "bg-orange-100 text-orange-800"
+// Category colors for badges
+const categoryColors: Record<string, string> = {
+  general: "bg-blue-100 text-blue-800",
+  admissions: "bg-green-100 text-green-800",
+  exams: "bg-orange-100 text-orange-800",
+  events: "bg-purple-100 text-purple-800",
+  scholarships: "bg-pink-100 text-pink-800",
 };
 
 export const News = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [newsData, setNewsData] = useState<NewsItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const filteredNews = newsData.filter(
-    (news) =>
-      news.title.includes(searchQuery) ||
-      news.summary.includes(searchQuery) ||
-      news.source.includes(searchQuery)
+  useEffect(() => {
+    fetchNews();
+  }, []);
+
+  const fetchNews = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("news")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching news:", error);
+        return;
+      }
+
+      setNewsData(data || []);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const filteredNews = newsData.filter(news =>
+    news.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (news.summary && news.summary.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("ar-SY", {
-      year: "numeric",
-      month: "long",
-      day: "numeric"
+    return new Date(dateString).toLocaleDateString('ar-SA', {
+      year: 'numeric',
+      month: 'long', 
+      day: 'numeric'
     });
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <AppHeader 
+          onSearch={setSearchQuery}
+          searchPlaceholder="البحث في الأخبار..."
+        />
+        <div className="container mx-auto p-4 pt-20">
+          <div className="text-center">جاري تحميل الأخبار...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background pb-20">
       <AppHeader 
-        onSearch={setSearchQuery} 
+        onSearch={setSearchQuery}
         searchPlaceholder="البحث في الأخبار..."
       />
       
-      <div className="p-4 space-y-6">
+      <div className="container mx-auto p-4 pt-6">
         {/* Header Section */}
         <div className="text-center py-6">
-          <h2 className="text-2xl font-bold text-foreground mb-2">
-            الأخبار والإعلانات
-          </h2>
+          <h2 className="text-3xl font-bold mb-2">الأخبار الجامعية</h2>
           <p className="text-muted-foreground">
-            آخر الأخبار والإعلانات من وزارة التعليم العالي والجامعات السورية
+            آخر الأخبار والإعلانات من الجامعات السورية
           </p>
         </div>
 
-        {/* News List */}
-        <div className="space-y-4">
+        {/* News Grid */}
+        <div className="grid gap-6">
           {filteredNews.map((news) => (
-            <Card key={news.id} className="university-card">
-              <CardHeader className="pb-3">
-                <div className="flex items-start gap-3">
-                  {news.isImportant && (
-                    <Bell className="text-red-500 mt-1 flex-shrink-0" size={20} />
-                  )}
-                  <div className="flex-1">
-                    <h3 className="text-lg font-bold text-foreground leading-tight mb-2">
+            <Card key={news.id} className="university-card hover-lift">
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="text-xl font-bold mb-3 leading-tight">
                       {news.title}
                     </h3>
-                    <div className="flex items-center gap-2 flex-wrap">
+                  </div>
+                  
+                  <p className="text-sm text-muted-foreground mb-3">
+                    {news.summary}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
                       <Badge 
-                        variant="secondary"
-                        className={`text-xs ${categoryColors[news.category]}`}
+                        variant={news.is_important ? "destructive" : "secondary"}
+                        className={categoryColors[news.category]}
                       >
                         {categoryLabels[news.category]}
                       </Badge>
-                      {news.isImportant && (
-                        <Badge variant="destructive" className="text-xs">
+                      {news.is_important && (
+                        <Badge variant="destructive">
                           مهم
                         </Badge>
                       )}
                     </div>
+                    <div className="text-xs text-muted-foreground">
+                      {formatDate(news.created_at)}
+                      {news.source && ` • ${news.source}`}
+                    </div>
                   </div>
-                  <ExternalLink className="text-primary flex-shrink-0" size={18} />
-                </div>
-              </CardHeader>
-              
-              <CardContent className="space-y-4">
-                {/* Summary */}
-                <p className="text-sm text-foreground leading-relaxed">
-                  {news.summary}
-                </p>
-
-                {/* Date and Source */}
-                <div className="flex items-center justify-between text-xs text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <Calendar size={14} className="text-primary" />
-                    <span>{formatDate(news.date)}</span>
-                  </div>
-                  <span className="font-medium">
-                    {news.source}
-                  </span>
                 </div>
               </CardContent>
             </Card>
@@ -167,19 +147,12 @@ export const News = () => {
         </div>
 
         {filteredNews.length === 0 && (
-          <div className="text-center py-8">
-            <p className="text-muted-foreground">
-              لم يتم العثور على أخبار تطابق بحثك
+          <div className="text-center py-12">
+            <p className="text-muted-foreground text-lg">
+              {newsData.length === 0 ? "لا توجد أخبار متاحة حالياً" : "لم يتم العثور على أخبار تطابق البحث"}
             </p>
           </div>
         )}
-
-        {/* Footer Note */}
-        <div className="text-center py-4">
-          <p className="text-xs text-muted-foreground">
-            للحصول على آخر الأخبار والإعلانات، يرجى زيارة الموقع الرسمي لوزارة التعليم العالي
-          </p>
-        </div>
       </div>
     </div>
   );
