@@ -15,13 +15,13 @@ import tishreenBanner from "@/assets/tishreen-university-banner.jpg";
 const logoMapByName: Record<string, string> = {
   "جامعة دمشق": damascusLogo,
   "جامعة حلب": aleppoLogo,
-  "جامعة تشرين": tishreenLogo,
+  "جامعة اللاذقية": tishreenLogo,
 };
 
 const bannerMapByName: Record<string, string> = {
   "جامعة دمشق": damascusBanner,
   "جامعة حلب": aleppoBanner,
-  "جامعة تشرين": tishreenBanner,
+  "جامعة اللاذقية": tishreenBanner,
 };
 
 export const UniversityDetail = () => {
@@ -32,13 +32,21 @@ export const UniversityDetail = () => {
   
   useEffect(() => {
     const fetchUniversityDetails = async () => {
-      if (!id) return;
-      setIsLoading(true);
-      const details = await getUniversityDetails(id);
-      if (details) {
-        setUniversityDetails(details);
+      if (!id) {
+        setIsLoading(false);
+        return;
       }
-      setIsLoading(false);
+      
+      setIsLoading(true);
+      try {
+        const details = await getUniversityDetails(id);
+        setUniversityDetails(details);
+      } catch (error) {
+        console.error('Failed to fetch university details:', error);
+        setUniversityDetails(null);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchUniversityDetails();
@@ -48,11 +56,14 @@ export const UniversityDetail = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center animate-fade-in">
-          <div className="animate-pulse">جاري التحميل...</div>
+        <div className="min-h-screen bg-background flex items-center justify-center">
+          <div className="text-center animate-fade-in">
+            <div className="flex items-center justify-center mb-4">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            </div>
+            <p className="text-lg text-muted-foreground">جاري التحميل...</p>
+          </div>
         </div>
-      </div>
     );
   }
 
@@ -220,17 +231,19 @@ export const UniversityDetail = () => {
             <CardContent className="space-y-4">
               {(universityDetails?.faculties.filter(f => f.type === 'faculty') || university.faculties || []).map((faculty, index) => (
                 <div 
-                  key={faculty.id || index} 
-                  className="p-5 bg-gradient-card rounded-lg border border-border/50 space-y-4 interactive-hover"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  key={`${faculty.id}-${index}`} 
+                  className="p-5 bg-gradient-card rounded-lg border border-border/50 space-y-4 interactive-hover animate-slide-up"
+                  style={{ animationDelay: `${index * 0.05}s` }}
                 >
                   <div>
                     <h3 className="font-bold text-foreground text-lg mb-1">
                       {faculty.name}
                     </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {faculty.name_en}
-                    </p>
+                    {faculty.name_en && (
+                      <p className="text-sm text-muted-foreground">
+                        {faculty.name_en}
+                      </p>
+                    )}
                   </div>
                   
                   {faculty.majors && faculty.majors.length > 0 && (
@@ -240,7 +253,7 @@ export const UniversityDetail = () => {
                         التخصصات المتاحة:
                       </p>
                       <div className="flex flex-wrap gap-2">
-                        {faculty.majors.map((major, majorIndex) => (
+                        {faculty.majors.slice(0, 6).map((major, majorIndex) => (
                           <Badge 
                             key={majorIndex} 
                             variant="secondary" 
@@ -249,6 +262,11 @@ export const UniversityDetail = () => {
                             {typeof major === 'string' ? major : major.name}
                           </Badge>
                         ))}
+                        {faculty.majors.length > 6 && (
+                          <Badge variant="outline" className="text-xs">
+                            +{faculty.majors.length - 6} أخرى
+                          </Badge>
+                        )}
                       </div>
                     </div>
                   )}

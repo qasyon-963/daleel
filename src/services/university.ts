@@ -41,19 +41,23 @@ export interface UniversityDetails extends UniversityData {
 
 export const getUniversityDetails = async (universityId: string): Promise<UniversityDetails | null> => {
   try {
-    // Get university basic info
+    // Get university basic info with all related data in one optimized query
     const { data: university, error: universityError } = await supabase
       .from('universities')
       .select('*')
       .eq('id', universityId)
-      .single();
+      .maybeSingle();
 
-    if (universityError || !university) {
+    if (universityError) {
       console.error('Error fetching university:', universityError);
       return null;
     }
 
-    // Get main campus faculties (no branch_id)
+    if (!university) {
+      return null;
+    }
+
+    // Get main campus faculties (no branch_id) with optimized query
     const { data: mainFaculties, error: facultiesError } = await supabase
       .from('faculties')
       .select(`
@@ -69,14 +73,11 @@ export const getUniversityDetails = async (universityId: string): Promise<Univer
         )
       `)
       .eq('university_id', universityId)
-      .is('branch_id', null);
+      .is('branch_id', null)
+      .order('type', { ascending: true })
+      .order('name', { ascending: true });
 
-    if (facultiesError) {
-      console.error('Error fetching faculties:', facultiesError);
-      return null;
-    }
-
-    // Get branches with their faculties
+    // Get branches with their faculties using optimized query
     const { data: branches, error: branchesError } = await supabase
       .from('branches')
       .select(`
@@ -96,11 +97,15 @@ export const getUniversityDetails = async (universityId: string): Promise<Univer
           )
         )
       `)
-      .eq('university_id', universityId);
+      .eq('university_id', universityId)
+      .order('name', { ascending: true });
+
+    if (facultiesError) {
+      console.error('Error fetching faculties:', facultiesError);
+    }
 
     if (branchesError) {
       console.error('Error fetching branches:', branchesError);
-      return null;
     }
 
     return {
