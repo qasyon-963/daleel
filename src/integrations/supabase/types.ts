@@ -184,33 +184,76 @@ export type Database = {
       }
       profiles: {
         Row: {
+          academic_year: string | null
           created_at: string
           email: string
+          faculty_id: string | null
+          faculty_name: string | null
           full_name: string | null
           id: string
+          major_id: string | null
+          major_name: string | null
           role: string
+          university_id: string | null
+          university_name: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
+          academic_year?: string | null
           created_at?: string
           email: string
+          faculty_id?: string | null
+          faculty_name?: string | null
           full_name?: string | null
           id?: string
+          major_id?: string | null
+          major_name?: string | null
           role?: string
+          university_id?: string | null
+          university_name?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
+          academic_year?: string | null
           created_at?: string
           email?: string
+          faculty_id?: string | null
+          faculty_name?: string | null
           full_name?: string | null
           id?: string
+          major_id?: string | null
+          major_name?: string | null
           role?: string
+          university_id?: string | null
+          university_name?: string | null
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_faculty_id_fkey"
+            columns: ["faculty_id"]
+            isOneToOne: false
+            referencedRelation: "faculties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profiles_major_id_fkey"
+            columns: ["major_id"]
+            isOneToOne: false
+            referencedRelation: "majors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profiles_university_id_fkey"
+            columns: ["university_id"]
+            isOneToOne: false
+            referencedRelation: "universities"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       universities: {
         Row: {

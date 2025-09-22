@@ -9,6 +9,7 @@ import { UniversityDetail } from "./pages/UniversityDetail";
 import { Majors } from "./pages/Majors";
 import { News } from "./pages/News";
 import { Profile } from "./pages/Profile";
+import { Auth } from "./pages/Auth";
 import { AdminLogin } from "./pages/AdminLogin";
 import { AdminDashboard } from "./pages/AdminDashboard";
 import { AdminNews } from "./pages/AdminNews";
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="news" element={<News />} />
             <Route path="profile" element={<Profile />} />
           </Route>
+          <Route path="/auth" element={<Auth />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/news" element={<AdminNews />} />
