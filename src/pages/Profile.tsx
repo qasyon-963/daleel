@@ -1,4 +1,5 @@
 import { AppHeader } from "@/components/AppHeader";
+import { AuthGuard } from "@/components/AuthGuard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +17,9 @@ import {
   Heart,
   Share2,
   LogOut,
-  Edit
+  Edit,
+  CheckCircle,
+  Shield
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -40,32 +43,39 @@ export const Profile = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [showAcademicForm, setShowAcademicForm] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [requireAuth, setRequireAuth] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
   useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        setRequireAuth(true);
+        setLoading(false);
+        return;
+      }
+      
+      setSession(session);
+      setUser(session.user);
+    };
+
+    checkAuth();
+
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         if (!session) {
-          navigate('/auth');
+          setRequireAuth(true);
         }
       }
     );
 
-    // Check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (!session) {
-        navigate('/auth');
-      }
-    });
-
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -108,141 +118,146 @@ export const Profile = () => {
     }
   };
 
-  if (loading || !user) {
+  if (loading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p>جاري التحميل...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-background">
-        <AppHeader searchPlaceholder="البحث..." />
-        
-        <div className="flex items-center justify-center min-h-[70vh] p-4">
-          <Card className="w-full max-w-md">
-            <CardContent className="p-8 text-center space-y-6">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                <User className="text-primary" size={32} />
-              </div>
-              
-              <div className="space-y-2">
-                <h2 className="text-xl font-bold text-foreground">
-                  مرحباً بك في دليل
-                </h2>
-                <p className="text-muted-foreground text-sm">
-                  قم بتسجيل الدخول للوصول إلى ملفك الشخصي وحفظ الجامعات والتخصصات المفضلة
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                <Button 
-                  className="w-full btn-primary"
-                  onClick={() => navigate('/auth')}
-                >
-                  تسجيل الدخول
-                </Button>
-                <Button 
-                  variant="outline" 
-                  className="w-full"
-                  onClick={() => navigate('/auth')}
-                >
-                  إنشاء حساب جديد
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+      <div className="min-h-screen bg-background flex items-center justify-center pb-20">
+        <div className="text-center animate-fade-in">
+          <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse-glow">
+            <User className="text-white" size={32} />
+          </div>
+          <p className="text-lg text-muted-foreground">جاري تحميل الملف الشخصي...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background pb-20">
-      <AppHeader searchPlaceholder="البحث..." />
-      
-      <div className="p-4 space-y-6">
-        {/* User Info Card */}
-        <Card className="card-hero">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
-                <User className="text-primary" size={28} />
-              </div>
-              <div className="flex-1">
-                <h2 className="text-xl font-bold text-foreground">
-                  {profile?.full_name || user?.email || "مستخدم"}
-                </h2>
-                <div className="flex items-center gap-1 text-sm text-muted-foreground mt-1">
-                  <Mail size={14} />
-                  <span>{profile?.email || user?.email}</span>
-                </div>
-              </div>
+    <AuthGuard 
+      requireAuth={requireAuth} 
+      message="يرجى تسجيل الدخول لعرض ملفك الشخصي وإدارة معلوماتك الأكاديمية"
+    >
+      <div className="min-h-screen bg-background pb-20">
+        <AppHeader searchPlaceholder="البحث..." />
+        
+        <div className="p-4 space-y-6">
+          {/* Header Section */}
+          <div className="text-center py-8 animate-fade-in">
+            <div className="w-24 h-24 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse-glow">
+              <User className="text-white" size={48} />
             </div>
-          </CardContent>
-        </Card>
+            <h1 className="text-3xl font-bold gradient-text mb-3">
+              الملف الشخصي
+            </h1>
+            <p className="text-muted-foreground text-lg">
+              إدارة معلوماتك الشخصية والأكاديمية
+            </p>
+          </div>
 
-        {/* Academic Info */}
-        {!showAcademicForm && (
-          <Card>
+          {/* User Info Card */}
+          <Card className="card-modern animate-slide-up">
             <CardHeader>
-              <CardTitle className="text-lg flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <GraduationCap className="text-primary" size={20} />
-                  المعلومات الأكاديمية
+              <CardTitle className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
+                  <Shield size={16} className="text-white" />
                 </div>
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  onClick={() => setShowAcademicForm(true)}
-                >
-                  <Edit size={18} />
-                </Button>
+                المعلومات الشخصية
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              {profile?.university_name ? (
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-sm text-muted-foreground">الجامعة</p>
-                    <p className="font-medium text-foreground">{profile.university_name}</p>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <p className="text-sm text-muted-foreground font-medium">الاسم الكامل</p>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle size={16} className="text-primary" />
+                    <p className="font-medium text-foreground">
+                      {profile?.full_name || user?.email || "مستخدم"}
+                    </p>
                   </div>
-                  {profile.faculty_name && (
-                    <div>
-                      <p className="text-sm text-muted-foreground">الكلية</p>
-                      <p className="font-medium text-foreground">{profile.faculty_name}</p>
-                    </div>
-                  )}
-                  {profile.major_name && (
-                    <div>
-                      <p className="text-sm text-muted-foreground">التخصص</p>
-                      <p className="font-medium text-foreground">{profile.major_name}</p>
-                    </div>
-                  )}
-                  {profile.academic_year && (
-                    <div>
-                      <p className="text-sm text-muted-foreground">السنة الدراسية</p>
-                      <Badge variant="secondary">{profile.academic_year}</Badge>
-                    </div>
-                  )}
                 </div>
-              ) : (
-                <div className="text-center py-8">
-                  <GraduationCap className="mx-auto mb-3 text-muted-foreground" size={48} />
-                  <p className="text-muted-foreground mb-4">لم تتم إضافة المعلومات الأكاديمية بعد</p>
-                  <Button onClick={() => setShowAcademicForm(true)}>
-                    إضافة المعلومات الأكاديمية
-                  </Button>
+                <div className="space-y-2">
+                  <p className="text-sm text-muted-foreground font-medium">البريد الإلكتروني</p>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle size={16} className="text-primary" />
+                    <p className="font-medium text-foreground">{profile?.email || user?.email}</p>
+                  </div>
                 </div>
-              )}
+              </div>
             </CardContent>
           </Card>
-        )}
+
+          {/* Academic Info */}
+          {!showAcademicForm && (
+            <Card className="card-modern animate-slide-up" style={{ animationDelay: '0.1s' }}>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-gradient-secondary rounded-full flex items-center justify-center">
+                      <GraduationCap size={16} className="text-white" />
+                    </div>
+                    المعلومات الأكاديمية
+                  </div>
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    onClick={() => setShowAcademicForm(true)}
+                    className="hover:bg-secondary/10"
+                  >
+                    <Edit size={18} className="text-secondary" />
+                  </Button>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {profile?.university_name ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <p className="text-sm text-muted-foreground font-medium">الجامعة</p>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle size={16} className="text-secondary" />
+                        <p className="font-medium text-foreground">{profile.university_name}</p>
+                      </div>
+                    </div>
+                    {profile.faculty_name && (
+                      <div className="space-y-2">
+                        <p className="text-sm text-muted-foreground font-medium">الكلية</p>
+                        <div className="flex items-center gap-2">
+                          <CheckCircle size={16} className="text-secondary" />
+                          <p className="font-medium text-foreground">{profile.faculty_name}</p>
+                        </div>
+                      </div>
+                    )}
+                    {profile.major_name && (
+                      <div className="space-y-2">
+                        <p className="text-sm text-muted-foreground font-medium">التخصص</p>
+                        <div className="flex items-center gap-2">
+                          <CheckCircle size={16} className="text-secondary" />
+                          <p className="font-medium text-foreground">{profile.major_name}</p>
+                        </div>
+                      </div>
+                    )}
+                    {profile.academic_year && (
+                      <div className="space-y-2">
+                        <p className="text-sm text-muted-foreground font-medium">السنة الدراسية</p>
+                        <Badge variant="secondary" className="bg-gradient-secondary/10 text-secondary border-secondary/20">
+                          {profile.academic_year}
+                        </Badge>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <div className="w-16 h-16 bg-gradient-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <GraduationCap className="text-secondary" size={32} />
+                    </div>
+                    <p className="text-muted-foreground mb-4 text-lg">لم تتم إضافة المعلومات الأكاديمية بعد</p>
+                    <p className="text-sm text-muted-foreground mb-6">أضف معلوماتك الأكاديمية للحصول على توصيات مخصصة</p>
+                    <Button onClick={() => setShowAcademicForm(true)} className="btn-secondary">
+                      إضافة المعلومات الأكاديمية
+                    </Button>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
 
         {/* Academic Info Form */}
         {showAcademicForm && (
@@ -261,48 +276,55 @@ export const Profile = () => {
           />
         )}
 
-        {/* Quick Actions */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Settings className="text-primary" size={20} />
-              الإعدادات والخيارات
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <Button variant="ghost" className="w-full justify-start gap-3 text-right">
-              <Bell size={18} />
-              إعدادات الإشعارات
-            </Button>
-            <Button variant="ghost" className="w-full justify-start gap-3 text-right">
-              <BookOpen size={18} />
-              سجل القراءة
-            </Button>
-            <Button variant="ghost" className="w-full justify-start gap-3 text-right">
-              <Share2 size={18} />
-              مشاركة التطبيق
-            </Button>
-            <Button 
-              variant="ghost" 
-              className="w-full justify-start gap-3 text-right text-red-600 hover:text-red-700"
-              onClick={handleLogout}
-            >
-              <LogOut size={18} />
-              تسجيل الخروج
-            </Button>
-          </CardContent>
-        </Card>
+          {/* Quick Actions */}
+          <Card className="card-modern animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-accent rounded-full flex items-center justify-center">
+                  <Settings size={16} className="text-white" />
+                </div>
+                الإعدادات والخيارات
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Button variant="ghost" className="w-full justify-start gap-3 text-right hover:bg-accent/10">
+                <Bell size={18} className="text-accent" />
+                <span>إعدادات الإشعارات</span>
+              </Button>
+              <Button variant="ghost" className="w-full justify-start gap-3 text-right hover:bg-accent/10">
+                <BookOpen size={18} className="text-accent" />
+                <span>سجل القراءة</span>
+              </Button>
+              <Button variant="ghost" className="w-full justify-start gap-3 text-right hover:bg-accent/10">
+                <Share2 size={18} className="text-accent" />
+                <span>مشاركة التطبيق</span>
+              </Button>
+              <div className="border-t border-border my-3"></div>
+              <Button 
+                variant="ghost" 
+                className="w-full justify-start gap-3 text-right text-destructive hover:text-destructive hover:bg-destructive/10"
+                onClick={handleLogout}
+              >
+                <LogOut size={18} />
+                <span>تسجيل الخروج</span>
+              </Button>
+            </CardContent>
+          </Card>
 
-        {/* App Info */}
-        <div className="text-center py-4 space-y-2">
-          <p className="text-sm text-muted-foreground">
-            دليل - دليل الطلاب الجامعي في سوريا
-          </p>
-          <p className="text-xs text-muted-foreground">
-            الإصدار 1.0.0
-          </p>
+          {/* App Info */}
+          <div className="text-center py-6 space-y-3 animate-fade-in">
+            <div className="w-12 h-12 bg-gradient-primary/10 rounded-full flex items-center justify-center mx-auto">
+              <Heart className="text-primary" size={24} />
+            </div>
+            <p className="text-sm text-muted-foreground">
+              دليل - دليل الطلاب الجامعي في سوريا
+            </p>
+            <p className="text-xs text-muted-foreground">
+              الإصدار 1.0.0 - تم إنشاؤه بحب للطلاب السوريين
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </AuthGuard>
   );
 };

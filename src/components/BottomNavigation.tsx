@@ -32,6 +32,16 @@ export const BottomNavigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const handleNavigation = async (path: string) => {
+    if (path === '/profile' || path === '/majors') {
+      // These pages require authentication, let them handle auth check
+      navigate(path);
+    } else {
+      // Public pages
+      navigate(path);
+    }
+  };
+
   const isActive = (path: string) => {
     if (path === "/") {
       return location.pathname === "/";
@@ -49,10 +59,10 @@ export const BottomNavigation = () => {
           return (
             <button
               key={item.id}
-              onClick={() => navigate(item.path)}
+              onClick={() => handleNavigation(item.path)}
               className={`flex flex-col items-center justify-center py-3 px-4 rounded-xl transition-all duration-300 relative ${
                 active
-                  ? "text-primary bg-gradient-primary/10 scale-105"
+                  ? "text-primary bg-gradient-primary/10 scale-105 shadow-lg"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted/30 hover:scale-105"
               }`}
             >
