@@ -220,60 +220,72 @@ export const UniversityDetail = () => {
             </CardContent>
           </Card>
 
-          {/* Main Campus Faculties */}
-          <Card className="card-modern">
-            <CardHeader>
-              <CardTitle className="text-lg gradient-text flex items-center gap-2">
-                <GraduationCap size={20} />
-                كليات الحرم الرئيسي
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {(universityDetails?.faculties.filter(f => f.type === 'faculty') || university.faculties || []).map((faculty, index) => (
-                <div 
-                  key={`${faculty.id}-${index}`} 
-                  className="p-5 bg-gradient-card rounded-lg border border-border/50 space-y-4 interactive-hover animate-slide-up"
-                  style={{ animationDelay: `${index * 0.05}s` }}
-                >
-                  <div>
-                    <h3 className="font-bold text-foreground text-lg mb-1">
-                      {faculty.name}
-                    </h3>
-                    {faculty.name_en && (
-                      <p className="text-sm text-muted-foreground">
-                        {faculty.name_en}
-                      </p>
-                    )}
-                  </div>
-                  
-                  {faculty.majors && faculty.majors.length > 0 && (
-                    <div>
-                      <p className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
-                        <BookOpen size={16} className="text-primary" />
-                        التخصصات المتاحة:
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {faculty.majors.slice(0, 6).map((major, majorIndex) => (
-                          <Badge 
-                            key={majorIndex} 
-                            variant="secondary" 
-                            className="text-xs bg-gradient-primary/10 text-primary border-primary/20 hover:bg-gradient-primary/20 transition-all duration-300"
-                          >
-                            {typeof major === 'string' ? major : major.name}
-                          </Badge>
-                        ))}
-                        {faculty.majors.length > 6 && (
-                          <Badge variant="outline" className="text-xs">
-                            +{faculty.majors.length - 6} أخرى
-                          </Badge>
+          {/* Main Campus Faculties by Category */}
+          {universityDetails && (() => {
+            const faculties = universityDetails.faculties.filter(f => f.type === 'faculty');
+            const categorizedFaculties = faculties.reduce((acc, faculty) => {
+              const category = faculty.category || 'عامة';
+              if (!acc[category]) acc[category] = [];
+              acc[category].push(faculty);
+              return acc;
+            }, {} as Record<string, typeof faculties>);
+
+            return Object.entries(categorizedFaculties).map(([category, categoryFaculties]) => (
+              <Card key={category} className="card-modern">
+                <CardHeader>
+                  <CardTitle className="text-lg gradient-text flex items-center gap-2">
+                    <GraduationCap size={20} />
+                    الكليات ال{category}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {categoryFaculties.map((faculty, index) => (
+                    <div 
+                      key={`${faculty.id}-${index}`} 
+                      className="p-5 bg-gradient-card rounded-lg border border-border/50 space-y-4 interactive-hover animate-slide-up"
+                      style={{ animationDelay: `${index * 0.05}s` }}
+                    >
+                      <div>
+                        <h3 className="font-bold text-foreground text-lg mb-1">
+                          {faculty.name}
+                        </h3>
+                        {faculty.name_en && (
+                          <p className="text-sm text-muted-foreground">
+                            {faculty.name_en}
+                          </p>
                         )}
                       </div>
+                      
+                      {faculty.majors && faculty.majors.length > 0 && (
+                        <div>
+                          <p className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+                            <BookOpen size={16} className="text-primary" />
+                            التخصصات المتاحة:
+                          </p>
+                          <div className="flex flex-wrap gap-2">
+                            {faculty.majors.slice(0, 6).map((major, majorIndex) => (
+                              <Badge 
+                                key={majorIndex} 
+                                variant="secondary" 
+                                className="text-xs bg-gradient-primary/10 text-primary border-primary/20 hover:bg-gradient-primary/20 transition-all duration-300"
+                              >
+                                {typeof major === 'string' ? major : major.name}
+                              </Badge>
+                            ))}
+                            {faculty.majors.length > 6 && (
+                              <Badge variant="outline" className="text-xs">
+                                +{faculty.majors.length - 6} أخرى
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+                  ))}
+                </CardContent>
+              </Card>
+            ));
+          })()}
 
           {/* Technical Institutes */}
           {universityDetails && universityDetails.faculties.filter(f => f.type === 'technical_institute').length > 0 && (
@@ -347,23 +359,35 @@ export const UniversityDetail = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-6">
-                    {/* Branch Faculties */}
-                    {branch.faculties.filter(f => f.type === 'faculty').length > 0 && (
-                      <div>
-                        <h4 className="font-semibold mb-3 text-primary flex items-center gap-2">
-                          <GraduationCap size={16} />
-                          الكليات
-                        </h4>
-                        <div className="grid gap-3">
-                          {branch.faculties.filter(f => f.type === 'faculty').map((faculty, facultyIndex) => (
-                            <div key={faculty.id} className="p-3 bg-gradient-primary/5 rounded-lg border border-primary/20">
-                              <h5 className="font-medium">{faculty.name}</h5>
-                              {faculty.name_en && <p className="text-sm text-muted-foreground">{faculty.name_en}</p>}
-                            </div>
-                          ))}
+                    {/* Branch Faculties by Category */}
+                    {(() => {
+                      const branchFaculties = branch.faculties.filter(f => f.type === 'faculty');
+                      if (branchFaculties.length === 0) return null;
+
+                      const categorizedBranchFaculties = branchFaculties.reduce((acc, faculty) => {
+                        const category = faculty.category || 'عامة';
+                        if (!acc[category]) acc[category] = [];
+                        acc[category].push(faculty);
+                        return acc;
+                      }, {} as Record<string, typeof branchFaculties>);
+
+                      return Object.entries(categorizedBranchFaculties).map(([category, categoryFaculties]) => (
+                        <div key={category}>
+                          <h4 className="font-semibold mb-3 text-primary flex items-center gap-2">
+                            <GraduationCap size={16} />
+                            الكليات ال{category}
+                          </h4>
+                          <div className="grid gap-3 mb-4">
+                            {categoryFaculties.map((faculty) => (
+                              <div key={faculty.id} className="p-3 bg-gradient-primary/5 rounded-lg border border-primary/20">
+                                <h5 className="font-medium">{faculty.name}</h5>
+                                {faculty.name_en && <p className="text-sm text-muted-foreground">{faculty.name_en}</p>}
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      ));
+                    })()}
                     
                     {/* Branch Technical Institutes */}
                     {branch.faculties.filter(f => f.type === 'technical_institute').length > 0 && (

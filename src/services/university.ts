@@ -18,6 +18,7 @@ export interface Faculty {
   name_en: string | null;
   type: 'faculty' | 'technical_institute' | 'higher_institute';
   branch_id: string | null;
+  category?: string | null;
   majors?: Major[];
 }
 
@@ -66,6 +67,7 @@ export const getUniversityDetails = async (universityId: string): Promise<Univer
         name_en,
         type,
         branch_id,
+        category,
         majors (
           id,
           name,
@@ -74,7 +76,7 @@ export const getUniversityDetails = async (universityId: string): Promise<Univer
       `)
       .eq('university_id', universityId)
       .is('branch_id', null)
-      .order('type', { ascending: true })
+      .order('category', { ascending: true })
       .order('name', { ascending: true });
 
     // Get branches with their faculties using optimized query
@@ -90,6 +92,7 @@ export const getUniversityDetails = async (universityId: string): Promise<Univer
           name_en,
           type,
           branch_id,
+          category,
           majors (
             id,
             name,
