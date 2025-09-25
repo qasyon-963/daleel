@@ -54,13 +54,11 @@ export const AdminNews = () => {
       return;
     }
 
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("user_id", user.id)
-      .single();
+    // Use the secure admin check function
+    const { data: isAdminResult, error: roleError } = await supabase
+      .rpc('is_admin', { user_id: user.id });
 
-    if (!profile || profile.role !== "admin") {
+    if (roleError || !isAdminResult) {
       navigate("/admin/login");
       return;
     }

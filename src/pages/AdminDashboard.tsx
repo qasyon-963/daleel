@@ -25,16 +25,21 @@ export const AdminDashboard = () => {
       return;
     }
 
+    // Use the secure admin check function
+    const { data: isAdminResult, error: roleError } = await supabase
+      .rpc('is_admin', { user_id: user.id });
+
+    if (roleError || !isAdminResult) {
+      navigate("/admin/login");
+      return;
+    }
+
+    // Fetch profile for display purposes
     const { data: profile } = await supabase
       .from("profiles")
       .select("*")
       .eq("user_id", user.id)
       .single();
-
-    if (!profile || profile.role !== "admin") {
-      navigate("/admin/login");
-      return;
-    }
 
     setUser(user);
     setProfile(profile);

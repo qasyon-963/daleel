@@ -8,12 +8,26 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { User, Mail, Lock, UserPlus } from "lucide-react";
+import { z } from "zod";
+
+// Input validation schemas
+const signUpSchema = z.object({
+  email: z.string().email('البريد الإلكتروني غير صالح').min(1, 'البريد الإلكتروني مطلوب'),
+  password: z.string().min(8, 'كلمة المرور يجب أن تكون 8 أحرف على الأقل').min(1, 'كلمة المرور مطلوبة'),
+  fullName: z.string().min(2, 'الاسم الكامل يجب أن يكون حرفين على الأقل').min(1, 'الاسم الكامل مطلوب')
+});
+
+const signInSchema = z.object({
+  email: z.string().email('البريد الإلكتروني غير صالح').min(1, 'البريد الإلكتروني مطلوب'),
+  password: z.string().min(1, 'كلمة المرور مطلوبة')
+});
 
 export const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -31,8 +45,22 @@ export const Auth = () => {
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setErrors({});
 
     try {
+      // Validate input
+      const validationResult = signUpSchema.safeParse({ email, password, fullName });
+      if (!validationResult.success) {
+        const newErrors: { [key: string]: string } = {};
+        validationResult.error.issues.forEach((issue) => {
+          const fieldName = issue.path[0] as string;
+          newErrors[fieldName] = issue.message;
+        });
+        setErrors(newErrors);
+        setLoading(false);
+        return;
+      }
+
       const redirectUrl = `${window.location.origin}/profile`;
       
       const { data, error } = await supabase.auth.signUp({
@@ -93,8 +121,22 @@ export const Auth = () => {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setErrors({});
 
     try {
+      // Validate input
+      const validationResult = signInSchema.safeParse({ email, password });
+      if (!validationResult.success) {
+        const newErrors: { [key: string]: string } = {};
+        validationResult.error.issues.forEach((issue) => {
+          const fieldName = issue.path[0] as string;
+          newErrors[fieldName] = issue.message;
+        });
+        setErrors(newErrors);
+        setLoading(false);
+        return;
+      }
+
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -166,10 +208,13 @@ export const Auth = () => {
                       placeholder="أدخل بريدك الإلكتروني"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="pl-10"
-                      required
+                      className={`pl-10 ${errors.email ? 'border-destructive' : ''}`}
+                      disabled={loading}
                     />
                   </div>
+                  {errors.email && (
+                    <p className="text-sm text-destructive">{errors.email}</p>
+                  )}
                 </div>
                 
                 <div className="space-y-2">
@@ -182,10 +227,13 @@ export const Auth = () => {
                       placeholder="أدخل كلمة المرور"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="pl-10"
-                      required
+                      className={`pl-10 ${errors.password ? 'border-destructive' : ''}`}
+                      disabled={loading}
                     />
                   </div>
+                  {errors.password && (
+                    <p className="text-sm text-destructive">{errors.password}</p>
+                  )}
                 </div>
                 
                 <Button 
@@ -210,10 +258,13 @@ export const Auth = () => {
                       placeholder="أدخل اسمك الكامل"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      className="pl-10"
-                      required
+                      className={`pl-10 ${errors.fullName ? 'border-destructive' : ''}`}
+                      disabled={loading}
                     />
                   </div>
+                  {errors.fullName && (
+                    <p className="text-sm text-destructive">{errors.fullName}</p>
+                  )}
                 </div>
                 
                 <div className="space-y-2">
@@ -226,10 +277,13 @@ export const Auth = () => {
                       placeholder="أدخل بريدك الإلكتروني"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="pl-10"
-                      required
+                      className={`pl-10 ${errors.email ? 'border-destructive' : ''}`}
+                      disabled={loading}
                     />
                   </div>
+                  {errors.email && (
+                    <p className="text-sm text-destructive">{errors.email}</p>
+                  )}
                 </div>
                 
                 <div className="space-y-2">
@@ -239,14 +293,16 @@ export const Auth = () => {
                     <Input
                       id="signup-password"
                       type="password"
-                      placeholder="أدخل كلمة المرور"
+                      placeholder="أدخل كلمة المرور (8 أحرف على الأقل)"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="pl-10"
-                      required
-                      minLength={6}
+                      className={`pl-10 ${errors.password ? 'border-destructive' : ''}`}
+                      disabled={loading}
                     />
                   </div>
+                  {errors.password && (
+                    <p className="text-sm text-destructive">{errors.password}</p>
+                  )}
                 </div>
                 
                 <Button 
