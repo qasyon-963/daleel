@@ -97,11 +97,39 @@ export type Database = {
           },
         ]
       }
+      likes: {
+        Row: {
+          created_at: string
+          id: string
+          target_id: string
+          target_type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          target_id: string
+          target_type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          target_id?: string
+          target_type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       majors: {
         Row: {
           created_at: string
           faculty_id: string
           id: string
+          likes_count: number | null
           name: string
           name_en: string | null
           updated_at: string
@@ -110,6 +138,7 @@ export type Database = {
           created_at?: string
           faculty_id: string
           id?: string
+          likes_count?: number | null
           name: string
           name_en?: string | null
           updated_at?: string
@@ -118,6 +147,7 @@ export type Database = {
           created_at?: string
           faculty_id?: string
           id?: string
+          likes_count?: number | null
           name?: string
           name_en?: string | null
           updated_at?: string
@@ -263,6 +293,7 @@ export type Database = {
           description: string | null
           established: number | null
           id: string
+          likes_count: number | null
           logo_url: string | null
           name: string
           name_en: string
@@ -276,6 +307,7 @@ export type Database = {
           description?: string | null
           established?: number | null
           id?: string
+          likes_count?: number | null
           logo_url?: string | null
           name: string
           name_en: string
@@ -289,6 +321,7 @@ export type Database = {
           description?: string | null
           established?: number | null
           id?: string
+          likes_count?: number | null
           logo_url?: string | null
           name?: string
           name_en?: string

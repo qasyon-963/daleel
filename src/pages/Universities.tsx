@@ -4,6 +4,7 @@ import { AuthGuard } from "@/components/AuthGuard";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Calendar, BookOpen, ExternalLink, Users } from "lucide-react";
+import { LikeButton } from "@/components/LikeButton";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -17,6 +18,7 @@ interface University {
   logo_url: string;
   banner_url: string;
   website: string;
+  likes_count: number;
 }
 
 export const Universities = () => {
@@ -31,7 +33,7 @@ export const Universities = () => {
         const { data, error } = await supabase
           .from('universities')
           .select('*')
-          .order('name');
+          .order('likes_count', { ascending: false });
         
         if (error) {
           console.error('Error fetching universities:', error);
@@ -157,8 +159,15 @@ export const Universities = () => {
                        {university.name_en}
                      </p>
                   </div>
-                  <div className="interactive-hover">
-                    <ExternalLink className="text-primary" size={22} />
+                  <div className="flex items-center gap-2">
+                    <LikeButton 
+                      targetId={university.id}
+                      targetType="university"
+                      likesCount={university.likes_count || 0}
+                    />
+                    <div className="interactive-hover">
+                      <ExternalLink className="text-primary" size={22} />
+                    </div>
                   </div>
                 </div>
               </CardHeader>

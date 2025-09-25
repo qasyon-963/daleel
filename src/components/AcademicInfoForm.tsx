@@ -253,11 +253,19 @@ export const AcademicInfoForm = ({ onClose, onSave, currentInfo }: AcademicInfoF
         </div>
 
         <div className="flex gap-2 pt-4">
-          <Button onClick={handleSave} disabled={loading} className="flex-1">
+          <Button 
+            onClick={handleSave} 
+            disabled={loading} 
+            className="flex-1 bg-gradient-primary hover:bg-gradient-primary/90 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300"
+          >
             <Save size={16} className="mr-2" />
-            {loading ? "جاري الحفظ..." : "حفظ"}
+            {loading ? "جاري الحفظ..." : "حفظ المعلومات"}
           </Button>
-          <Button variant="outline" onClick={onClose}>
+          <Button 
+            variant="outline" 
+            onClick={onClose}
+            className="border-2 border-border hover:border-primary/50 hover:bg-muted/50 transition-all duration-300"
+          >
             إلغاء
           </Button>
         </div>

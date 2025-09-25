@@ -250,7 +250,11 @@ export const Profile = () => {
                     </div>
                     <p className="text-muted-foreground mb-4 text-lg">لم تتم إضافة المعلومات الأكاديمية بعد</p>
                     <p className="text-sm text-muted-foreground mb-6">أضف معلوماتك الأكاديمية للحصول على توصيات مخصصة</p>
-                    <Button onClick={() => setShowAcademicForm(true)} className="btn-secondary">
+                    <Button 
+                      onClick={() => setShowAcademicForm(true)} 
+                      className="bg-gradient-primary hover:bg-gradient-primary/90 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 gap-2"
+                    >
+                      <GraduationCap size={18} />
                       إضافة المعلومات الأكاديمية
                     </Button>
                   </div>

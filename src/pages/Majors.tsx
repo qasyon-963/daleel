@@ -5,12 +5,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock, ChevronDown, ChevronUp, GraduationCap } from "lucide-react";
+import { LikeButton } from "@/components/LikeButton";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Major {
   id: string;
   name: string;
   name_en: string;
+  likes_count: number;
   faculty: {
     name: string;
     name_en: string;
@@ -45,6 +47,7 @@ export const Majors = () => {
             id,
             name,
             name_en,
+            likes_count,
             faculty:faculties(
               name,
               name_en,
@@ -54,7 +57,7 @@ export const Majors = () => {
               )
             )
           `)
-          .order('name');
+          .order('likes_count', { ascending: false });
         
         if (error) {
           console.error('Error fetching majors:', error);
@@ -175,18 +178,25 @@ export const Majors = () => {
                       )}
                     </div>
                     
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => toggleMajorDetails(major.id)}
-                      className="shrink-0 ml-4 hover:bg-primary/10"
-                    >
-                      {expandedMajor === major.id ? (
-                        <ChevronUp size={20} className="text-primary" />
-                      ) : (
-                        <ChevronDown size={20} className="text-primary" />
-                      )}
-                    </Button>
+                    <div className="flex items-center gap-2 shrink-0 ml-4">
+                      <LikeButton 
+                        targetId={major.id}
+                        targetType="major"
+                        likesCount={major.likes_count || 0}
+                      />
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => toggleMajorDetails(major.id)}
+                        className="hover:bg-primary/10"
+                      >
+                        {expandedMajor === major.id ? (
+                          <ChevronUp size={20} className="text-primary" />
+                        ) : (
+                          <ChevronDown size={20} className="text-primary" />
+                        )}
+                      </Button>
+                    </div>
                   </div>
 
                   {expandedMajor === major.id && (

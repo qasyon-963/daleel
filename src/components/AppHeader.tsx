@@ -2,7 +2,7 @@ import { Search, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import daleelLogo from "@/assets/daleel-logo.png";
+import daleelLogo from "@/assets/daleel-logo-new.png";
 
 interface AppHeaderProps {
   title?: string;
@@ -47,7 +47,7 @@ export const AppHeader = ({
             <img 
               src={daleelLogo} 
               alt="دليل" 
-              className="h-12 w-12 rounded-lg interactive-hover"
+              className="h-12 w-auto rounded-lg interactive-hover"
             />
             <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-primary rounded-full animate-pulse" />
           </div>
