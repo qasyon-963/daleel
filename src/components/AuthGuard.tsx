@@ -34,12 +34,11 @@ export const AuthGuard = ({ children, requireAuth = false, message }: AuthGuardP
     return () => subscription.unsubscribe();
   }, [showAuthDialog]);
 
-  const handleAuthRequired = () => {
-    if (requireAuth && !isAuthenticated) {
+  useEffect(() => {
+    if (requireAuth && isAuthenticated === false) {
       setShowAuthDialog(true);
-      return;
     }
-  };
+  }, [requireAuth, isAuthenticated]);
 
   if (isAuthenticated === null) {
     return (
@@ -50,7 +49,6 @@ export const AuthGuard = ({ children, requireAuth = false, message }: AuthGuardP
   }
 
   if (requireAuth && !isAuthenticated) {
-    handleAuthRequired();
     return (
       <>
         {children}
