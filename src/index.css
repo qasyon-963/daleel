@@ -10,42 +10,42 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Modern 2025 Color Palette - More Vibrant & Youthful */
-    --background: 248 50% 99%;
-    --foreground: 220 20% 12%;
+    /* Custom Color Palette Based on User Request */
+    --background: 0 0% 95%; /* #F1F1F1 */
+    --foreground: 0 0% 0%; /* #000000 */
     
-    /* Primary - Electric Blue Gradient */
-    --primary: 210 100% 60%;
-    --primary-light: 200 100% 70%;
-    --primary-dark: 220 100% 50%;
+    /* Primary - Teal Color #24A9B1 */
+    --primary: 183 65% 42%;
+    --primary-light: 183 65% 52%;
+    --primary-dark: 183 65% 32%;
     --primary-foreground: 0 0% 100%;
     
-    /* Secondary - Fresh Mint Green */
-    --secondary: 165 85% 55%;
-    --secondary-light: 160 80% 65%;
-    --secondary-foreground: 0 0% 100%;
+    /* Secondary - Light Gray variations */
+    --secondary: 0 0% 90%;
+    --secondary-light: 0 0% 95%;
+    --secondary-foreground: 0 0% 0%;
     
-    /* Accent - Vibrant Orange */
-    --accent: 25 95% 65%;
-    --accent-light: 30 90% 75%;
+    /* Accent - Darker teal variation */
+    --accent: 183 65% 35%;
+    --accent-light: 183 65% 45%;
     --accent-foreground: 0 0% 100%;
     
-    /* Modern Purple */
-    --purple: 270 95% 68%;
-    --purple-light: 275 90% 78%;
+    /* Modern Purple - keeping for variety */
+    --purple: 183 50% 50%;
+    --purple-light: 183 50% 60%;
     
-    /* Neutral Tones - Warmer */
-    --muted: 220 15% 96%;
-    --muted-foreground: 220 12% 50%;
-    --border: 220 20% 92%;
-    --input: 220 20% 94%;
-    --ring: 210 100% 60%;
+    /* Neutral Tones */
+    --muted: 0 0% 92%;
+    --muted-foreground: 0 0% 40%;
+    --border: 0 0% 88%;
+    --input: 0 0% 90%;
+    --ring: 183 65% 42%;
     
     /* Cards and Surfaces */
-    --card: 0 0% 100%;
-    --card-foreground: 220 20% 12%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 12%;
+    --card: 0 0% 98%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 98%;
+    --popover-foreground: 0 0% 0%;
     
     /* Status Colors */
     --destructive: 0 85% 60%;
@@ -53,13 +53,13 @@ All colors MUST be HSL.
     --success: 150 70% 55%;
     --warning: 40 100% 60%;
     
-    /* Modern Gradients - More Dynamic */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-light)) 50%, hsl(var(--purple)) 100%);
+    /* Modern Gradients with new colors */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-light)) 50%, hsl(var(--accent)) 100%);
     --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--secondary-light)) 100%);
     --gradient-accent: linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(var(--accent-light)) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 50%, hsl(var(--purple)) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(220 30% 98%) 100%);
-    --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-light)) 50%, hsl(var(--accent)) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(0 0% 96%) 100%);
+    --gradient-glass: linear-gradient(135deg, rgba(241,241,241,0.1) 0%, rgba(241,241,241,0.05) 100%);
     
     /* Enhanced Shadows */
     --shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.06);
@@ -123,32 +123,32 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 220 25% 8%;
-    --foreground: 220 10% 95%;
+    --background: 0 0% 8%;
+    --foreground: 0 0% 95%;
     
-    --primary: 210 90% 60%;
-    --primary-light: 210 85% 70%;
-    --primary-dark: 210 95% 50%;
+    --primary: 183 65% 52%;
+    --primary-light: 183 65% 62%;
+    --primary-dark: 183 65% 42%;
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 150 60% 55%;
-    --secondary-light: 150 55% 65%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 0 0% 20%;
+    --secondary-light: 0 0% 30%;
+    --secondary-foreground: 0 0% 95%;
     
-    --accent: 25 90% 65%;
-    --accent-light: 25 85% 75%;
+    --accent: 183 65% 45%;
+    --accent-light: 183 65% 55%;
     --accent-foreground: 0 0% 100%;
     
-    --muted: 220 15% 15%;
-    --muted-foreground: 220 10% 65%;
-    --border: 220 15% 20%;
-    --input: 220 15% 18%;
-    --ring: 210 90% 60%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+    --border: 0 0% 20%;
+    --input: 0 0% 18%;
+    --ring: 183 65% 52%;
     
-    --card: 220 20% 10%;
-    --card-foreground: 220 10% 95%;
-    --popover: 220 20% 10%;
-    --popover-foreground: 220 10% 95%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 95%;
     
     --destructive: 0 75% 60%;
     --destructive-foreground: 0 0% 100%;
