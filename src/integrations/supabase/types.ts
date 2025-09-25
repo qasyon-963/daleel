@@ -52,6 +52,7 @@ export type Database = {
       faculties: {
         Row: {
           branch_id: string | null
+          category: string | null
           created_at: string
           id: string
           name: string
@@ -62,6 +63,7 @@ export type Database = {
         }
         Insert: {
           branch_id?: string | null
+          category?: string | null
           created_at?: string
           id?: string
           name: string
@@ -72,6 +74,7 @@ export type Database = {
         }
         Update: {
           branch_id?: string | null
+          category?: string | null
           created_at?: string
           id?: string
           name?: string
