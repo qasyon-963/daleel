@@ -126,7 +126,11 @@ export type Database = {
       }
       majors: {
         Row: {
+          career_opportunities: string[] | null
+          category: string | null
           created_at: string
+          description: string | null
+          duration: string | null
           faculty_id: string
           id: string
           likes_count: number | null
@@ -135,7 +139,11 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          career_opportunities?: string[] | null
+          category?: string | null
           created_at?: string
+          description?: string | null
+          duration?: string | null
           faculty_id: string
           id?: string
           likes_count?: number | null
@@ -144,7 +152,11 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          career_opportunities?: string[] | null
+          category?: string | null
           created_at?: string
+          description?: string | null
+          duration?: string | null
           faculty_id?: string
           id?: string
           likes_count?: number | null
