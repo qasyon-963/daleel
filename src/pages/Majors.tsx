@@ -4,7 +4,7 @@ import { AuthGuard } from "@/components/AuthGuard";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, ChevronDown, ChevronUp, GraduationCap } from "lucide-react";
+import { Clock, ChevronDown, ChevronUp, BookOpen, MapPin, Users } from "lucide-react";
 import { LikeButton } from "@/components/LikeButton";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -13,6 +13,10 @@ interface Major {
   name: string;
   name_en: string;
   likes_count: number;
+  description?: string;
+  category?: string;
+  duration?: string;
+  career_opportunities?: string[];
   faculty: {
     name: string;
     name_en: string;
@@ -48,6 +52,10 @@ export const Majors = () => {
             name,
             name_en,
             likes_count,
+            description,
+            category,
+            duration,
+            career_opportunities,
             faculty:faculties(
               name,
               name_en,
@@ -118,7 +126,7 @@ export const Majors = () => {
           {/* Header Section */}
           <div className="text-center py-8 animate-fade-in">
             <div className="w-20 h-20 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse-glow">
-              <GraduationCap className="text-white" size={40} />
+              <BookOpen className="text-white" size={40} />
             </div>
             <h2 className="text-3xl font-bold gradient-text mb-3">
               دليل التخصصات الجامعية
@@ -164,18 +172,22 @@ export const Majors = () => {
                         </p>
                       )}
                       <div className="flex items-center gap-2 mb-3 flex-wrap">
-                        <Badge variant="secondary" className="bg-gradient-primary/10 text-primary border-primary/20">
-                          {major.faculty?.name || 'غير محدد'}
-                        </Badge>
-                        <Badge variant="outline" className="text-xs">
-                          {major.faculty?.university?.name || 'غير محدد'}
-                        </Badge>
+                        {major.category && (
+                          <Badge variant="secondary" className="bg-gradient-primary/10 text-primary border-primary/20">
+                            {major.category}
+                          </Badge>
+                        )}
+                        {major.duration && (
+                          <Badge variant="outline" className="text-xs flex items-center gap-1">
+                            <Clock size={12} />
+                            {major.duration}
+                          </Badge>
+                        )}
                       </div>
-                      {major.faculty?.name_en && (
-                        <p className="text-sm text-muted-foreground">
-                          {major.faculty.name_en} - {major.faculty?.university?.name_en}
-                        </p>
-                      )}
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <MapPin size={14} />
+                        <span>{major.faculty?.name || 'غير محدد'}</span>
+                      </div>
                     </div>
                     
                     <div className="flex items-center gap-2 shrink-0 ml-4">
@@ -201,17 +213,34 @@ export const Majors = () => {
 
                   {expandedMajor === major.id && (
                     <div className="space-y-4 pt-4 border-t border-border animate-fade-in">
-                      <div className="bg-gradient-card rounded-lg p-4">
-                        <h4 className="font-semibold text-foreground mb-2 flex items-center gap-2">
-                          <div className="w-3 h-3 bg-gradient-primary rounded-full"></div>
-                          معلومات التخصص
-                        </h4>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          هذا التخصص متاح في {major.faculty?.name} في {major.faculty?.university?.name}. 
-                          للمزيد من المعلومات حول شروط القبول والمناهج الدراسية، 
-                          يرجى التواصل مع الجامعة مباشرة.
-                        </p>
-                      </div>
+                      {major.description && (
+                        <div className="bg-gradient-card rounded-lg p-4">
+                          <h4 className="font-semibold text-foreground mb-2 flex items-center gap-2">
+                            <div className="w-3 h-3 bg-gradient-primary rounded-full"></div>
+                            نبذة عن التخصص
+                          </h4>
+                          <p className="text-sm text-muted-foreground leading-relaxed">
+                            {major.description}
+                          </p>
+                        </div>
+                      )}
+                      
+                      {major.career_opportunities && major.career_opportunities.length > 0 && (
+                        <div className="bg-gradient-card rounded-lg p-4">
+                          <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
+                            <Users size={16} className="text-primary" />
+                            فرص العمل المتاحة
+                          </h4>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            {major.career_opportunities.map((opportunity, index) => (
+                              <div key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
+                                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                                <span>{opportunity}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                 </CardContent>
@@ -222,7 +251,7 @@ export const Majors = () => {
           {filteredMajors.length === 0 && (
             <div className="text-center py-12 animate-fade-in">
               <div className="w-16 h-16 bg-gradient-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <GraduationCap className="text-primary" size={32} />
+                <BookOpen className="text-primary" size={32} />
               </div>
               <p className="text-muted-foreground text-lg">
                 لم يتم العثور على تخصصات تطابق بحثك

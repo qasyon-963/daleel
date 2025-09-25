@@ -42,16 +42,15 @@ export const AppHeader = ({
         )}
         
         {/* Logo */}
-        <div className="flex items-center gap-3 flex-shrink-0">
+        <div className="flex items-center flex-shrink-0">
           <div className="relative">
             <img 
               src={daleelLogo} 
               alt="دليل" 
-              className="h-12 w-auto rounded-lg interactive-hover"
+              className="h-16 w-auto rounded-lg interactive-hover"
             />
             <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-primary rounded-full animate-pulse" />
           </div>
-          <h1 className="text-2xl font-bold gradient-text">{title || "دليل"}</h1>
         </div>
 
         {/* Search Bar */}
