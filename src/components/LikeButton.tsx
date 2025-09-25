@@ -133,9 +133,6 @@ export const LikeButton = ({ targetId, targetType, likesCount, className }: Like
             : 'text-muted-foreground hover:text-red-500'
         }`}
       />
-      <span className={`text-sm ${isLiked ? 'text-red-500' : 'text-muted-foreground'}`}>
-        {currentLikesCount}
-      </span>
     </Button>
   );
 };

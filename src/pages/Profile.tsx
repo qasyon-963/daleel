@@ -194,7 +194,7 @@ export const Profile = () => {
                     <div className="w-8 h-8 bg-gradient-secondary rounded-full flex items-center justify-center">
                       <GraduationCap size={16} className="text-white" />
                     </div>
-                    المعلومات الأكاديمية
+                    الرغبات الأكاديمية
                   </div>
                   <Button 
                     variant="ghost" 
@@ -234,28 +234,20 @@ export const Profile = () => {
                         </div>
                       </div>
                     )}
-                    {profile.academic_year && (
-                      <div className="space-y-2">
-                        <p className="text-sm text-muted-foreground font-medium">السنة الدراسية</p>
-                        <Badge variant="secondary" className="bg-gradient-secondary/10 text-secondary border-secondary/20">
-                          {profile.academic_year}
-                        </Badge>
-                      </div>
-                    )}
                   </div>
                 ) : (
                   <div className="text-center py-8">
                     <div className="w-16 h-16 bg-gradient-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                       <GraduationCap className="text-secondary" size={32} />
                     </div>
-                    <p className="text-muted-foreground mb-4 text-lg">لم تتم إضافة المعلومات الأكاديمية بعد</p>
-                    <p className="text-sm text-muted-foreground mb-6">أضف معلوماتك الأكاديمية للحصول على توصيات مخصصة</p>
+                    <p className="text-muted-foreground mb-4 text-lg">لم تتم إضافة الرغبات الأكاديمية بعد</p>
+                    <p className="text-sm text-muted-foreground mb-6">أضف رغباتك الأكاديمية للحصول على توصيات مخصصة</p>
                     <Button 
                       onClick={() => setShowAcademicForm(true)} 
                       className="bg-gradient-primary hover:bg-gradient-primary/90 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 gap-2"
                     >
                       <GraduationCap size={18} />
-                      إضافة المعلومات الأكاديمية
+                      إضافة الرغبات الأكاديمية
                     </Button>
                   </div>
                 )}

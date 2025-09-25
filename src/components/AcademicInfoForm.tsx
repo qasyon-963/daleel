@@ -129,7 +129,7 @@ export const AcademicInfoForm = ({ onClose, onSave, currentInfo }: AcademicInfoF
           university_id: selectedUniversity || null,
           faculty_id: selectedFaculty || null,
           major_id: selectedMajor || null,
-          academic_year: selectedYear || null,
+          
           university_name: universityName,
           faculty_name: facultyName,
           major_name: majorName,
@@ -140,7 +140,7 @@ export const AcademicInfoForm = ({ onClose, onSave, currentInfo }: AcademicInfoF
 
       toast({
         title: "تم الحفظ بنجاح",
-        description: "تم تحديث معلوماتك الأكاديمية",
+        description: "تم تحديث رغباتك الأكاديمية",
       });
       
       onSave();
@@ -171,7 +171,7 @@ export const AcademicInfoForm = ({ onClose, onSave, currentInfo }: AcademicInfoF
         <CardTitle className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <GraduationCap className="text-primary" size={20} />
-            تحديث المعلومات الأكاديمية
+            تحديث الرغبات الأكاديمية
           </div>
           <Button variant="ghost" size="sm" onClick={onClose}>
             <X size={18} />
@@ -236,21 +236,6 @@ export const AcademicInfoForm = ({ onClose, onSave, currentInfo }: AcademicInfoF
           </Select>
         </div>
 
-        <div className="space-y-2">
-          <Label>السنة الدراسية</Label>
-          <Select value={selectedYear} onValueChange={setSelectedYear}>
-            <SelectTrigger>
-              <SelectValue placeholder="اختر السنة الدراسية" />
-            </SelectTrigger>
-            <SelectContent>
-              {academicYears.map((year) => (
-                <SelectItem key={year} value={year}>
-                  {year}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
 
         <div className="flex gap-2 pt-4">
           <Button 
@@ -259,7 +244,7 @@ export const AcademicInfoForm = ({ onClose, onSave, currentInfo }: AcademicInfoF
             className="flex-1 bg-gradient-primary hover:bg-gradient-primary/90 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300"
           >
             <Save size={16} className="mr-2" />
-            {loading ? "جاري الحفظ..." : "حفظ المعلومات"}
+            {loading ? "جاري الحفظ..." : "حفظ الرغبات"}
           </Button>
           <Button 
             variant="outline" 

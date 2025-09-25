@@ -102,9 +102,6 @@ export const Universities = () => {
           <div className="relative overflow-hidden rounded-2xl p-8 mb-8 animate-fade-in">
             <div className="absolute inset-0 bg-gradient-hero opacity-10"></div>
             <div className="relative text-center">
-              <div className="w-20 h-20 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse-glow">
-                <Users className="text-white" size={40} />
-              </div>
               <h1 className="text-4xl font-bold gradient-text mb-4">
                 دليل الجامعات السورية
               </h1>

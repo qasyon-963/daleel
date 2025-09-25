@@ -137,18 +137,10 @@ export const Majors = () => {
           </div>
 
           {/* Stats Section */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div className="flex justify-center mb-8">
             <div className="bg-gradient-card rounded-xl p-6 text-center animate-slide-up">
               <div className="text-2xl font-bold text-primary">{majors.length}</div>
               <div className="text-sm text-muted-foreground">تخصص متاح</div>
-            </div>
-            <div className="bg-gradient-card rounded-xl p-6 text-center animate-slide-up" style={{ animationDelay: '0.1s' }}>
-              <div className="text-2xl font-bold text-secondary">3</div>
-              <div className="text-sm text-muted-foreground">جامعات حكومية</div>
-            </div>
-            <div className="bg-gradient-card rounded-xl p-6 text-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
-              <div className="text-2xl font-bold text-accent">{filteredMajors.length}</div>
-              <div className="text-sm text-muted-foreground">نتيجة البحث</div>
             </div>
           </div>
 
@@ -183,10 +175,6 @@ export const Majors = () => {
                             {major.duration}
                           </Badge>
                         )}
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <MapPin size={14} />
-                        <span>{major.faculty?.name || 'غير محدد'}</span>
                       </div>
                     </div>
                     
