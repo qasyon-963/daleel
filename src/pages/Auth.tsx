@@ -35,7 +35,7 @@ export const Auth = () => {
     try {
       const redirectUrl = `${window.location.origin}/profile`;
       
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -47,16 +47,37 @@ export const Auth = () => {
       });
 
       if (error) {
+        let errorMessage = error.message;
+        
+        // Handle specific error cases with Arabic messages
+        if (error.message.includes('User already registered')) {
+          errorMessage = "هذا البريد الإلكتروني مسجل مسبقاً";
+        } else if (error.message.includes('Password should be at least')) {
+          errorMessage = "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
+        } else if (error.message.includes('Invalid email')) {
+          errorMessage = "البريد الإلكتروني غير صحيح";
+        }
+        
         toast({
           title: "خطأ في التسجيل",
-          description: error.message,
+          description: errorMessage,
           variant: "destructive"
         });
       } else {
-        toast({
-          title: "تم إنشاء الحساب بنجاح",
-          description: "يمكنك الآن تسجيل الدخول",
-        });
+        if (data?.user && !data.user.email_confirmed_at) {
+          toast({
+            title: "تم إنشاء الحساب بنجاح",
+            description: "يرجى التحقق من بريدك الإلكتروني لتأكيد الحساب",
+          });
+        } else {
+          toast({
+            title: "تم إنشاء الحساب بنجاح",
+            description: "يمكنك الآن تسجيل الدخول",
+          });
+          // Switch to sign in tab
+          const signInTab = document.querySelector('[value="signin"]') as HTMLElement;
+          signInTab?.click();
+        }
       }
     } catch (error) {
       toast({
@@ -80,9 +101,22 @@ export const Auth = () => {
       });
 
       if (error) {
+        let errorMessage = error.message;
+        
+        // Handle specific error cases with Arabic messages
+        if (error.message.includes('Email not confirmed')) {
+          errorMessage = "يرجى تأكيد بريدك الإلكتروني قبل تسجيل الدخول";
+        } else if (error.message.includes('Invalid login credentials')) {
+          errorMessage = "البريد الإلكتروني أو كلمة المرور غير صحيحة";
+        } else if (error.message.includes('Password should be at least')) {
+          errorMessage = "كلمة المرور يجب أن تكون أطول";
+        } else if (error.message.includes('Email rate limit exceeded')) {
+          errorMessage = "تم تجاوز الحد المسموح، حاول مرة أخرى لاحقاً";
+        }
+        
         toast({
           title: "خطأ في تسجيل الدخول",
-          description: error.message,
+          description: errorMessage,
           variant: "destructive"
         });
       } else {
