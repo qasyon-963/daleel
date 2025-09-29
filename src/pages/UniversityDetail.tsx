@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getUniversityDetails, UniversityDetails } from "@/services/university";
-import damascusLogo from "https://imagizer.imageshack.com/img924/108/ylXC6g.jpg";
+import damascusLogo from "[URL=https://imageshack.com/i/poylXC6gj][IMG]https://imagizer.imageshack.com/v2/150x100q70/924/ylXC6g.jpg[/IMG][/URL]";
 import aleppoLogo from "@/assets/damascus-logo.png";
 import tishreenLogo from "@/assets/damascus-logo.png";
 import damascusBanner from "@/assets/damascus-university-banner.jpg";
