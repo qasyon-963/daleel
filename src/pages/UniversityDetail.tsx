@@ -14,7 +14,7 @@ import tishreenBanner from "@/assets/tishreen-university-banner.jpg";
 
 const logoMapByName: Record<string, string> = {
   "جامعة دمشق": damascusLogo,
-  "جامعة حلب": aleppoLogo,
+  "جامعة حلب": https://fastupload.live/do.php?img=457,
   "جامعة اللاذقية": tishreenLogo,
 };
 
