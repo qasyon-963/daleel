@@ -1,3 +1,4 @@
+import unifiedLogo from "assets/daleel-logo-new.png";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ArrowRight, MapPin, Calendar, Globe, BookOpen, Users, ExternalLink, Building2, GraduationCap } from "lucide-react";
@@ -13,9 +14,9 @@ import aleppoBanner from "@/assets/aleppo-university-banner.jpg";
 import tishreenBanner from "@/assets/tishreen-university-banner.jpg";
 
 const logoMapByName: Record<string, string> = {
-  "جامعة دمشق": damascusLogo,
-  "جامعة حلب": https://imagizer.imageshack.com/img924/108/ylXC6g.jpg,
-  "جامعة اللاذقية": tishreenLogo,
+  "جامعة دمشق": unifiedLogo,
+  "جامعة حلب": unifiedLogo,
+  "جامعة اللاذقية": unifiedLogo,
 };
 
 const bannerMapByName: Record<string, string> = {
