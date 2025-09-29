@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getUniversityDetails, UniversityDetails } from "@/services/university";
 import damascusLogo from "@/assets/damascus-logo.png";
-import aleppoLogo from "@/assets/aleppo-logo.png";
+import aleppoLogo from "https://imagizer.imageshack.com/img924/108/ylXC6g.jpg";
 import tishreenLogo from "@/assets/tishreen-logo.png";
 import damascusBanner from "@/assets/damascus-university-banner.jpg";
 import aleppoBanner from "@/assets/aleppo-university-banner.jpg";
