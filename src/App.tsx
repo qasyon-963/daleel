@@ -13,6 +13,7 @@ import { Auth } from "./pages/Auth";
 import { AdminLogin } from "./pages/AdminLogin";
 import { AdminDashboard } from "./pages/AdminDashboard";
 import { AdminNews } from "./pages/AdminNews";
+import { AIChat } from "./pages/AIChat";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="majors" element={<Majors />} />
             <Route path="news" element={<News />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="ai-chat" element={<AIChat />} />
           </Route>
           <Route path="/auth" element={<Auth />} />
           <Route path="/admin/login" element={<AdminLogin />} />

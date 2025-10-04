@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Home, GraduationCap, Newspaper, User } from "lucide-react";
+import { Home, GraduationCap, Newspaper, User, Bot } from "lucide-react";
 
 const navigationItems = [
   {
@@ -13,6 +13,12 @@ const navigationItems = [
     label: "التخصصات",
     icon: GraduationCap,
     path: "/majors",
+  },
+  {
+    id: "ai-chat",
+    label: "المساعد",
+    icon: Bot,
+    path: "/ai-chat",
   },
   {
     id: "news",

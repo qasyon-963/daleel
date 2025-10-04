@@ -137,6 +137,7 @@ export type Database = {
           faculty_id: string
           id: string
           likes_count: number | null
+          major_code: string | null
           name: string
           name_en: string | null
           updated_at: string
@@ -150,6 +151,7 @@ export type Database = {
           faculty_id: string
           id?: string
           likes_count?: number | null
+          major_code?: string | null
           name: string
           name_en?: string | null
           updated_at?: string
@@ -163,6 +165,7 @@ export type Database = {
           faculty_id?: string
           id?: string
           likes_count?: number | null
+          major_code?: string | null
           name?: string
           name_en?: string | null
           updated_at?: string
@@ -312,6 +315,7 @@ export type Database = {
           logo_url: string | null
           name: string
           name_en: string
+          university_code: string | null
           updated_at: string
           website: string | null
         }
@@ -326,6 +330,7 @@ export type Database = {
           logo_url?: string | null
           name: string
           name_en: string
+          university_code?: string | null
           updated_at?: string
           website?: string | null
         }
@@ -340,6 +345,7 @@ export type Database = {
           logo_url?: string | null
           name?: string
           name_en?: string
+          university_code?: string | null
           updated_at?: string
           website?: string | null
         }
