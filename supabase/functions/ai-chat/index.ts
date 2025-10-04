@@ -6,31 +6,107 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Rate limiting map: user_id -> { count, resetTime }
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const MAX_REQUESTS_PER_MINUTE = 10;
+const RATE_LIMIT_WINDOW = 60000; // 1 minute in milliseconds
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
+    // Get authorization header
+    const authHeader = req.headers.get('authorization');
+    if (!authHeader) {
+      return new Response(JSON.stringify({ error: 'يجب تسجيل الدخول أولاً' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Initialize Supabase client with auth header
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+      { global: { headers: { Authorization: authHeader } } }
+    );
+
+    // Verify user authentication
+    const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
+    if (authError || !user) {
+      return new Response(JSON.stringify({ error: 'يجب تسجيل الدخول أولاً' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Rate limiting check
+    const now = Date.now();
+    const userRateLimit = rateLimitMap.get(user.id);
+    
+    if (userRateLimit) {
+      if (now < userRateLimit.resetTime) {
+        if (userRateLimit.count >= MAX_REQUESTS_PER_MINUTE) {
+          return new Response(JSON.stringify({ 
+            error: 'تم تجاوز عدد الطلبات المسموح، يرجى الانتظار قليلاً' 
+          }), {
+            status: 429,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+        userRateLimit.count++;
+      } else {
+        // Reset window
+        rateLimitMap.set(user.id, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+      }
+    } else {
+      rateLimitMap.set(user.id, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+    }
+
     const { message } = await req.json();
     
-    if (!message) {
-      throw new Error('الرسالة مطلوبة');
+    // Input validation
+    if (!message || typeof message !== 'string') {
+      return new Response(JSON.stringify({ error: 'الرسالة مطلوبة' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
+
+    const trimmedMessage = message.trim();
+    
+    if (trimmedMessage.length < 3) {
+      return new Response(JSON.stringify({ error: 'الرسالة قصيرة جداً (3 أحرف على الأقل)' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    if (trimmedMessage.length > 1000) {
+      return new Response(JSON.stringify({ error: 'الرسالة طويلة جداً (1000 حرف كحد أقصى)' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Log request for audit
+    console.log(`AI Chat request from user ${user.id}: ${trimmedMessage.substring(0, 50)}...`);
 
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     if (!LOVABLE_API_KEY) {
       throw new Error('LOVABLE_API_KEY is not configured');
     }
 
-    // Initialize Supabase client
-    const supabaseClient = createClient(
+    // Use service role key for database queries
+    const serviceSupabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
     // Fetch all universities data
-    const { data: universities } = await supabaseClient
+    const { data: universities } = await serviceSupabaseClient
       .from('universities')
       .select(`
         *,
@@ -81,7 +157,7 @@ ${context}
         model: 'google/gemini-2.5-flash',
         messages: [
           { role: 'system', content: systemPrompt },
-          { role: 'user', content: message }
+          { role: 'user', content: trimmedMessage }
         ],
         temperature: 0.7,
         max_tokens: 1000,

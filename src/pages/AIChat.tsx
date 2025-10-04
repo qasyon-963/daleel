@@ -36,6 +36,26 @@ export const AIChat = () => {
     if (!input.trim() || isLoading) return;
 
     const userMessage = input.trim();
+    
+    // Client-side validation
+    if (userMessage.length < 3) {
+      toast({
+        title: "خطأ",
+        description: "الرسالة قصيرة جداً (3 أحرف على الأقل)",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (userMessage.length > 1000) {
+      toast({
+        title: "خطأ",
+        description: "الرسالة طويلة جداً (1000 حرف كحد أقصى)",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setInput("");
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setIsLoading(true);
@@ -62,9 +82,13 @@ export const AIChat = () => {
       
       let errorMessage = 'عذراً، حدث خطأ في معالجة طلبك';
       if (error.message?.includes('429')) {
-        errorMessage = 'تم تجاوز حد الاستخدام، يرجى المحاولة لاحقاً';
+        errorMessage = 'تم تجاوز عدد الطلبات المسموح، يرجى الانتظار قليلاً';
       } else if (error.message?.includes('402')) {
         errorMessage = 'خدمة الذكاء الاصطناعي تتطلب إضافة رصيد';
+      } else if (error.message?.includes('401') || error.message?.includes('تسجيل الدخول')) {
+        errorMessage = 'يجب تسجيل الدخول أولاً لاستخدام الشات';
+      } else if (error.message?.includes('400')) {
+        errorMessage = 'رسالة غير صالحة';
       }
       
       toast({
