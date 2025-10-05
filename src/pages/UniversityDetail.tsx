@@ -15,7 +15,9 @@ const logoMapByName: Record<string, string> = {
   "جامعة دمشق": unifiedLogo,
   "جامعة حلب": unifiedLogo,
 "جامعة اللاذقية": unifiedLogo,
-
+"جامعة حماة": unifiedLogo,
+  "جامعة إدلب": unifiedLogo,
+  "جامعة حمص": unifiedLogo,
 };
 
 const bannerMapByName: Record<string, string> = {
