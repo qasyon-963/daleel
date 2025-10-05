@@ -6,14 +6,18 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getUniversityDetails, UniversityDetails } from "@/services/university";
 import unifiedLogo from "@/assets/daleel-logo-new.png";
-import damascusBanner from "@/assets/damascus-university-banner.jpg";
-import aleppoBanner from "@/assets/aleppo-university-banner.jpg";
+import damascusBanner from "@/assets/daleel-logo-new.png";
+import aleppoBanner from "@/assets/daleel-logo-new.png";
 import tishreenBanner from "@/assets/tishreen-university-banner.jpg";
+
+import hamaLogo from "@/assets/daleel-logo-new.png";
+import damascusLogo from "@/assets/daleel-logo-new.png";
 
 const logoMapByName: Record<string, string> = {
   "جامعة دمشق": unifiedLogo,
   "جامعة حلب": unifiedLogo,
-  "جامعة اللاذقية": unifiedLogo,
+"جامعة اللاذقية": unifiedLogo,
+  "جامعة حماة": HamaLogo,
 };
 
 const bannerMapByName: Record<string, string> = {
