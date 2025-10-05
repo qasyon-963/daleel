@@ -1,4 +1,3 @@
-import unifiedLogo from "@/assets/daleel-logo-new.png";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ArrowRight, MapPin, Calendar, Globe, BookOpen, Users, ExternalLink, Building2, GraduationCap } from "lucide-react";
@@ -6,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getUniversityDetails, UniversityDetails } from "@/services/university";
+import unifiedLogo from "@/assets/daleel-logo-new.png";
 import damascusBanner from "@/assets/damascus-university-banner.jpg";
 import aleppoBanner from "@/assets/aleppo-university-banner.jpg";
 import tishreenBanner from "@/assets/tishreen-university-banner.jpg";
