@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getUniversityDetails, UniversityDetails } from "@/services/university";
+import aleppoLogo from "@/assests/aleepo-logo.jpg";
 import unifiedLogo from "@/assets/daleel-logo-new.png";
 import damascusBanner from "@/assets/daleel-logo-new.png";
 import aleppoBanner from "@/assets/daleel-logo-new.png";
@@ -13,7 +14,7 @@ import tishreenBanner from "@/assets/tishreen-university-banner.jpg";
 
 const logoMapByName: Record<string, string> = {
   "جامعة دمشق": unifiedLogo,
-  "جامعة حلب": unifiedLogo,
+  "جامعة حلب": aleppoLogo,
 "جامعة اللاذقية": unifiedLogo,
 "جامعة حماة": unifiedLogo,
   "جامعة إدلب": unifiedLogo,
