@@ -10,14 +10,12 @@ import damascusBanner from "@/assets/daleel-logo-new.png";
 import aleppoBanner from "@/assets/daleel-logo-new.png";
 import tishreenBanner from "@/assets/tishreen-university-banner.jpg";
 
-import hamaLogo from "@/assets/daleel-logo-new.png";
-import damascusLogo from "@/assets/daleel-logo-new.png";
 
 const logoMapByName: Record<string, string> = {
   "جامعة دمشق": unifiedLogo,
   "جامعة حلب": unifiedLogo,
 "جامعة اللاذقية": unifiedLogo,
-  "جامعة حماة": HamaLogo,
+
 };
 
 const bannerMapByName: Record<string, string> = {
