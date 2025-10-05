@@ -19,9 +19,9 @@ const logoMapByName: Record<string, string> = {
 };
 
 const bannerMapByName: Record<string, string> = {
-  "جامعة دمشق": damascusBanner,
-  "جامعة حلب": aleppoBanner,
-  "جامعة اللاذقية": tishreenBanner,
+  "جامعة دمشق": unifiedLogo,
+  "جامعة حلب": unifiedLogo,
+  "جامعة اللاذقية": unifiedLogo,
 };
 
 export const UniversityDetail = () => {
