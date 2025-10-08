@@ -349,7 +349,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           established?: number | null
-          id?: string
+          id: string
           likes_count?: number | null
           logo_url?: string | null
           name: string
