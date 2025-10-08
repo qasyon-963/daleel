@@ -10,6 +10,7 @@ import { AppHeader } from "@/components/AppHeader";
 export const AdminDashboard = () => {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -21,15 +22,16 @@ export const AdminDashboard = () => {
     const { data: { user } } = await supabase.auth.getUser();
     
     if (!user) {
+      setIsAuthorized(false);
       navigate("/admin/login");
       return;
     }
 
-    // Use the secure admin check function
     const { data: isAdminResult, error: roleError } = await supabase
       .rpc('is_admin', { user_id: user.id });
 
     if (roleError || !isAdminResult) {
+      setIsAuthorized(false);
       navigate("/admin/login");
       return;
     }
@@ -43,6 +45,7 @@ export const AdminDashboard = () => {
 
     setUser(user);
     setProfile(profile);
+    setIsAuthorized(true);
   };
 
   const handleLogout = async () => {
@@ -54,8 +57,28 @@ export const AdminDashboard = () => {
     navigate("/");
   };
 
+  if (isAuthorized === null) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-lg">جاري التحقق من الصلاحيات...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (isAuthorized === false) {
+    return null;
+  }
+
   if (!user || !profile) {
-    return <div>جاري التحميل...</div>;
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-lg">جاري التحميل...</div>
+        </div>
+      </div>
+    );
   }
 
   return (

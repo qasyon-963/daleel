@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { AppHeader } from "@/components/AppHeader";
 import { ArrowRight, Plus, Edit, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { z } from "zod";
 
 interface News {
   id: string;
@@ -25,10 +26,41 @@ interface News {
   created_at: string;
 }
 
+const newsSchema = z.object({
+  title: z.string()
+    .trim()
+    .min(3, "العنوان قصير جداً")
+    .max(200, "العنوان طويل جداً"),
+  summary: z.string()
+    .trim()
+    .max(500, "الملخص طويل جداً")
+    .optional()
+    .or(z.literal("")),
+  content: z.string()
+    .trim()
+    .min(10, "المحتوى قصير جداً")
+    .max(10000, "المحتوى طويل جداً"),
+  category: z.enum(["general", "admissions", "exams", "events", "scholarships"]),
+  image_url: z.string()
+    .trim()
+    .url("رابط الصورة غير صالح")
+    .max(500, "رابط الصورة طويل جداً")
+    .refine(val => !val || val.startsWith("https://"), "يجب استخدام HTTPS")
+    .optional()
+    .or(z.literal("")),
+  source: z.string()
+    .trim()
+    .max(200, "المصدر طويل جداً")
+    .optional()
+    .or(z.literal("")),
+  is_important: z.boolean()
+});
+
 export const AdminNews = () => {
   const [news, setNews] = useState<News[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
   const [formData, setFormData] = useState({
     title: "",
     summary: "",
@@ -50,18 +82,21 @@ export const AdminNews = () => {
     const { data: { user } } = await supabase.auth.getUser();
     
     if (!user) {
+      setIsAuthorized(false);
       navigate("/admin/login");
       return;
     }
 
-    // Use the secure admin check function
     const { data: isAdminResult, error: roleError } = await supabase
       .rpc('is_admin', { user_id: user.id });
 
     if (roleError || !isAdminResult) {
+      setIsAuthorized(false);
       navigate("/admin/login");
       return;
     }
+    
+    setIsAuthorized(true);
   };
 
   const fetchNews = async () => {
@@ -85,53 +120,95 @@ export const AdminNews = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    try {
+      // Validate form data
+      const validatedData = newsSchema.parse({
+        title: formData.title,
+        summary: formData.summary || "",
+        content: formData.content,
+        category: formData.category,
+        image_url: formData.image_url || "",
+        source: formData.source || "",
+        is_important: formData.is_important
+      });
 
-    if (editingId) {
-      const { error } = await supabase
-        .from("news")
-        .update(formData)
-        .eq("id", editingId);
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
 
-      if (error) {
+      if (editingId) {
+        const { error } = await supabase
+          .from("news")
+          .update({
+            title: validatedData.title,
+            summary: validatedData.summary || null,
+            content: validatedData.content,
+            category: validatedData.category,
+            is_important: validatedData.is_important,
+            source: validatedData.source || null,
+            image_url: validatedData.image_url || null,
+          })
+          .eq("id", editingId);
+
+        if (error) {
+          toast({
+            title: "خطأ",
+            description: "فشل في تحديث الخبر",
+            variant: "destructive",
+          });
+          return;
+        }
+
         toast({
-          title: "خطأ",
-          description: "فشل في تحديث الخبر",
-          variant: "destructive",
+          title: "تم التحديث",
+          description: "تم تحديث الخبر بنجاح",
         });
-        return;
+      } else {
+        const { error } = await supabase
+          .from("news")
+          .insert({
+            title: validatedData.title,
+            summary: validatedData.summary || null,
+            content: validatedData.content,
+            category: validatedData.category,
+            is_important: validatedData.is_important,
+            source: validatedData.source || null,
+            image_url: validatedData.image_url || null,
+            author_id: user.id,
+          });
+
+        if (error) {
+          toast({
+            title: "خطأ",
+            description: "فشل في إضافة الخبر",
+            variant: "destructive",
+          });
+          return;
+        }
+
+        toast({
+          title: "تم الإضافة",
+          description: "تم إضافة الخبر بنجاح",
+        });
       }
 
-      toast({
-        title: "تم التحديث",
-        description: "تم تحديث الخبر بنجاح",
-      });
-    } else {
-      const { error } = await supabase
-        .from("news")
-        .insert({
-          ...formData,
-          author_id: user.id,
-        });
-
-      if (error) {
+      resetForm();
+      fetchNews();
+    } catch (error) {
+      if (error instanceof z.ZodError) {
         toast({
-          title: "خطأ",
-          description: "فشل في إضافة الخبر",
+          title: "خطأ في البيانات",
+          description: error.issues[0].message,
           variant: "destructive",
         });
-        return;
+      } else {
+        console.error("Error saving news:", error);
+        toast({
+          title: "حدث خطأ",
+          description: "لم يتم حفظ الخبر",
+          variant: "destructive",
+        });
       }
-
-      toast({
-        title: "تم الإضافة",
-        description: "تم إضافة الخبر بنجاح",
-      });
     }
-
-    resetForm();
-    fetchNews();
   };
 
   const handleEdit = (newsItem: News) => {
@@ -193,6 +270,20 @@ export const AdminNews = () => {
     events: "فعاليات",
     scholarships: "منح",
   };
+
+  if (isAuthorized === null) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-lg">جاري التحقق من الصلاحيات...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (isAuthorized === false) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-background">
