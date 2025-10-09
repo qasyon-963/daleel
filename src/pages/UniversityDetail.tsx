@@ -241,43 +241,16 @@ export const UniversityDetail = () => {
                 {universityDetails.faculties.filter(f => f.type === 'faculty').map((faculty, index) => (
                   <div 
                     key={`${faculty.id}-${index}`} 
-                    className="p-5 bg-gradient-card rounded-lg border border-border/50 space-y-4 interactive-hover animate-slide-up"
+                    className="p-5 bg-gradient-card rounded-lg border border-border/50 interactive-hover animate-slide-up"
                     style={{ animationDelay: `${index * 0.05}s` }}
                   >
-                    <div>
-                      <h3 className="font-bold text-foreground text-lg mb-1">
-                        {faculty.name}
-                      </h3>
-                      {faculty.name_en && (
-                        <p className="text-sm text-muted-foreground">
-                          {faculty.name_en}
-                        </p>
-                      )}
-                    </div>
-                    
-                    {faculty.majors && faculty.majors.length > 0 && (
-                      <div>
-                        <p className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
-                          <BookOpen size={16} className="text-primary" />
-                          التخصصات المتاحة:
-                        </p>
-                        <div className="flex flex-wrap gap-2">
-                          {faculty.majors.slice(0, 6).map((major, majorIndex) => (
-                            <Badge 
-                              key={majorIndex} 
-                              variant="secondary" 
-                              className="text-xs bg-gradient-primary/10 text-primary border-primary/20 hover:bg-gradient-primary/20 transition-all duration-300"
-                            >
-                              {typeof major === 'string' ? major : major.name}
-                            </Badge>
-                          ))}
-                          {faculty.majors.length > 6 && (
-                            <Badge variant="outline" className="text-xs">
-                              +{faculty.majors.length - 6} أخرى
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
+                    <h3 className="font-bold text-foreground text-lg mb-1">
+                      {faculty.name}
+                    </h3>
+                    {faculty.name_en && (
+                      <p className="text-sm text-muted-foreground">
+                        {faculty.name_en}
+                      </p>
                     )}
                   </div>
                 ))}
