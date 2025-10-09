@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { User, Mail, Lock, UserPlus } from "lucide-react";
 import { z } from "zod";
+import { FcGoogle } from "react-icons/fc";
 
 // Input validation schemas
 const signUpSchema = z.object({
@@ -106,6 +107,34 @@ export const Auth = () => {
           const signInTab = document.querySelector('[value="signin"]') as HTMLElement;
           signInTab?.click();
         }
+      }
+    } catch (error) {
+      toast({
+        title: "خطأ",
+        description: "حدث خطأ غير متوقع",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      setLoading(true);
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/profile`,
+        }
+      });
+
+      if (error) {
+        toast({
+          title: "خطأ في تسجيل الدخول",
+          description: "حدث خطأ أثناء تسجيل الدخول بواسطة Google",
+          variant: "destructive"
+        });
       }
     } catch (error) {
       toast({
@@ -243,6 +272,26 @@ export const Auth = () => {
                 >
                   {loading ? "جاري تسجيل الدخول..." : "تسجيل الدخول"}
                 </Button>
+
+                <div className="relative my-4">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">أو</span>
+                  </div>
+                </div>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  onClick={handleGoogleSignIn}
+                  disabled={loading}
+                >
+                  <FcGoogle className="ml-2" size={20} />
+                  تسجيل الدخول بواسطة Google
+                </Button>
               </form>
             </TabsContent>
             
@@ -311,6 +360,26 @@ export const Auth = () => {
                   disabled={loading}
                 >
                   {loading ? "جاري إنشاء الحساب..." : "إنشاء حساب جديد"}
+                </Button>
+
+                <div className="relative my-4">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">أو</span>
+                  </div>
+                </div>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  onClick={handleGoogleSignIn}
+                  disabled={loading}
+                >
+                  <FcGoogle className="ml-2" size={20} />
+                  التسجيل بواسطة Google
                 </Button>
               </form>
             </TabsContent>
