@@ -163,17 +163,65 @@ export const UniversityDetail = () => {
 
         {/* Content */}
         <div className="p-4 space-y-6 animate-fade-in">
-          {/* Website Link */}
-          {university.website && (
-            <Card className="card-glass">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-center gap-2 text-primary">
-                  <Globe size={18} className="text-accent" />
-                  <span className="font-medium">{university.website}</span>
-                </div>
-              </CardContent>
-            </Card>
-          )}
+          {/* Quick Links */}
+          <div className="grid grid-cols-1 gap-4">
+            {/* Website Link */}
+            {university.website && (
+              <a 
+                href={university.website.startsWith('http') ? university.website : `https://${university.website}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block"
+              >
+                <Card className="card-glass interactive-hover transition-all duration-300 hover:shadow-lg hover:border-primary/50">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center">
+                          <Globe size={20} className="text-white" />
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm text-muted-foreground mb-1">الموقع الإلكتروني</p>
+                          <p className="font-medium text-primary">{university.website}</p>
+                        </div>
+                      </div>
+                      <ExternalLink size={18} className="text-muted-foreground" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </a>
+            )}
+
+            {/* Google Maps Link */}
+            {(university.google_maps_url || (university.location_lat && university.location_lng)) && (
+              <a 
+                href={
+                  university.google_maps_url || 
+                  `https://www.google.com/maps/search/?api=1&query=${university.location_lat},${university.location_lng}`
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block"
+              >
+                <Card className="card-glass interactive-hover transition-all duration-300 hover:shadow-lg hover:border-secondary/50">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-secondary rounded-full flex items-center justify-center">
+                          <MapPin size={20} className="text-white" />
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm text-muted-foreground mb-1">الموقع الجغرافي</p>
+                          <p className="font-medium text-secondary">عرض على خرائط جوجل</p>
+                        </div>
+                      </div>
+                      <ExternalLink size={18} className="text-muted-foreground" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </a>
+            )}
+          </div>
 
           {/* Description */}
           <Card className="card-modern">

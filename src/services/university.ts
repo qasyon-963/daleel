@@ -10,6 +10,9 @@ export interface UniversityData {
   logo_url: string;
   banner_url: string;
   website: string;
+  location_lat?: number;
+  location_lng?: number;
+  google_maps_url?: string;
 }
 
 export interface Faculty {

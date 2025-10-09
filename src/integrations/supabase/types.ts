@@ -334,8 +334,11 @@ export type Database = {
           created_at: string
           description: string | null
           established: number | null
+          google_maps_url: string | null
           id: string
           likes_count: number | null
+          location_lat: number | null
+          location_lng: number | null
           logo_url: string | null
           name: string
           name_en: string
@@ -349,8 +352,11 @@ export type Database = {
           created_at?: string
           description?: string | null
           established?: number | null
+          google_maps_url?: string | null
           id: string
           likes_count?: number | null
+          location_lat?: number | null
+          location_lng?: number | null
           logo_url?: string | null
           name: string
           name_en: string
@@ -364,8 +370,11 @@ export type Database = {
           created_at?: string
           description?: string | null
           established?: number | null
+          google_maps_url?: string | null
           id?: string
           likes_count?: number | null
+          location_lat?: number | null
+          location_lng?: number | null
           logo_url?: string | null
           name?: string
           name_en?: string
