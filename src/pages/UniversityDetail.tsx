@@ -110,51 +110,37 @@ export const UniversityDetail = () => {
       </header>
 
       <div className="space-y-0">
-        {/* University Hero Banner */}
-        <div className="relative">
-          {/* Banner Background */}
-          <div 
-            className="h-64 bg-cover bg-center relative"
-            style={{ backgroundImage: `url(${universityBanner})` }}
-          >
-            {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+        {/* University Hero Section */}
+        <div className="relative py-12 px-4">
+          {/* University Logo - Centered */}
+          <div className="flex flex-col items-center justify-center gap-6 animate-fade-in">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-primary rounded-full blur-2xl opacity-20 animate-pulse-glow"></div>
+              <img 
+                src={universityLogo} 
+                alt={university.name}
+                className="university-logo w-32 h-32 object-cover animate-float relative z-10"
+              />
+            </div>
             
-            {/* Content Over Banner */}
-            <div className="absolute bottom-0 left-0 right-0 p-6">
-              <div className="flex items-end gap-6">
-                {/* University Logo - Circular on the right */}
-                <div className="relative ml-auto">
-                  <img 
-                    src={universityLogo} 
-                    alt={university.name}
-                    className="university-logo w-24 h-24 object-cover animate-float"
-                  />
-                  <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-primary rounded-full flex items-center justify-center animate-pulse-glow">
-                    <ExternalLink className="text-white" size={16} />
-                  </div>
+            {/* University Info - Centered */}
+            <div className="text-center space-y-4">
+              <h1 className="text-3xl md:text-4xl font-bold gradient-text animate-slide-up">
+                {university.name}
+              </h1>
+              <p className="text-xl text-muted-foreground animate-slide-up" style={{ animationDelay: '0.1s' }}>
+                {university?.name_en}
+              </p>
+              
+              {/* Quick Info */}
+              <div className="flex items-center justify-center gap-6 text-sm animate-slide-up" style={{ animationDelay: '0.2s' }}>
+                <div className="flex items-center gap-2 bg-gradient-card px-4 py-2 rounded-full border border-border/50">
+                  <MapPin size={16} className="text-secondary" />
+                  <span className="text-foreground">{university.city}</span>
                 </div>
-                
-                {/* University Info */}
-                <div className="flex-1 text-white">
-                  <h1 className="text-3xl font-bold mb-2 animate-slide-up">
-                    {university.name}
-                  </h1>
-                  <p className="text-xl text-white/90 mb-3 animate-slide-up" style={{ animationDelay: '0.1s' }}>
-                    {university?.name_en}
-                  </p>
-                  
-                  {/* Quick Info */}
-                  <div className="flex items-center gap-6 text-sm text-white/80 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-                    <div className="flex items-center gap-2">
-                      <MapPin size={16} className="text-secondary" />
-                      <span>{university.city}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Calendar size={16} className="text-accent" />
-                      <span>تأسست {university.established}</span>
-                    </div>
-                  </div>
+                <div className="flex items-center gap-2 bg-gradient-card px-4 py-2 rounded-full border border-border/50">
+                  <Calendar size={16} className="text-accent" />
+                  <span className="text-foreground">تأسست {university.established}</span>
                 </div>
               </div>
             </div>
