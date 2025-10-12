@@ -1,23 +1,23 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Home, GraduationCap, Newspaper, User, Bot } from "lucide-react";
+import { School, BookOpen, Sparkles, Newspaper, UserCircle } from "lucide-react";
 
 const navigationItems = [
   {
     id: "universities",
     label: "الجامعات",
-    icon: Home,
+    icon: School,
     path: "/",
   },
   {
     id: "majors", 
     label: "التخصصات",
-    icon: GraduationCap,
+    icon: BookOpen,
     path: "/majors",
   },
   {
     id: "ai-chat",
     label: "المساعد",
-    icon: Bot,
+    icon: Sparkles,
     path: "/ai-chat",
   },
   {
@@ -29,7 +29,7 @@ const navigationItems = [
   {
     id: "profile",
     label: "الملف الشخصي",
-    icon: User,
+    icon: UserCircle,
     path: "/profile",
   },
 ];
@@ -66,20 +66,27 @@ export const BottomNavigation = () => {
             <button
               key={item.id}
               onClick={() => handleNavigation(item.path)}
-              className={`flex flex-col items-center justify-center py-3 px-4 rounded-xl transition-all duration-300 relative ${
+              className={`flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-2xl transition-all duration-300 relative group ${
                 active
-                  ? "text-primary bg-gradient-primary/10 scale-105 shadow-lg"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/30 hover:scale-105"
+                  ? "text-primary scale-110"
+                  : "text-muted-foreground hover:text-foreground hover:scale-105"
               }`}
             >
               {active && (
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1 w-8 h-1 bg-gradient-primary rounded-full" />
+                <div className="absolute inset-0 bg-gradient-primary/10 rounded-2xl animate-pulse-glow" />
               )}
-              <Icon 
-                size={24} 
-                className={`mb-1 transition-all duration-300 ${active ? "text-primary" : ""}`}
-              />
-              <span className={`text-xs font-medium transition-all duration-300 ${active ? "text-primary" : ""}`}>
+              <div className={`relative z-10 p-2 rounded-xl transition-all duration-300 ${
+                active 
+                  ? "bg-gradient-primary shadow-lg" 
+                  : "group-hover:bg-muted/50"
+              }`}>
+                <Icon 
+                  size={22} 
+                  className={`transition-all duration-300 ${active ? "text-white" : ""}`}
+                  strokeWidth={active ? 2.5 : 2}
+                />
+              </div>
+              <span className={`relative z-10 text-[10px] font-semibold transition-all duration-300 ${active ? "text-primary" : ""}`}>
                 {item.label}
               </span>
             </button>
