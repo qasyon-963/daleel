@@ -134,10 +134,25 @@ export const UniversityDetail = () => {
               
               {/* Quick Info */}
               <div className="flex items-center justify-center gap-6 text-sm animate-slide-up" style={{ animationDelay: '0.2s' }}>
-                <div className="flex items-center gap-2 bg-gradient-card px-4 py-2 rounded-full border border-border/50">
-                  <MapPin size={16} className="text-secondary" />
-                  <span className="text-foreground">{university.city}</span>
-                </div>
+                {(university.google_maps_url || (university.location_lat && university.location_lng)) ? (
+                  <a 
+                    href={
+                      university.google_maps_url || 
+                      `https://www.google.com/maps/search/?api=1&query=${university.location_lat},${university.location_lng}`
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-gradient-card px-4 py-2 rounded-full border border-border/50 interactive-hover transition-all duration-300 hover:border-secondary/50 hover:bg-gradient-secondary/10"
+                  >
+                    <MapPin size={16} className="text-secondary" />
+                    <span className="text-foreground">{university.city}</span>
+                  </a>
+                ) : (
+                  <div className="flex items-center gap-2 bg-gradient-card px-4 py-2 rounded-full border border-border/50">
+                    <MapPin size={16} className="text-secondary" />
+                    <span className="text-foreground">{university.city}</span>
+                  </div>
+                )}
                 <div className="flex items-center gap-2 bg-gradient-card px-4 py-2 rounded-full border border-border/50">
                   <Calendar size={16} className="text-accent" />
                   <span className="text-foreground">تأسست {university.established}</span>
