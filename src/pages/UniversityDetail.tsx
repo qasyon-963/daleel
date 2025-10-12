@@ -142,20 +142,20 @@ export const UniversityDetail = () => {
                     }
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 bg-gradient-card px-4 py-2 rounded-full border border-border/50 interactive-hover transition-all duration-300 hover:border-secondary/50 hover:bg-gradient-secondary/10"
+                    className="flex items-center gap-2 bg-gradient-card px-4 py-2 rounded-full border border-primary/30 interactive-hover transition-all duration-300 hover:border-primary hover:bg-primary/10"
                   >
-                    <MapPin size={16} className="text-secondary" />
-                    <span className="text-foreground">{university.city}</span>
+                    <MapPin size={18} className="text-primary" strokeWidth={2.5} />
+                    <span className="text-foreground font-semibold">{university.city}</span>
                   </a>
                 ) : (
-                  <div className="flex items-center gap-2 bg-gradient-card px-4 py-2 rounded-full border border-border/50">
-                    <MapPin size={16} className="text-secondary" />
-                    <span className="text-foreground">{university.city}</span>
+                  <div className="flex items-center gap-2 bg-gradient-card px-4 py-2 rounded-full border border-primary/30">
+                    <MapPin size={18} className="text-primary" strokeWidth={2.5} />
+                    <span className="text-foreground font-semibold">{university.city}</span>
                   </div>
                 )}
-                <div className="flex items-center gap-2 bg-gradient-card px-4 py-2 rounded-full border border-border/50">
-                  <Calendar size={16} className="text-accent" />
-                  <span className="text-foreground">تأسست {university.established}</span>
+                <div className="flex items-center gap-2 bg-gradient-card px-4 py-2 rounded-full border border-primary/30">
+                  <Calendar size={18} className="text-primary" strokeWidth={2.5} />
+                  <span className="text-foreground font-semibold">تأسست {university.established}</span>
                 </div>
               </div>
             </div>
@@ -207,13 +207,13 @@ export const UniversityDetail = () => {
                 <Card className="card-glass interactive-hover transition-all duration-300 hover:shadow-lg hover:border-secondary/50">
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gradient-secondary rounded-full flex items-center justify-center">
-                          <MapPin size={20} className="text-white" />
+                     <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center">
+                          <MapPin size={20} className="text-white" strokeWidth={2.5} />
                         </div>
                         <div className="text-right">
-                          <p className="text-sm text-muted-foreground mb-1">الموقع الجغرافي</p>
-                          <p className="font-medium text-secondary">عرض على خرائط جوجل</p>
+                          <p className="text-sm text-foreground/70 mb-1 font-medium">الموقع الجغرافي</p>
+                          <p className="font-bold text-primary">عرض على خرائط جوجل</p>
                         </div>
                       </div>
                       <ExternalLink size={18} className="text-muted-foreground" />
@@ -258,18 +258,18 @@ export const UniversityDetail = () => {
                 </div>
                 <div className="space-y-3 interactive-hover">
                   <div className="flex items-center justify-center">
-                    <div className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center">
-                      <Building2 className="text-white" size={28} />
+                    <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center">
+                      <Building2 className="text-white" size={28} strokeWidth={2.5} />
                     </div>
                   </div>
-                  <div className="text-3xl font-bold text-secondary">
+                  <div className="text-3xl font-bold gradient-text">
                     {universityDetails ? 
                       universityDetails.faculties.filter(f => f.type === 'technical_institute').length + 
                       universityDetails.faculties.filter(f => f.type === 'higher_institute').length +
                       universityDetails.branches.reduce((total, branch) => total + branch.faculties.filter(f => f.type === 'technical_institute').length, 0)
                       : 0}
                   </div>
-                  <div className="text-sm text-muted-foreground font-medium">
+                  <div className="text-sm text-foreground font-semibold">
                     معهد
                   </div>
                 </div>
