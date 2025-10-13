@@ -73,11 +73,11 @@ export const News = () => {
   );
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('ar-SA', {
+    return new Intl.DateTimeFormat('ar-EG-u-ca-gregory', {
       year: 'numeric',
-      month: 'long', 
+      month: 'long',
       day: 'numeric'
-    });
+    }).format(new Date(dateString));
   };
 
   if (isLoading) {

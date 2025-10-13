@@ -16,6 +16,7 @@ interface NewsItem {
   is_important: boolean;
   source: string;
   image_url: string;
+  public_number?: number;
 }
 
 const categoryLabels: Record<string, string> = {
@@ -66,11 +67,11 @@ export const NewsDetail = () => {
   }, [id]);
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("ar-SA", {
+    return new Intl.DateTimeFormat("ar-EG-u-ca-gregory", {
       year: "numeric",
       month: "long",
       day: "numeric",
-    });
+    }).format(new Date(dateString));
   };
 
   if (isLoading) {
@@ -149,6 +150,13 @@ export const NewsDetail = () => {
                   {categoryLabels[news.category] || news.category}
                 </span>
               </div>
+
+              {/* Public Code */}
+              {typeof news.public_number === "number" && (
+                <div className="flex items-center gap-2 bg-gradient-card px-4 py-2 rounded-full border border-primary/30">
+                  <span className="text-primary font-bold">p{news.public_number}</span>
+                </div>
+              )}
 
               {/* Important Badge */}
               {news.is_important && (

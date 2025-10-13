@@ -413,7 +413,7 @@ export const AdminNews = () => {
                     </div>
                     <p className="text-sm text-muted-foreground mb-2">{newsItem.summary}</p>
                     <p className="text-xs text-muted-foreground">
-                      {new Date(newsItem.created_at).toLocaleDateString('ar-SA')}
+                      {new Intl.DateTimeFormat('ar-EG-u-ca-gregory', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(newsItem.created_at))}
                       {newsItem.source && ` • ${newsItem.source}`}
                     </p>
                   </div>

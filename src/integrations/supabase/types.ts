@@ -216,6 +216,7 @@ export type Database = {
           id: string
           image_url: string | null
           is_important: boolean
+          public_number: number
           source: string | null
           summary: string | null
           title: string
@@ -229,6 +230,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           is_important?: boolean
+          public_number?: number
           source?: string | null
           summary?: string | null
           title: string
@@ -242,6 +244,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           is_important?: boolean
+          public_number?: number
           source?: string | null
           summary?: string | null
           title?: string
