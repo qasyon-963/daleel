@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { AppHeader } from "@/components/AppHeader";
+import { ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface NewsItem {
@@ -35,6 +38,7 @@ const categoryColors: Record<string, string> = {
 };
 
 export const News = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [newsData, setNewsData] = useState<NewsItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -109,23 +113,31 @@ export const News = () => {
         {/* News Grid */}
         <div className="grid gap-6">
           {filteredNews.map((news) => (
-            <Card key={news.id} className="university-card hover-lift">
+            <Card 
+              key={news.id} 
+              className="university-card hover-lift cursor-pointer interactive-hover"
+              onClick={() => navigate(`/news/${news.id}`)}
+            >
               <CardContent className="p-6">
                 <div className="space-y-4">
-                  <div>
-                    <h3 className="text-xl font-bold mb-3 leading-tight">
+                  <div className="flex items-start justify-between gap-4">
+                    <h3 className="text-xl font-bold leading-tight flex-1">
                       {news.title}
                     </h3>
+                    <ArrowLeft size={20} className="text-primary shrink-0 mt-1" strokeWidth={2.5} />
                   </div>
                   
-                  <p className="text-sm text-muted-foreground mb-3">
-                    {news.summary}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
+                  {news.summary && (
+                    <p className="text-sm text-muted-foreground line-clamp-2">
+                      {news.summary}
+                    </p>
+                  )}
+                  
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <Badge 
-                        variant={news.is_important ? "destructive" : "secondary"}
-                        className={categoryColors[news.category]}
+                        variant="secondary"
+                        className="bg-gradient-primary/10 text-primary border-primary/20"
                       >
                         {categoryLabels[news.category]}
                       </Badge>
@@ -135,9 +147,8 @@ export const News = () => {
                         </Badge>
                       )}
                     </div>
-                    <div className="text-xs text-muted-foreground">
+                    <div className="text-xs text-foreground font-semibold">
                       {formatDate(news.created_at)}
-                      {news.source && ` • ${news.source}`}
                     </div>
                   </div>
                 </div>

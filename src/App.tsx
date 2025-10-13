@@ -8,6 +8,7 @@ import { Universities } from "./pages/Universities";
 import { UniversityDetail } from "./pages/UniversityDetail";
 import { Majors } from "./pages/Majors";
 import { News } from "./pages/News";
+import { NewsDetail } from "./pages/NewsDetail";
 import { Profile } from "./pages/Profile";
 import { Auth } from "./pages/Auth";
 import { AdminLogin } from "./pages/AdminLogin";
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="university/:id" element={<UniversityDetail />} />
             <Route path="majors" element={<Majors />} />
             <Route path="news" element={<News />} />
+            <Route path="news/:id" element={<NewsDetail />} />
             <Route path="profile" element={<Profile />} />
             <Route path="ai-chat" element={<AIChat />} />
           </Route>
