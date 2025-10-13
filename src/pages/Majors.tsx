@@ -4,7 +4,7 @@ import { AuthGuard } from "@/components/AuthGuard";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, ChevronDown, ChevronUp, BookOpen, MapPin, Users } from "lucide-react";
+import { Clock, ChevronDown, ChevronUp, BookOpen, MapPin, Users, GraduationCap } from "lucide-react";
 import { LikeButton } from "@/components/LikeButton";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -152,12 +152,17 @@ export const Majors = () => {
                 className="card-modern animate-slide-up hover:shadow-2xl"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold text-foreground mb-1">
-                        {major.name}
-                      </h3>
+                <CardContent className="p-5">
+                  <div className="flex items-start justify-between gap-4 mb-4">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center shrink-0">
+                          <GraduationCap size={24} className="text-white" />
+                        </div>
+                        <h3 className="text-xl font-bold text-foreground">
+                          {major.name}
+                        </h3>
+                      </div>
                       {major.name_en && (
                         <p className="text-sm text-muted-foreground mb-2">
                           {major.name_en}
@@ -186,14 +191,14 @@ export const Majors = () => {
                       />
                       <Button
                         variant="ghost"
-                        size="sm"
+                        size="icon"
                         onClick={() => toggleMajorDetails(major.id)}
-                        className="hover:bg-primary/10"
+                        className="hover:bg-primary/10 h-12 w-12"
                       >
                         {expandedMajor === major.id ? (
-                          <ChevronUp size={20} className="text-primary" />
+                          <ChevronUp size={32} className="text-primary" strokeWidth={2.5} />
                         ) : (
-                          <ChevronDown size={20} className="text-primary" />
+                          <ChevronDown size={32} className="text-primary" strokeWidth={2.5} />
                         )}
                       </Button>
                     </div>
