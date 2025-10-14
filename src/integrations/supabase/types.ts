@@ -345,6 +345,7 @@ export type Database = {
           logo_url: string | null
           name: string
           name_en: string
+          type: Database["public"]["Enums"]["university_type"]
           university_code: string | null
           updated_at: string
           website: string | null
@@ -363,6 +364,7 @@ export type Database = {
           logo_url?: string | null
           name: string
           name_en: string
+          type?: Database["public"]["Enums"]["university_type"]
           university_code?: string | null
           updated_at?: string
           website?: string | null
@@ -381,6 +383,7 @@ export type Database = {
           logo_url?: string | null
           name?: string
           name_en?: string
+          type?: Database["public"]["Enums"]["university_type"]
           university_code?: string | null
           updated_at?: string
           website?: string | null
@@ -435,6 +438,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
+      university_type: "public" | "private"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -563,6 +567,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user"],
+      university_type: ["public", "private"],
     },
   },
 } as const
