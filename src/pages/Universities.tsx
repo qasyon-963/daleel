@@ -19,6 +19,7 @@ interface University {
   banner_url: string;
   website: string;
   likes_count: number;
+  type: 'public' | 'private';
 }
 
 export const Universities = () => {
@@ -193,11 +194,13 @@ export const Universities = () => {
 
                  {/* University Info */}
                  <div className="flex items-center gap-3">
-                   <div className="w-8 h-8 bg-gradient-accent rounded-full flex items-center justify-center">
+                   <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                     university.type === 'private' ? 'bg-amber-500' : 'bg-gradient-accent'
+                   }`}>
                      <BookOpen size={14} className="text-white" />
                    </div>
                    <span className="text-sm font-medium text-foreground">
-                     جامعة حكومية
+                     {university.type === 'private' ? 'جامعة خاصة' : 'جامعة حكومية'}
                    </span>
                  </div>
               </CardContent>
