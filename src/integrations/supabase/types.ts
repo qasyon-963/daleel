@@ -419,14 +419,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      create_admin_user: {
-        Args: {
-          user_email: string
-          user_full_name: string
-          user_password: string
-        }
-        Returns: Json
-      }
       get_current_user_role: { Args: never; Returns: string }
       is_admin: { Args: { user_id?: string }; Returns: boolean }
     }
