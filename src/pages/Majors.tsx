@@ -37,117 +37,27 @@ const getCategoryIcon = (category: string | undefined, majorName: string) => {
   const name = majorName.toLowerCase();
   const cat = category?.toLowerCase() || '';
   
-  // Medical & Health
-  if (cat.includes('طب') || name.includes('طب') || name.includes('صيدل') || name.includes('تمريض')) {
-    return Stethoscope;
-  }
-  // Law
-  if (cat.includes('قانون') || name.includes('حقوق') || name.includes('قانون')) {
-    return Scale;
-  }
-  // Engineering & Technology
-  if (cat.includes('هندس') || name.includes('هندس') || cat.includes('تقن') || name.includes('برمج')) {
-    return Cpu;
-  }
-  // Science
-  if (cat.includes('علوم') || name.includes('كيمياء') || name.includes('فيزياء') || name.includes('أحياء')) {
-    return FlaskConical;
-  }
-  // Arts & Design
-  if (cat.includes('فنون') || name.includes('فن') || name.includes('تصميم') || name.includes('عمارة')) {
-    return Palette;
-  }
-  // Architecture & Construction
-  if (name.includes('معمار') || name.includes('بناء') || name.includes('مدني')) {
-    return Building2;
-  }
-  // Politics & Economics
-  if (cat.includes('اقتصاد') || name.includes('اقتصاد') || name.includes('سياس') || name.includes('علوم سياسية')) {
-    return Landmark;
-  }
-  // Languages & Literature
-  if (cat.includes('لغ') || name.includes('لغة') || name.includes('أدب') || name.includes('ترجمة')) {
-    return Languages;
-  }
-  // Math & Statistics
-  if (name.includes('رياضي') || name.includes('إحصاء') || name.includes('محاسب')) {
-    return Calculator;
-  }
-  // Agriculture & Environment
-  if (cat.includes('زراع') || name.includes('زراع') || name.includes('بيئ') || name.includes('غابات')) {
-    return Leaf;
-  }
-  // Tourism & Hotels
-  if (name.includes('سياح') || name.includes('فندق') || name.includes('ضيافة')) {
-    return Plane;
-  }
-  // Business & Management
-  if (cat.includes('إدار') || name.includes('إدارة') || name.includes('تسويق') || name.includes('أعمال')) {
-    return Briefcase;
-  }
-  // Psychology & Social
-  if (name.includes('نفس') || name.includes('اجتماع') || name.includes('تربي')) {
-    return Heart;
-  }
-  // Music
-  if (name.includes('موسيق')) {
-    return Music;
-  }
-  // Media & Journalism
-  if (name.includes('إعلام') || name.includes('صحاف')) {
-    return Camera;
-  }
-  // Technical & Vocational
-  if (name.includes('مهن') || name.includes('تقني') || name.includes('صناع')) {
-    return Hammer;
-  }
-  // Physics & Nuclear
-  if (name.includes('نووي') || name.includes('ذرة')) {
-    return Atom;
-  }
-  // Geography & International
-  if (name.includes('جغراف') || name.includes('دولي')) {
-    return Globe;
-  }
-  // Education & Literature
-  if (name.includes('تربية') || name.includes('تعليم') || cat.includes('تربي')) {
-    return BookText;
-  }
+  if (cat.includes('طب') || name.includes('طب') || name.includes('صيدل') || name.includes('تمريض')) return Stethoscope;
+  if (cat.includes('قانون') || name.includes('حقوق') || name.includes('قانون')) return Scale;
+  if (cat.includes('هندس') || name.includes('هندس') || cat.includes('تقن') || name.includes('برمج')) return Cpu;
+  if (cat.includes('علوم') || name.includes('كيمياء') || name.includes('فيزياء') || name.includes('أحياء')) return FlaskConical;
+  if (cat.includes('فنون') || name.includes('فن') || name.includes('تصميم') || name.includes('عمارة')) return Palette;
+  if (name.includes('معمار') || name.includes('بناء') || name.includes('مدني')) return Building2;
+  if (cat.includes('اقتصاد') || name.includes('اقتصاد') || name.includes('سياس') || name.includes('علوم سياسية')) return Landmark;
+  if (cat.includes('لغ') || name.includes('لغة') || name.includes('أدب') || name.includes('ترجمة')) return Languages;
+  if (name.includes('رياضي') || name.includes('إحصاء') || name.includes('محاسب')) return Calculator;
+  if (cat.includes('زراع') || name.includes('زراع') || name.includes('بيئ') || name.includes('غابات')) return Leaf;
+  if (name.includes('سياح') || name.includes('فندق') || name.includes('ضيافة')) return Plane;
+  if (cat.includes('إدار') || name.includes('إدارة') || name.includes('تسويق') || name.includes('أعمال')) return Briefcase;
+  if (name.includes('نفس') || name.includes('اجتماع') || name.includes('تربي')) return Heart;
+  if (name.includes('موسيق')) return Music;
+  if (name.includes('إعلام') || name.includes('صحاف')) return Camera;
+  if (name.includes('مهن') || name.includes('تقني') || name.includes('صناع')) return Hammer;
+  if (name.includes('نووي') || name.includes('ذرة')) return Atom;
+  if (name.includes('جغراف') || name.includes('دولي')) return Globe;
+  if (name.includes('تربية') || name.includes('تعليم') || cat.includes('تربي')) return BookText;
   
   return GraduationCap;
-};
-
-// Category colors mapping
-const getCategoryColor = (category: string | undefined, majorName: string) => {
-  const name = majorName.toLowerCase();
-  const cat = category?.toLowerCase() || '';
-  
-  if (cat.includes('طب') || name.includes('طب') || name.includes('صيدل')) {
-    return 'from-rose-500 to-pink-600';
-  }
-  if (cat.includes('هندس') || name.includes('هندس')) {
-    return 'from-blue-500 to-cyan-600';
-  }
-  if (cat.includes('قانون') || name.includes('حقوق')) {
-    return 'from-amber-500 to-orange-600';
-  }
-  if (cat.includes('علوم') || name.includes('علوم')) {
-    return 'from-emerald-500 to-teal-600';
-  }
-  if (cat.includes('فنون') || name.includes('فن')) {
-    return 'from-purple-500 to-violet-600';
-  }
-  if (cat.includes('اقتصاد') || name.includes('اقتصاد') || name.includes('إدارة')) {
-    return 'from-indigo-500 to-blue-600';
-  }
-  if (cat.includes('لغ') || name.includes('لغة') || name.includes('أدب')) {
-    return 'from-fuchsia-500 to-pink-600';
-  }
-  if (cat.includes('زراع') || name.includes('زراع')) {
-    return 'from-green-500 to-emerald-600';
-  }
-  
-  return 'from-primary to-primary/80';
 };
 
 export const Majors = () => {
@@ -190,13 +100,9 @@ export const Majors = () => {
           `)
           .order('likes_count', { ascending: false });
         
-        if (error) {
-          // Error handled silently
-        } else {
+        if (!error) {
           setMajors(data || []);
         }
-      } catch {
-        // Error handled silently
       } finally {
         setLoading(false);
       }
@@ -205,7 +111,6 @@ export const Majors = () => {
     checkAuthAndFetch();
   }, []);
 
-  // Memoized filtered majors
   const filteredMajors = useMemo(() => {
     return majors.filter((major) => {
       const searchLower = searchQuery.toLowerCase();
@@ -225,16 +130,14 @@ export const Majors = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background pb-20">
+      <div className="min-h-screen bg-background pb-24">
         <AppHeader 
           onSearch={setSearchQuery} 
           searchPlaceholder="البحث عن التخصصات..."
         />
-        <div className="flex items-center justify-center h-64">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-lg text-muted-foreground">جاري تحميل التخصصات...</p>
-          </div>
+        <div className="flex flex-col items-center justify-center h-64 gap-4">
+          <div className="w-10 h-10 border-3 border-primary border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-muted-foreground">جاري تحميل التخصصات...</p>
         </div>
       </div>
     );
@@ -245,7 +148,7 @@ export const Majors = () => {
       requireAuth={requireAuth} 
       message="يرجى تسجيل الدخول لاستكشاف التخصصات الجامعية والحصول على معلومات مفصلة"
     >
-      <div className="min-h-screen bg-background pb-20">
+      <div className="min-h-screen bg-background pb-24">
         <AppHeader 
           onSearch={setSearchQuery} 
           searchPlaceholder="البحث عن التخصصات..."
@@ -253,50 +156,51 @@ export const Majors = () => {
         
         <div className="p-4 space-y-6">
           {/* Header Section */}
-          <div className="text-center py-6 animate-fade-in">
-            <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary/60 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg shadow-primary/25 rotate-3 hover:rotate-0 transition-transform">
-              <BookOpen className="text-primary-foreground" size={40} />
+          <div className="relative overflow-hidden rounded-2xl bg-primary text-primary-foreground p-8 animate-fade-in">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-background/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-background/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+            <div className="relative text-center">
+              <div className="w-14 h-14 bg-background/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <BookOpen className="text-primary-foreground" size={28} />
+              </div>
+              <h1 className="text-3xl font-bold mb-3">دليل التخصصات الجامعية</h1>
+              <p className="text-primary-foreground/80 text-sm">
+                اكتشف جميع التخصصات المتاحة في الجامعات السورية
+              </p>
             </div>
-            <h2 className="text-3xl font-bold gradient-text mb-3">
-              دليل التخصصات الجامعية
-            </h2>
-            <p className="text-muted-foreground text-base max-w-md mx-auto">
-              اكتشف جميع التخصصات المتاحة في الجامعات السورية
-            </p>
           </div>
 
-          {/* Stats Section */}
-          <div className="flex justify-center gap-4 mb-6">
-            <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl px-6 py-4 text-center border border-primary/20 animate-slide-up">
-              <div className="text-3xl font-bold text-primary">{majors.length}</div>
-              <div className="text-sm text-muted-foreground">تخصص متاح</div>
+          {/* Stats */}
+          <div className="flex justify-center">
+            <div className="bg-muted/50 rounded-xl px-6 py-3 text-center border border-border">
+              <span className="text-2xl font-bold text-foreground">{majors.length}</span>
+              <span className="text-sm text-muted-foreground mr-2">تخصص متاح</span>
             </div>
           </div>
 
           {/* Majors List */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             {filteredMajors.map((major, index) => {
               const IconComponent = getCategoryIcon(major.category, major.name);
-              const colorClass = getCategoryColor(major.category, major.name);
               
               return (
                 <Card 
                   key={major.id} 
-                  className="overflow-hidden border-0 shadow-md hover:shadow-xl transition-all duration-300 animate-slide-up bg-card"
-                  style={{ animationDelay: `${Math.min(index * 0.05, 0.5)}s` }}
+                  className="border border-border bg-card hover:border-primary transition-all duration-300 animate-slide-up overflow-hidden"
+                  style={{ animationDelay: `${Math.min(index * 0.03, 0.3)}s` }}
                 >
                   <CardContent className="p-0">
                     <div className="flex">
                       {/* Icon Section */}
-                      <div className={`w-20 sm:w-24 bg-gradient-to-br ${colorClass} flex items-center justify-center shrink-0`}>
-                        <IconComponent size={32} className="text-white" />
+                      <div className="w-16 bg-primary flex items-center justify-center shrink-0">
+                        <IconComponent size={24} className="text-primary-foreground" />
                       </div>
                       
                       {/* Content Section */}
                       <div className="flex-1 p-4">
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex-1 min-w-0">
-                            <h3 className="text-lg font-bold text-foreground mb-1 line-clamp-2">
+                            <h3 className="text-base font-bold text-foreground mb-1 line-clamp-2">
                               {major.name}
                             </h3>
                             {major.name_en && (
@@ -306,12 +210,12 @@ export const Majors = () => {
                             )}
                             <div className="flex items-center gap-2 flex-wrap">
                               {major.category && (
-                                <Badge variant="secondary" className="text-xs bg-secondary/50">
+                                <Badge variant="secondary" className="text-xs bg-muted text-foreground">
                                   {major.category}
                                 </Badge>
                               )}
                               {major.duration && (
-                                <Badge variant="outline" className="text-xs flex items-center gap-1">
+                                <Badge variant="outline" className="text-xs flex items-center gap-1 border-border">
                                   <Clock size={10} />
                                   {major.duration}
                                 </Badge>
@@ -329,12 +233,12 @@ export const Majors = () => {
                               variant="ghost"
                               size="icon"
                               onClick={() => toggleMajorDetails(major.id)}
-                              className="hover:bg-primary/10 h-10 w-10"
+                              className="hover:bg-muted h-9 w-9"
                             >
                               {expandedMajor === major.id ? (
-                                <ChevronUp size={24} className="text-primary" />
+                                <ChevronUp size={20} className="text-foreground" />
                               ) : (
-                                <ChevronDown size={24} className="text-primary" />
+                                <ChevronDown size={20} className="text-foreground" />
                               )}
                             </Button>
                           </div>
@@ -344,11 +248,10 @@ export const Majors = () => {
                           <div className="space-y-3 pt-4 mt-4 border-t border-border animate-fade-in">
                             {major.description && (
                               <div className="bg-muted/50 rounded-lg p-3">
-                                <h4 className="font-semibold text-sm text-foreground mb-1.5 flex items-center gap-2">
-                                  <div className={`w-2 h-2 bg-gradient-to-r ${colorClass} rounded-full`}></div>
+                                <h4 className="font-semibold text-sm text-foreground mb-1.5">
                                   نبذة عن التخصص
                                 </h4>
-                                <p className="text-sm text-muted-foreground leading-relaxed">
+                                <p className="text-xs text-muted-foreground leading-relaxed">
                                   {major.description}
                                 </p>
                               </div>
@@ -357,13 +260,13 @@ export const Majors = () => {
                             {major.career_opportunities && major.career_opportunities.length > 0 && (
                               <div className="bg-muted/50 rounded-lg p-3">
                                 <h4 className="font-semibold text-sm text-foreground mb-2 flex items-center gap-2">
-                                  <Users size={14} className="text-primary" />
+                                  <Users size={14} />
                                   فرص العمل المتاحة
                                 </h4>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                                   {major.career_opportunities.map((opportunity, idx) => (
-                                    <div key={idx} className="flex items-center gap-2 text-sm text-muted-foreground">
-                                      <div className={`w-1.5 h-1.5 bg-gradient-to-r ${colorClass} rounded-full`}></div>
+                                    <div key={idx} className="flex items-center gap-2 text-xs text-muted-foreground">
+                                      <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
                                       <span>{opportunity}</span>
                                     </div>
                                   ))}
@@ -382,10 +285,10 @@ export const Majors = () => {
 
           {filteredMajors.length === 0 && (
             <div className="text-center py-12 animate-fade-in">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <BookOpen className="text-primary" size={32} />
+              <div className="w-16 h-16 bg-muted rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <BookOpen className="text-muted-foreground" size={28} />
               </div>
-              <p className="text-muted-foreground text-lg">
+              <p className="text-muted-foreground">
                 لم يتم العثور على تخصصات تطابق بحثك
               </p>
             </div>

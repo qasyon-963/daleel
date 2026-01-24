@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { AppHeader } from "@/components/AppHeader";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Calendar } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface NewsItem {
@@ -26,15 +25,6 @@ const categoryLabels: Record<string, string> = {
   exams: "امتحانات", 
   events: "فعاليات",
   scholarships: "منح",
-};
-
-// Category colors for badges
-const categoryColors: Record<string, string> = {
-  general: "bg-blue-100 text-blue-800",
-  admissions: "bg-green-100 text-green-800",
-  exams: "bg-orange-100 text-orange-800",
-  events: "bg-purple-100 text-purple-800",
-  scholarships: "bg-pink-100 text-pink-800",
 };
 
 export const News = () => {
@@ -82,49 +72,56 @@ export const News = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background pb-24">
         <AppHeader 
           onSearch={setSearchQuery}
           searchPlaceholder="البحث في الأخبار..."
         />
-        <div className="container mx-auto p-4 pt-20">
-          <div className="text-center">جاري تحميل الأخبار...</div>
+        <div className="flex flex-col items-center justify-center h-64 gap-4">
+          <div className="w-10 h-10 border-3 border-primary border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-muted-foreground">جاري تحميل الأخبار...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="min-h-screen bg-background pb-24">
       <AppHeader 
         onSearch={setSearchQuery}
         searchPlaceholder="البحث في الأخبار..."
       />
       
-      <div className="container mx-auto p-4 pt-6">
+      <div className="p-4 space-y-6">
         {/* Header Section */}
-        <div className="text-center py-6">
-          <h2 className="text-3xl font-bold mb-2">الأخبار الجامعية</h2>
-          <p className="text-muted-foreground">
-            آخر الأخبار والإعلانات من الجامعات السورية
-          </p>
+        <div className="relative overflow-hidden rounded-2xl bg-primary text-primary-foreground p-8 animate-fade-in">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-background/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+          <div className="relative text-center">
+            <h1 className="text-3xl font-bold mb-3">الأخبار الجامعية</h1>
+            <p className="text-primary-foreground/80 text-sm">
+              آخر الأخبار والإعلانات من الجامعات السورية
+            </p>
+          </div>
         </div>
 
         {/* News Grid */}
-        <div className="grid gap-6">
-          {filteredNews.map((news) => (
+        <div className="space-y-4">
+          {filteredNews.map((news, index) => (
             <Card 
               key={news.id} 
-              className="university-card hover-lift cursor-pointer interactive-hover"
+              className="group cursor-pointer border border-border bg-card hover:border-primary hover:shadow-lg transition-all duration-300 animate-slide-up overflow-hidden"
               onClick={() => navigate(`/news/${news.id}`)}
+              style={{ animationDelay: `${index * 0.05}s` }}
             >
-              <CardContent className="p-6">
+              <CardContent className="p-5">
                 <div className="space-y-4">
                   <div className="flex items-start justify-between gap-4">
-                    <h3 className="text-xl font-bold leading-tight flex-1">
+                    <h3 className="text-lg font-bold leading-tight flex-1 group-hover:text-primary transition-colors">
                       {news.title}
                     </h3>
-                    <ArrowLeft size={20} className="text-primary shrink-0 mt-1" strokeWidth={2.5} />
+                    <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 flex-shrink-0">
+                      <ArrowLeft size={16} />
+                    </div>
                   </div>
                   
                   {news.summary && (
@@ -137,18 +134,19 @@ export const News = () => {
                     <div className="flex items-center gap-2 flex-wrap">
                       <Badge 
                         variant="secondary"
-                        className="bg-gradient-primary/10 text-primary border-primary/20"
+                        className="bg-muted text-foreground text-xs"
                       >
-                        {categoryLabels[news.category]}
+                        {categoryLabels[news.category] || news.category}
                       </Badge>
                       {news.is_important && (
-                        <Badge variant="destructive">
+                        <Badge className="bg-primary text-primary-foreground text-xs">
                           مهم
                         </Badge>
                       )}
                     </div>
-                    <div className="text-xs text-foreground font-semibold">
-                      {formatDate(news.created_at)}
+                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                      <Calendar size={12} />
+                      <span>{formatDate(news.created_at)}</span>
                     </div>
                   </div>
                 </div>
@@ -158,8 +156,11 @@ export const News = () => {
         </div>
 
         {filteredNews.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground text-lg">
+          <div className="text-center py-12 animate-fade-in">
+            <div className="w-16 h-16 bg-muted rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <Calendar className="text-muted-foreground" size={28} />
+            </div>
+            <p className="text-muted-foreground">
               {newsData.length === 0 ? "لا توجد أخبار متاحة حالياً" : "لم يتم العثور على أخبار تطابق البحث"}
             </p>
           </div>
