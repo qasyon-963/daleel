@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AppHeader } from "@/components/AppHeader";
-import { Send, Bot, User, Loader2 } from "lucide-react";
+import { Send, Bot, User, Loader2, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -37,7 +37,6 @@ export const AIChat = () => {
 
     const userMessage = input.trim();
     
-    // Client-side validation
     if (userMessage.length < 3) {
       toast({
         title: "خطأ",
@@ -114,93 +113,99 @@ export const AIChat = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="min-h-screen bg-background pb-24">
       <AppHeader searchPlaceholder="البحث..." />
       
       <div className="p-4 space-y-6">
-        <div className="text-center py-6">
-          <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse-glow">
-            <Bot className="text-white" size={32} />
+        {/* Header */}
+        <div className="text-center py-6 animate-fade-in">
+          <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <Sparkles className="text-primary-foreground" size={28} />
           </div>
-          <h1 className="text-3xl font-bold gradient-text mb-2">
+          <h1 className="text-3xl font-bold text-foreground mb-2">
             المساعد الذكي
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             اسأل أي سؤال عن الجامعات والتخصصات في سوريا
           </p>
         </div>
 
-        <Card className="card-modern">
-          <CardHeader>
-            <CardTitle className="text-lg gradient-text">المحادثة</CardTitle>
+        {/* Chat Card */}
+        <Card className="border border-border bg-card">
+          <CardHeader className="pb-3 border-b border-border">
+            <CardTitle className="text-lg font-bold">المحادثة</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="h-[500px] overflow-y-auto space-y-4 p-4 bg-gradient-hero/5 rounded-lg">
+          <CardContent className="p-0">
+            {/* Messages Area */}
+            <div className="h-[400px] overflow-y-auto p-4 space-y-4">
               {messages.map((message, index) => (
                 <div
                   key={index}
                   className={`flex gap-3 ${
                     message.role === 'user' ? 'justify-end' : 'justify-start'
-                  }`}
+                  } animate-fade-in`}
                 >
                   {message.role === 'assistant' && (
-                    <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center flex-shrink-0">
-                      <Bot className="text-white" size={16} />
+                    <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Bot className="text-primary-foreground" size={16} />
                     </div>
                   )}
                   <div
-                    className={`max-w-[70%] p-4 rounded-lg ${
+                    className={`max-w-[75%] p-3 rounded-xl text-sm ${
                       message.role === 'user'
-                        ? 'bg-gradient-primary text-white'
-                        : 'bg-card border border-border'
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted text-foreground'
                     }`}
                   >
-                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                    <p className="whitespace-pre-wrap leading-relaxed">{message.content}</p>
                   </div>
                   {message.role === 'user' && (
-                    <div className="w-8 h-8 bg-gradient-secondary rounded-full flex items-center justify-center flex-shrink-0">
-                      <User className="text-white" size={16} />
+                    <div className="w-8 h-8 bg-muted rounded-lg flex items-center justify-center flex-shrink-0">
+                      <User className="text-foreground" size={16} />
                     </div>
                   )}
                 </div>
               ))}
               {isLoading && (
-                <div className="flex gap-3 justify-start">
-                  <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center flex-shrink-0">
-                    <Bot className="text-white" size={16} />
+                <div className="flex gap-3 justify-start animate-fade-in">
+                  <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Bot className="text-primary-foreground" size={16} />
                   </div>
-                  <div className="max-w-[70%] p-4 rounded-lg bg-card border border-border">
-                    <Loader2 className="animate-spin text-primary" size={20} />
+                  <div className="p-3 rounded-xl bg-muted">
+                    <Loader2 className="animate-spin text-primary" size={18} />
                   </div>
                 </div>
               )}
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="flex gap-2">
-              <Input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="اكتب سؤالك هنا..."
-                disabled={isLoading}
-                className="flex-1"
-              />
-              <Button
-                onClick={handleSend}
-                disabled={!input.trim() || isLoading}
-                className="bg-gradient-primary hover:bg-gradient-primary/90"
-              >
-                {isLoading ? (
-                  <Loader2 className="animate-spin" size={18} />
-                ) : (
-                  <Send size={18} />
-                )}
-              </Button>
-            </div>
-
-            <div className="text-xs text-muted-foreground text-center">
-              💡 نصيحة: اسأل عن أي جامعة، كلية، أو تخصص في سوريا
+            {/* Input Area */}
+            <div className="p-4 border-t border-border">
+              <div className="flex gap-2">
+                <Input
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="اكتب سؤالك هنا..."
+                  disabled={isLoading}
+                  className="flex-1 bg-muted/50 border-border focus:border-primary"
+                  dir="rtl"
+                />
+                <Button
+                  onClick={handleSend}
+                  disabled={!input.trim() || isLoading}
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground px-4"
+                >
+                  {isLoading ? (
+                    <Loader2 className="animate-spin" size={18} />
+                  ) : (
+                    <Send size={18} />
+                  )}
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground text-center mt-3">
+                💡 اسأل عن أي جامعة، كلية، أو تخصص في سوريا
+              </p>
             </div>
           </CardContent>
         </Card>
