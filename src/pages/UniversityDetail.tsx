@@ -5,29 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getUniversityDetails, UniversityDetails } from "@/services/university";
-import daleelLogo from "@/assets/daleel-logo.png";
+import defaultLogo from "@/assets/daleel-logo.png";
 
-
-const logoMapByName: Record<string, string> = {
-  "جامعة دمشق": daleelLogo,
-  "جامعة حلب": daleelLogo,
-  "جامعة اللاذقية": daleelLogo,
-  "جامعة حماة": daleelLogo,
-  "جامعة إدلب": daleelLogo,
-  "جامعة حمص": daleelLogo,
-  "جامعة الفرات": daleelLogo,
-  "جامعة طرطوس": daleelLogo,
-};
-
-const bannerMapByName: Record<string, string> = {
-  "جامعة دمشق": daleelLogo,
-  "جامعة حلب": daleelLogo,
-  "جامعة اللاذقية": daleelLogo,
-  "جامعة إدلب": daleelLogo,
-  "جامعة حمص": daleelLogo,
-  "جامعة الفرات": daleelLogo,
-  "جامعة طرطوس": daleelLogo,
-};
+// University logos are loaded from the database (logo_url field)
+// To assign a logo: update the university's logo_url in the database with the image URL
+// The defaultLogo is used as a fallback when no logo_url is set
 
 export const UniversityDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -85,8 +67,9 @@ export const UniversityDetail = () => {
     );
   }
 
-  const universityLogo = university ? (logoMapByName[university.name] || university.logo_url) : undefined;
-  const universityBanner = university ? (bannerMapByName[university.name] || university.banner_url) : undefined;
+  // Use database logo_url/banner_url with fallback to default app logo
+  const universityLogo = university.logo_url || defaultLogo;
+  const universityBanner = university.banner_url || defaultLogo;
 
   return (
     <div className="min-h-screen bg-background pb-20">
