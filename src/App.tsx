@@ -17,6 +17,7 @@ const Auth = lazy(() => import("./pages/Auth").then(m => ({ default: m.Auth })))
 const AdminLogin = lazy(() => import("./pages/AdminLogin").then(m => ({ default: m.AdminLogin })));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard").then(m => ({ default: m.AdminDashboard })));
 const AdminNews = lazy(() => import("./pages/AdminNews").then(m => ({ default: m.AdminNews })));
+const AdminUniversities = lazy(() => import("./pages/AdminUniversities").then(m => ({ default: m.AdminUniversities })));
 const AIChat = lazy(() => import("./pages/AIChat").then(m => ({ default: m.AIChat })));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
@@ -61,6 +62,7 @@ const App = () => (
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/news" element={<AdminNews />} />
+            <Route path="/admin/universities" element={<AdminUniversities />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
