@@ -5,31 +5,28 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getUniversityDetails, UniversityDetails } from "@/services/university";
-import unifiedLogo from "@/assets/tishreen-university-banner.jpg";
-import aleppoLogo from "@/assets/daleel-logo.png";
-import aleppoBanner from "@/assets/daleel-logo.png";
-import tishreenBanner from "@/assets/tishreen-university-banner.jpg";
+import daleelLogo from "@/assets/daleel-logo.png";
 
 
 const logoMapByName: Record<string, string> = {
-  "جامعة دمشق": unifiedLogo,
-  "جامعة حلب": unifiedLogo,
-"جامعة اللاذقية": unifiedLogo,
-"جامعة حماة": unifiedLogo,
-  "جامعة إدلب": unifiedLogo,
-   "جامعة حمص": unifiedLogo,
-  "جامعة الفرات": unifiedLogo,
-  "جامعة طرطوس": unifiedLogo,
+  "جامعة دمشق": daleelLogo,
+  "جامعة حلب": daleelLogo,
+  "جامعة اللاذقية": daleelLogo,
+  "جامعة حماة": daleelLogo,
+  "جامعة إدلب": daleelLogo,
+  "جامعة حمص": daleelLogo,
+  "جامعة الفرات": daleelLogo,
+  "جامعة طرطوس": daleelLogo,
 };
 
 const bannerMapByName: Record<string, string> = {
-  "جامعة دمشق": unifiedLogo,
-  "جامعة حلب": unifiedLogo,
-  "جامعة اللاذقية": unifiedLogo,
-  "جامعة إدلب": unifiedLogo,
-   "جامعة حمص": unifiedLogo,
-  "جامعة الفرات": unifiedLogo,
-  "جامعة طرطوس": unifiedLogo,
+  "جامعة دمشق": daleelLogo,
+  "جامعة حلب": daleelLogo,
+  "جامعة اللاذقية": daleelLogo,
+  "جامعة إدلب": daleelLogo,
+  "جامعة حمص": daleelLogo,
+  "جامعة الفرات": daleelLogo,
+  "جامعة طرطوس": daleelLogo,
 };
 
 export const UniversityDetail = () => {
