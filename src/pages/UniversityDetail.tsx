@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getUniversityDetails, UniversityDetails } from "@/services/university";
-import unifiedLogo from "@/assets/daleel-logo.png";
 import aleppoLogo from "@/assets/daleel-logo.png";
 import aleppoBanner from "@/assets/daleel-logo.png";
 import tishreenBanner from "@/assets/tishreen-university-banner.jpg";
