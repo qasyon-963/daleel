@@ -2,7 +2,7 @@ import { Search, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import daleelLogo from "@/assets/daleel-logo.png";
+import daleelLogo from "@/assets/daleel-logo-new.png";
 
 interface AppHeaderProps {
   title?: string;
