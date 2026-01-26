@@ -15,10 +15,10 @@ const navigationItems = [
     path: "/majors",
   },
   {
-    id: "ai-chat",
-    label: "المساعد",
+    id: "daleel-ai",
+    label: "Daleel AI",
     icon: Sparkles,
-    path: "/ai-chat",
+    path: "/daleel-ai",
   },
   {
     id: "news",

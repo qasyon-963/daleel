@@ -2,3 +2,6 @@ project_id = "flihssagpeirqgkzifwr"
 
 [functions.ai-chat]
 verify_jwt = true
+
+[functions.daleel-ai-chat]
+verify_jwt = false
