@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Send, Loader2 } from "lucide-react";
+import { Send, Loader2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
@@ -44,48 +44,47 @@ export const ChatInput = ({ onSend, isLoading, disabled }: ChatInputProps) => {
   };
 
   return (
-    <div className="border-t border-border bg-background p-4">
-      <div className="max-w-3xl mx-auto">
-        <div className="relative flex items-end gap-2 bg-muted/50 rounded-2xl border border-border p-2 focus-within:border-primary transition-colors">
-          <Textarea
-            ref={textareaRef}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="اسأل Daleel AI عن الجامعات والتخصصات..."
-            disabled={isLoading || disabled}
-            className={cn(
-              "flex-1 min-h-[44px] max-h-[200px] resize-none border-0 bg-transparent",
-              "focus-visible:ring-0 focus-visible:ring-offset-0",
-              "placeholder:text-muted-foreground/70 text-foreground",
-              "py-3 px-2"
-            )}
-            dir="rtl"
-            rows={1}
-          />
-          
-          <Button
-            onClick={handleSubmit}
-            disabled={!input.trim() || isLoading || disabled}
-            size="icon"
-            className={cn(
-              "h-10 w-10 rounded-xl flex-shrink-0 transition-all",
-              input.trim() && !isLoading
-                ? "bg-primary hover:bg-primary/90"
-                : "bg-muted text-muted-foreground"
-            )}
-          >
-            {isLoading ? (
-              <Loader2 className="animate-spin" size={18} />
-            ) : (
-              <Send size={18} />
-            )}
-          </Button>
-        </div>
+    <div className="p-4">
+      <div className="relative flex items-end gap-3 bg-card rounded-2xl border border-border shadow-sm p-3 focus-within:border-primary/50 focus-within:shadow-md transition-all duration-300">
+        <Textarea
+          ref={textareaRef}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="اسأل Daleel AI عن الجامعات والتخصصات..."
+          disabled={isLoading || disabled}
+          className={cn(
+            "flex-1 min-h-[48px] max-h-[200px] resize-none border-0 bg-transparent",
+            "focus-visible:ring-0 focus-visible:ring-offset-0",
+            "placeholder:text-muted-foreground/60 text-foreground text-base",
+            "py-3 px-3"
+          )}
+          dir="rtl"
+          rows={1}
+        />
         
-        <p className="text-xs text-muted-foreground text-center mt-3">
-          Daleel AI - مساعدك الذكي للجامعات والتخصصات في سوريا
-        </p>
+        <Button
+          onClick={handleSubmit}
+          disabled={!input.trim() || isLoading || disabled}
+          size="icon"
+          className={cn(
+            "h-11 w-11 rounded-xl flex-shrink-0 transition-all duration-300",
+            input.trim() && !isLoading
+              ? "bg-gradient-to-br from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-md hover:shadow-lg hover:scale-105"
+              : "bg-muted text-muted-foreground hover:bg-muted"
+          )}
+        >
+          {isLoading ? (
+            <Loader2 className="animate-spin" size={20} />
+          ) : (
+            <Send size={20} />
+          )}
+        </Button>
+      </div>
+      
+      <div className="flex items-center justify-center gap-2 mt-3 text-xs text-muted-foreground">
+        <Sparkles size={12} className="text-primary" />
+        <span>Daleel AI - مساعدك الذكي للجامعات والتخصصات في سوريا</span>
       </div>
     </div>
   );

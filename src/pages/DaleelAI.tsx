@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { Menu, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { AppHeader } from "@/components/AppHeader";
 import { ChatMessage } from "@/components/daleel-ai/ChatMessage";
 import { ChatInput } from "@/components/daleel-ai/ChatInput";
 import { ChatSidebar } from "@/components/daleel-ai/ChatSidebar";
@@ -12,6 +11,7 @@ import { useDaleelChat } from "@/components/daleel-ai/useDaleelChat";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import daleelLogo from "@/assets/daleel-logo.png";
 
 export const DaleelAI = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -86,33 +86,41 @@ export const DaleelAI = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
-      <div className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-30">
-        <div className="flex items-center justify-between px-4 py-3">
+    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 flex flex-col">
+      {/* Enhanced Header */}
+      <div className="border-b border-border/50 bg-card/80 backdrop-blur-xl sticky top-0 z-30 shadow-sm">
+        <div className="flex items-center justify-between px-4 py-3 max-w-5xl mx-auto w-full">
           <div className="flex items-center gap-3">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="md:hidden"
+              className="md:hidden hover:bg-primary/10"
             >
               <Menu size={20} />
             </Button>
-            <h1 className="text-lg font-bold text-foreground">Daleel AI</h1>
-            {currentConversation && (
-              <span className="text-sm text-muted-foreground hidden sm:block">
-                • {currentConversation.title}
-              </span>
-            )}
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                <img src={daleelLogo} alt="Daleel AI" className="w-6 h-6 object-contain" />
+              </div>
+              <div>
+                <h1 className="text-lg font-bold text-foreground">Daleel AI</h1>
+                {currentConversation && (
+                  <span className="text-xs text-muted-foreground hidden sm:block line-clamp-1 max-w-[200px]">
+                    {currentConversation.title}
+                  </span>
+                )}
+              </div>
+            </div>
           </div>
           <Button
             variant="outline"
             size="sm"
             onClick={startNewConversation}
-            className="text-sm"
+            className="text-sm hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300"
           >
-            محادثة جديدة
+            <span className="hidden sm:inline">محادثة جديدة</span>
+            <span className="sm:hidden">+</span>
           </Button>
         </div>
       </div>
@@ -136,7 +144,7 @@ export const DaleelAI = () => {
             {messages.length === 0 ? (
               <WelcomeScreen onSuggestionClick={handleSuggestionClick} />
             ) : (
-              <div className="min-h-full">
+              <div className="min-h-full pb-4">
                 {messages.map((message) => (
                   <ChatMessage key={message.id} message={message} />
                 ))}
@@ -146,12 +154,16 @@ export const DaleelAI = () => {
             )}
           </ScrollArea>
 
-          {/* Input Area */}
-          <ChatInput
-            onSend={sendMessage}
-            isLoading={isLoading}
-            disabled={!userId}
-          />
+          {/* Enhanced Input Area */}
+          <div className="border-t border-border/50 bg-card/50 backdrop-blur-sm">
+            <div className="max-w-3xl mx-auto w-full">
+              <ChatInput
+                onSend={sendMessage}
+                isLoading={isLoading}
+                disabled={!userId}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
