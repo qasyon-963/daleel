@@ -32,30 +32,70 @@ interface Major {
   };
 }
 
-// Category icons mapping
+// Enhanced category icons mapping with better accuracy
 const getCategoryIcon = (category: string | undefined, majorName: string) => {
   const name = majorName.toLowerCase();
   const cat = category?.toLowerCase() || '';
   
-  if (cat.includes('طب') || name.includes('طب') || name.includes('صيدل') || name.includes('تمريض')) return Stethoscope;
-  if (cat.includes('قانون') || name.includes('حقوق') || name.includes('قانون')) return Scale;
-  if (cat.includes('هندس') || name.includes('هندس') || cat.includes('تقن') || name.includes('برمج')) return Cpu;
-  if (cat.includes('علوم') || name.includes('كيمياء') || name.includes('فيزياء') || name.includes('أحياء')) return FlaskConical;
-  if (cat.includes('فنون') || name.includes('فن') || name.includes('تصميم') || name.includes('عمارة')) return Palette;
-  if (name.includes('معمار') || name.includes('بناء') || name.includes('مدني')) return Building2;
-  if (cat.includes('اقتصاد') || name.includes('اقتصاد') || name.includes('سياس') || name.includes('علوم سياسية')) return Landmark;
+  // Medical & Health Sciences
+  if (cat === 'طبي' || name.includes('طب بشري') || name.includes('الطب البشري')) return Stethoscope;
+  if (name.includes('أسنان') || name.includes('طب الأسنان')) return Stethoscope;
+  if (name.includes('صيدل') || name.includes('الصيدلة')) return FlaskConical;
+  if (name.includes('تمريض') || name.includes('التمريض')) return Heart;
+  
+  // Engineering specializations
+  if (cat === 'هندسي' || cat.includes('هندس')) {
+    if (name.includes('معلوماتية') || name.includes('المعلوماتية')) return Cpu;
+    if (name.includes('كهربائية') || name.includes('الكهربائية')) return Atom;
+    if (name.includes('مدنية') || name.includes('المدنية')) return Building2;
+    if (name.includes('معمارية') || name.includes('المعمارية')) return Palette;
+    if (name.includes('ميكانيكية') || name.includes('الميكانيكية')) return Hammer;
+    if (name.includes('نفطية') || name.includes('النفطية')) return FlaskConical;
+    if (name.includes('زراعية') || name.includes('الزراعية')) return Leaf;
+    if (name.includes('بحرية') || name.includes('البحرية')) return Globe;
+    if (name.includes('جيوماتية') || name.includes('مساحية')) return Globe;
+    if (name.includes('ميكاترونكس')) return Cpu;
+    return Cpu; // Default for engineering
+  }
+  
+  // Sciences
+  if (cat === 'علمي' || name.includes('العلوم')) return FlaskConical;
+  
+  // Social Sciences
+  if (cat === 'علوم اجتماعية' || name.includes('سياسية') || name.includes('السياسية')) return Landmark;
+  
+  // Law
+  if (name.includes('حقوق') || name.includes('قانون') || name.includes('شريعة') || name.includes('الشريعة')) return Scale;
+  
+  // Religious studies
+  if (cat === 'شرعي') return Scale;
+  
+  // Media & Journalism
+  if (cat === 'إعلامي' || name.includes('إعلام') || name.includes('الإعلام') || name.includes('صحاف')) return Camera;
+  
+  // Languages & Literature
   if (cat.includes('لغ') || name.includes('لغة') || name.includes('أدب') || name.includes('ترجمة')) return Languages;
+  
+  // Economics & Business
+  if (cat.includes('اقتصاد') || name.includes('اقتصاد') || name.includes('إدارة') || name.includes('تسويق')) return Briefcase;
+  
+  // Mathematics & Statistics
   if (name.includes('رياضي') || name.includes('إحصاء') || name.includes('محاسب')) return Calculator;
-  if (cat.includes('زراع') || name.includes('زراع') || name.includes('بيئ') || name.includes('غابات')) return Leaf;
-  if (name.includes('سياح') || name.includes('فندق') || name.includes('ضيافة')) return Plane;
-  if (cat.includes('إدار') || name.includes('إدارة') || name.includes('تسويق') || name.includes('أعمال')) return Briefcase;
-  if (name.includes('نفس') || name.includes('اجتماع') || name.includes('تربي')) return Heart;
-  if (name.includes('موسيق')) return Music;
-  if (name.includes('إعلام') || name.includes('صحاف')) return Camera;
-  if (name.includes('مهن') || name.includes('تقني') || name.includes('صناع')) return Hammer;
-  if (name.includes('نووي') || name.includes('ذرة')) return Atom;
-  if (name.includes('جغراف') || name.includes('دولي')) return Globe;
-  if (name.includes('تربية') || name.includes('تعليم') || cat.includes('تربي')) return BookText;
+  
+  // Agriculture
+  if (cat.includes('زراع') || name.includes('زراع') || name.includes('بيئ')) return Leaf;
+  
+  // Tourism
+  if (name.includes('سياح') || name.includes('فندق')) return Plane;
+  
+  // Education
+  if (name.includes('تربية') || name.includes('تعليم') || cat.includes('تربو')) return BookText;
+  
+  // Psychology & Social work
+  if (name.includes('نفس') || name.includes('اجتماع')) return Heart;
+  
+  // Arts
+  if (name.includes('فن') || name.includes('موسيق')) return Music;
   
   return GraduationCap;
 };
@@ -100,8 +140,18 @@ export const Majors = () => {
           `)
           .order('likes_count', { ascending: false });
         
-        if (!error) {
-          setMajors(data || []);
+        if (!error && data) {
+          // Deduplicate majors by name - keep the one with highest likes_count
+          const uniqueMajors = data.reduce((acc: Major[], current) => {
+            const existingIndex = acc.findIndex(item => item.name === current.name);
+            if (existingIndex === -1) {
+              acc.push(current);
+            } else if ((current.likes_count || 0) > (acc[existingIndex].likes_count || 0)) {
+              acc[existingIndex] = current;
+            }
+            return acc;
+          }, []);
+          setMajors(uniqueMajors);
         }
       } finally {
         setLoading(false);

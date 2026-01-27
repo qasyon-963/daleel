@@ -1,5 +1,5 @@
 import { GraduationCap, Building2, BookOpen, MapPin, Sparkles } from "lucide-react";
-import daleelLogo from "@/assets/daleel-logo-new.png";
+import daleelLogo from "@/assets/daleel-logo.png";
 
 interface WelcomeScreenProps {
   onSuggestionClick: (suggestion: string) => void;
@@ -30,46 +30,47 @@ const suggestions = [
 
 export const WelcomeScreen = ({ onSuggestionClick }: WelcomeScreenProps) => {
   return (
-    <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-      {/* Logo */}
-      <div className="relative mb-6">
-        <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center overflow-hidden">
+    <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-8 text-center min-h-[70vh]">
+      {/* Logo with enhanced styling */}
+      <div className="relative mb-8 animate-fade-in">
+        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center overflow-hidden shadow-lg border border-primary/10">
           <img 
             src={daleelLogo} 
             alt="Daleel AI" 
-            className="w-16 h-16 object-contain"
+            className="w-20 h-20 sm:w-24 sm:h-24 object-contain"
           />
         </div>
-        <div className="absolute -bottom-1 -left-1 w-6 h-6 bg-primary rounded-full flex items-center justify-center">
-          <Sparkles className="text-primary-foreground" size={14} />
+        <div className="absolute -bottom-2 -left-2 w-8 h-8 bg-gradient-to-br from-primary to-primary/80 rounded-xl flex items-center justify-center shadow-md animate-pulse">
+          <Sparkles className="text-primary-foreground" size={16} />
         </div>
       </div>
 
-      {/* Title */}
-      <h1 className="text-3xl font-bold text-foreground mb-2">
+      {/* Title with gradient */}
+      <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent mb-3">
         Daleel AI
       </h1>
-      <p className="text-muted-foreground mb-8 max-w-md">
+      <p className="text-muted-foreground mb-10 max-w-lg text-base sm:text-lg leading-relaxed">
         مساعدك الذكي للجامعات والتخصصات الأكاديمية في سوريا.
+        <br className="hidden sm:block" />
         اسأل أي سؤال وسأساعدك بإجابات دقيقة ومفصلة.
       </p>
 
-      {/* Suggestions Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-lg">
+      {/* Enhanced Suggestions Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-xl">
         {suggestions.map((suggestion, index) => (
           <button
             key={index}
             onClick={() => onSuggestionClick(suggestion.question)}
-            className="flex items-center gap-3 p-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-colors text-right group"
+            className="flex items-center gap-4 p-5 rounded-2xl border border-border bg-card hover:bg-primary/5 hover:border-primary/30 hover:shadow-md transition-all duration-300 text-right group"
           >
-            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
-              <suggestion.icon className="text-primary" size={20} />
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center flex-shrink-0 group-hover:from-primary/25 group-hover:to-primary/10 transition-all duration-300 group-hover:scale-110">
+              <suggestion.icon className="text-primary" size={22} />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-medium text-foreground text-sm">
+              <p className="font-semibold text-foreground text-base mb-1">
                 {suggestion.title}
               </p>
-              <p className="text-xs text-muted-foreground truncate">
+              <p className="text-sm text-muted-foreground line-clamp-1">
                 {suggestion.question}
               </p>
             </div>
@@ -77,15 +78,30 @@ export const WelcomeScreen = ({ onSuggestionClick }: WelcomeScreenProps) => {
         ))}
       </div>
 
-      {/* Capabilities */}
-      <div className="mt-8 text-xs text-muted-foreground max-w-md">
-        <p className="mb-2 font-medium">يمكنني مساعدتك في:</p>
-        <ul className="space-y-1">
-          <li>• معلومات عن جميع الجامعات والكليات والمعاهد</li>
-          <li>• التخصصات الأكاديمية ومتطلبات القبول</li>
-          <li>• نصائح لاختيار المسار الدراسي المناسب</li>
-          <li>• أسئلة عامة عن التعليم والدراسة</li>
-        </ul>
+      {/* Enhanced Capabilities Section */}
+      <div className="mt-12 text-sm text-muted-foreground max-w-lg bg-muted/30 rounded-2xl p-6 border border-border">
+        <p className="mb-4 font-semibold text-foreground flex items-center justify-center gap-2">
+          <GraduationCap size={18} className="text-primary" />
+          يمكنني مساعدتك في:
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-right">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
+            <span>معلومات عن جميع الجامعات والكليات</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
+            <span>التخصصات ومتطلبات القبول</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
+            <span>نصائح لاختيار المسار الدراسي</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
+            <span>أسئلة عامة عن التعليم والدراسة</span>
+          </div>
+        </div>
       </div>
     </div>
   );
