@@ -1,4 +1,5 @@
-import { GraduationCap, Building2, BookOpen, MapPin, Sparkles } from "lucide-react";
+import { GraduationCap, Building2, BookOpen, MapPin, Sparkles, Brain } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import daleelLogo from "@/assets/daleel-logo.png";
 
 interface WelcomeScreenProps {
@@ -29,6 +30,8 @@ const suggestions = [
 ];
 
 export const WelcomeScreen = ({ onSuggestionClick }: WelcomeScreenProps) => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-8 text-center min-h-[70vh]">
       {/* Logo with enhanced styling */}
@@ -49,11 +52,32 @@ export const WelcomeScreen = ({ onSuggestionClick }: WelcomeScreenProps) => {
       <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent mb-3">
         Daleel AI
       </h1>
-      <p className="text-muted-foreground mb-10 max-w-lg text-base sm:text-lg leading-relaxed">
+      <p className="text-muted-foreground mb-8 max-w-lg text-base sm:text-lg leading-relaxed">
         مساعدك الذكي للجامعات والتخصصات الأكاديمية في سوريا.
         <br className="hidden sm:block" />
         اسأل أي سؤال وسأساعدك بإجابات دقيقة ومفصلة.
       </p>
+
+      {/* Mind Maps Tool Card */}
+      <button
+        onClick={() => navigate('/mind-maps')}
+        className="w-full max-w-xl mb-8 p-5 rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-primary/5 hover:from-primary/15 hover:to-primary/10 hover:border-primary/50 transition-all duration-300 group"
+      >
+        <div className="flex items-center gap-4 text-right">
+          <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/25 to-primary/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <Brain className="text-primary" size={28} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="font-bold text-foreground text-lg mb-1 flex items-center gap-2">
+              الخرائط الذهنية
+              <span className="text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full">جديد</span>
+            </p>
+            <p className="text-sm text-muted-foreground">
+              حوّل محتواك الدراسي إلى خرائط ذهنية احترافية بالذكاء الاصطناعي
+            </p>
+          </div>
+        </div>
+      </button>
 
       {/* Enhanced Suggestions Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-xl">
