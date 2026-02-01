@@ -263,6 +263,39 @@ export type Database = {
           },
         ]
       }
+      mind_maps: {
+        Row: {
+          content_preview: string | null
+          created_at: string
+          id: string
+          image_url: string
+          purpose: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content_preview?: string | null
+          created_at?: string
+          id?: string
+          image_url: string
+          purpose?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content_preview?: string | null
+          created_at?: string
+          id?: string
+          image_url?: string
+          purpose?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       news: {
         Row: {
           author_id: string | null

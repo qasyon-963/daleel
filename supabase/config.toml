@@ -5,3 +5,6 @@ verify_jwt = true
 
 [functions.daleel-ai-chat]
 verify_jwt = false
+
+[functions.generate-mind-map]
+verify_jwt = false
