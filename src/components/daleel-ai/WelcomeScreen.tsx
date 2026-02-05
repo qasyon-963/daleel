@@ -1,4 +1,4 @@
-import { GraduationCap, Building2, BookOpen, MapPin, Sparkles, Brain } from "lucide-react";
+import { GraduationCap, Building2, BookOpen, MapPin, Sparkles, Brain, FileCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import daleelLogo from "@/assets/daleel-logo.png";
 
@@ -58,26 +58,50 @@ export const WelcomeScreen = ({ onSuggestionClick }: WelcomeScreenProps) => {
         اسأل أي سؤال وسأساعدك بإجابات دقيقة ومفصلة.
       </p>
 
-      {/* Mind Maps Tool Card */}
-      <button
-        onClick={() => navigate('/mind-maps')}
-        className="w-full max-w-xl mb-8 p-5 rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-primary/5 hover:from-primary/15 hover:to-primary/10 hover:border-primary/50 transition-all duration-300 group"
-      >
-        <div className="flex items-center gap-4 text-right">
-          <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/25 to-primary/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-            <Brain className="text-primary" size={28} />
+      {/* Tools Cards */}
+      <div className="w-full max-w-xl mb-8 space-y-3">
+        {/* Mind Maps Tool Card */}
+        <button
+          onClick={() => navigate('/mind-maps')}
+          className="w-full p-5 rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-primary/5 hover:from-primary/15 hover:to-primary/10 hover:border-primary/50 transition-all duration-300 group"
+        >
+          <div className="flex items-center gap-4 text-right">
+            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/25 to-primary/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+              <Brain className="text-primary" size={28} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-bold text-foreground text-lg mb-1 flex items-center gap-2">
+                الخرائط الذهنية
+                <span className="text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full">أداة</span>
+              </p>
+              <p className="text-sm text-muted-foreground">
+                حوّل محتواك الدراسي إلى خرائط ذهنية احترافية بالذكاء الاصطناعي
+              </p>
+            </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="font-bold text-foreground text-lg mb-1 flex items-center gap-2">
-              الخرائط الذهنية
-              <span className="text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full">جديد</span>
-            </p>
-            <p className="text-sm text-muted-foreground">
-              حوّل محتواك الدراسي إلى خرائط ذهنية احترافية بالذكاء الاصطناعي
-            </p>
+        </button>
+
+        {/* Admissions Requirements Tool Card */}
+        <button
+          onClick={() => navigate('/admissions')}
+          className="w-full p-5 rounded-2xl border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 hover:from-emerald-500/15 hover:to-emerald-500/10 hover:border-emerald-500/50 transition-all duration-300 group"
+        >
+          <div className="flex items-center gap-4 text-right">
+            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-500/25 to-emerald-500/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+              <FileCheck className="text-emerald-600 dark:text-emerald-400" size={28} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-bold text-foreground text-lg mb-1 flex items-center gap-2">
+                شروط القبول والحدود الدنيا
+                <span className="text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full">جديد</span>
+              </p>
+              <p className="text-sm text-muted-foreground">
+                اعرف شروط التسجيل والحدود الدنيا لجميع التخصصات حسب نوع شهادتك
+              </p>
+            </div>
           </div>
-        </div>
-      </button>
+        </button>
+      </div>
 
       {/* Enhanced Suggestions Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-xl">
