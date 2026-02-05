@@ -21,6 +21,7 @@ const AdminUniversities = lazy(() => import("./pages/AdminUniversities").then(m 
 const AIChat = lazy(() => import("./pages/AIChat").then(m => ({ default: m.AIChat })));
 const DaleelAI = lazy(() => import("./pages/DaleelAI").then(m => ({ default: m.DaleelAI })));
 const MindMaps = lazy(() => import("./pages/MindMaps").then(m => ({ default: m.MindMaps })));
+const Admissions = lazy(() => import("./pages/Admissions").then(m => ({ default: m.Admissions })));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -60,6 +61,7 @@ const App = () => (
               <Route path="ai-chat" element={<AIChat />} />
               <Route path="daleel-ai" element={<DaleelAI />} />
               <Route path="mind-maps" element={<MindMaps />} />
+              <Route path="admissions" element={<Admissions />} />
             </Route>
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin/login" element={<AdminLogin />} />
