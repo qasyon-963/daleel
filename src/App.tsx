@@ -4,7 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/Layout";
-import { lazy, Suspense } from "react";
+import { SplashScreen } from "./components/splash/SplashScreen";
+import { lazy, Suspense, useState, useEffect } from "react";
 
 // Lazy load pages for better performance
 const Universities = lazy(() => import("./pages/Universities").then(m => ({ default: m.Universities })));
@@ -23,6 +24,7 @@ const DaleelAI = lazy(() => import("./pages/DaleelAI").then(m => ({ default: m.D
 const MindMaps = lazy(() => import("./pages/MindMaps").then(m => ({ default: m.MindMaps })));
 const Admissions = lazy(() => import("./pages/Admissions").then(m => ({ default: m.Admissions })));
 const NotFound = lazy(() => import("./pages/NotFound"));
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -43,38 +45,64 @@ const PageLoader = () => (
   </div>
 );
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Universities />} />
-              <Route path="university/:id" element={<UniversityDetail />} />
-              <Route path="majors" element={<Majors />} />
-              <Route path="news" element={<News />} />
-              <Route path="news/:id" element={<NewsDetail />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="ai-chat" element={<AIChat />} />
-              <Route path="daleel-ai" element={<DaleelAI />} />
-              <Route path="mind-maps" element={<MindMaps />} />
-              <Route path="admissions" element={<Admissions />} />
-            </Route>
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/news" element={<AdminNews />} />
-            <Route path="/admin/universities" element={<AdminUniversities />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  const [showSplash, setShowSplash] = useState(false);
+  const [isChecking, setIsChecking] = useState(true);
+
+  useEffect(() => {
+    // Check if splash has been seen before
+    const hasSeenSplash = localStorage.getItem('daleel_splash_seen');
+    if (!hasSeenSplash) {
+      setShowSplash(true);
+    }
+    setIsChecking(false);
+  }, []);
+
+  const handleSplashComplete = () => {
+    setShowSplash(false);
+  };
+
+  if (isChecking) {
+    return <PageLoader />;
+  }
+
+  if (showSplash) {
+    return <SplashScreen onComplete={handleSplashComplete} />;
+  }
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Universities />} />
+                <Route path="university/:id" element={<UniversityDetail />} />
+                <Route path="majors" element={<Majors />} />
+                <Route path="news" element={<News />} />
+                <Route path="news/:id" element={<NewsDetail />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="ai-chat" element={<AIChat />} />
+                <Route path="daleel-ai" element={<DaleelAI />} />
+                <Route path="mind-maps" element={<MindMaps />} />
+                <Route path="admissions" element={<Admissions />} />
+              </Route>
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/news" element={<AdminNews />} />
+              <Route path="/admin/universities" element={<AdminUniversities />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
