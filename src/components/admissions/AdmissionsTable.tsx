@@ -28,7 +28,6 @@ import {
   type AdmissionEntry,
   filterAdmissionEntries,
   getUniqueUniversities,
-  getUniqueMajors,
   getUniqueCategories,
 } from '@/data/admission-requirements';
 
@@ -67,11 +66,11 @@ export function AdmissionsTable({ entries }: AdmissionsTableProps) {
   const getBranchColor = (branchType: string) => {
     switch (branchType) {
       case 'علمي':
-        return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400';
+        return 'bg-primary/10 text-primary border-primary/20';
       case 'أدبي':
-        return 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400';
+        return 'bg-secondary text-secondary-foreground border-border';
       case 'علمي وأدبي':
-        return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400';
+        return 'bg-accent text-accent-foreground border-border';
       default:
         return 'bg-muted text-muted-foreground';
     }
@@ -79,10 +78,10 @@ export function AdmissionsTable({ entries }: AdmissionsTableProps) {
 
   const getScoreColor = (score: string) => {
     const numScore = parseInt(score);
-    if (numScore >= 80) return 'text-red-600 dark:text-red-400 font-bold';
-    if (numScore >= 75) return 'text-orange-600 dark:text-orange-400 font-semibold';
-    if (numScore >= 60) return 'text-yellow-600 dark:text-yellow-400 font-medium';
-    return 'text-green-600 dark:text-green-400';
+    if (numScore >= 80) return 'text-foreground font-bold';
+    if (numScore >= 75) return 'text-foreground font-semibold';
+    if (numScore >= 60) return 'text-muted-foreground font-medium';
+    return 'text-muted-foreground';
   };
 
   return (
@@ -91,7 +90,7 @@ export function AdmissionsTable({ entries }: AdmissionsTableProps) {
         <CardTitle className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <GraduationCap className="h-5 w-5" />
-            الحدود الدنيا للتخصصات
+            جدول الحدود الدنيا
           </div>
           <Badge variant="secondary" className="text-sm">
             {filteredEntries.length} تخصص
@@ -114,9 +113,9 @@ export function AdmissionsTable({ entries }: AdmissionsTableProps) {
             <CollapsibleTrigger asChild>
               <Button variant="outline" className="gap-2">
                 <Filter className="h-4 w-4" />
-                الفلاتر
+                فلترة
                 {activeFiltersCount > 0 && (
-                  <Badge variant="default" className="h-5 w-5 p-0 flex items-center justify-center text-xs">
+                  <Badge className="h-5 w-5 p-0 flex items-center justify-center text-xs">
                     {activeFiltersCount}
                   </Badge>
                 )}
@@ -129,7 +128,7 @@ export function AdmissionsTable({ entries }: AdmissionsTableProps) {
         {/* الفلاتر */}
         <Collapsible open={filtersOpen} onOpenChange={setFiltersOpen}>
           <CollapsibleContent className="space-y-3">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-lg bg-muted/50">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-lg bg-muted/50 border border-border">
               <div className="space-y-1.5">
                 <label className="text-sm font-medium flex items-center gap-1.5">
                   <BookOpen className="h-4 w-4" />
@@ -217,12 +216,12 @@ export function AdmissionsTable({ entries }: AdmissionsTableProps) {
                   filteredEntries.map((entry) => (
                     <TableRow key={entry.id} className="hover:bg-muted/30 transition-colors">
                       <TableCell className="font-medium">{entry.major}</TableCell>
-                      <TableCell className="text-muted-foreground">{entry.university}</TableCell>
+                      <TableCell className="text-muted-foreground text-sm">{entry.university}</TableCell>
                       <TableCell className={`text-center ${getScoreColor(entry.minScore)}`}>
                         {entry.minScore}
                       </TableCell>
                       <TableCell className="text-center">
-                        <Badge variant="secondary" className={getBranchColor(entry.branch)}>
+                        <Badge variant="outline" className={`${getBranchColor(entry.branch)} text-xs`}>
                           {entry.branch}
                         </Badge>
                       </TableCell>
