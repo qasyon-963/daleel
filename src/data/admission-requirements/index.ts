@@ -10,9 +10,27 @@ export type { CertificateType, AdmissionEntry };
 // قائمة جميع أنواع الشهادات المتاحة
 export const certificateTypes: CertificateType[] = [
   nonSyrianCertificate,
-  // أضف أنواع شهادات جديدة هنا:
-  // arabCertificates,
-  // regularSyrianCertificate,
+  // شهادات قادمة قريباً
+  {
+    id: 'arab-foreign',
+    name: 'شهادات عربية وأجنبية',
+    nameEn: 'Arab & Foreign Certificates',
+    description: 'مفاضلة الطلاب الحاصلين على شهادات ثانوية من دول عربية أو أجنبية',
+    icon: 'Flag',
+    requirements: [],
+    importantNotes: [],
+    admissionEntries: [],
+  },
+  {
+    id: 'syrian-regular',
+    name: 'الشهادة الثانوية السورية العامة',
+    nameEn: 'Syrian Regular Certificate',
+    description: 'المفاضلة العامة للطلاب الحاصلين على الشهادة الثانوية السورية داخل سوريا',
+    icon: 'FileText',
+    requirements: [],
+    importantNotes: [],
+    admissionEntries: [],
+  },
 ];
 
 // دالة للحصول على شهادة بواسطة المعرف

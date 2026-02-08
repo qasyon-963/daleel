@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { School, BookOpen, Sparkles, Newspaper, UserCircle } from "lucide-react";
+import { School, BookOpen, Sparkles, FileCheck, UserCircle } from "lucide-react";
 
 const navigationItems = [
   {
@@ -15,16 +15,16 @@ const navigationItems = [
     path: "/majors",
   },
   {
+    id: "admissions",
+    label: "المفاضلات",
+    icon: FileCheck,
+    path: "/admissions",
+  },
+  {
     id: "daleel-ai",
     label: "Daleel AI",
     icon: Sparkles,
     path: "/daleel-ai",
-  },
-  {
-    id: "news",
-    label: "الأخبار",
-    icon: Newspaper,
-    path: "/news",
   },
   {
     id: "profile",
