@@ -1,4 +1,4 @@
-import { GraduationCap, Building2, BookOpen, MapPin, Sparkles, Brain, FileCheck } from "lucide-react";
+import { GraduationCap, Building2, BookOpen, MapPin, Sparkles, Brain } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import daleelLogo from "@/assets/daleel-logo.png";
 
@@ -58,9 +58,8 @@ export const WelcomeScreen = ({ onSuggestionClick }: WelcomeScreenProps) => {
         اسأل أي سؤال وسأساعدك بإجابات دقيقة ومفصلة.
       </p>
 
-      {/* Tools Cards */}
-      <div className="w-full max-w-xl mb-8 space-y-3">
-        {/* Mind Maps Tool Card */}
+      {/* Mind Maps Tool Card */}
+      <div className="w-full max-w-xl mb-8">
         <button
           onClick={() => navigate('/mind-maps')}
           className="w-full p-5 rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-primary/5 hover:from-primary/15 hover:to-primary/10 hover:border-primary/50 transition-all duration-300 group"
@@ -76,27 +75,6 @@ export const WelcomeScreen = ({ onSuggestionClick }: WelcomeScreenProps) => {
               </p>
               <p className="text-sm text-muted-foreground">
                 حوّل محتواك الدراسي إلى خرائط ذهنية احترافية بالذكاء الاصطناعي
-              </p>
-            </div>
-          </div>
-        </button>
-
-        {/* Admissions Tool Card */}
-        <button
-          onClick={() => navigate('/admissions')}
-          className="w-full p-5 rounded-2xl border-2 border-primary/20 bg-gradient-to-br from-secondary to-muted/50 hover:from-secondary hover:to-muted hover:border-primary/40 transition-all duration-300 group"
-        >
-          <div className="flex items-center gap-4 text-right">
-            <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
-              <FileCheck className="text-primary group-hover:text-primary-foreground transition-colors" size={28} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-bold text-foreground text-lg mb-1 flex items-center gap-2">
-                القبول الجامعي
-                <span className="text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full">جديد</span>
-              </p>
-              <p className="text-sm text-muted-foreground">
-                اعرف شروط التسجيل والحدود الدنيا لجميع التخصصات حسب نوع شهادتك
               </p>
             </div>
           </div>

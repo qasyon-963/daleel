@@ -16,6 +16,7 @@ export interface CertificateType {
   name: string;
   nameEn: string;
   description: string;
+  icon: string;
   requirements: string[];
   importantNotes: string[];
   registrationDates?: string;
@@ -27,6 +28,7 @@ export const nonSyrianCertificate: CertificateType = {
   name: 'الشهادة الثانوية السورية المكتسبة من خارج سوريا',
   nameEn: 'Syrian Secondary Certificate (Abroad)',
   description: 'مفاضلة خاصة بالطلاب الحاصلين على شهادة الثانوية العامة السورية من مدارس خارج سوريا للعام الدراسي 2025-2026',
+  icon: 'Globe',
   requirements: [
     'الحصول على شهادة الثانوية العامة السورية (علمي أو أدبي) من خارج سوريا لعام 2025',
     'التقدم عبر بطاقة المفاضلة الإلكترونية مع إدراج الرغبات المطلوبة',
