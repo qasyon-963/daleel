@@ -72,10 +72,10 @@
     --shadow-primary: 0 4px 16px 0 rgba(127, 73, 180, 0.2);
     --shadow-glow: 0 0 20px 0 rgba(127, 73, 180, 0.15);
     
-    /* Spacing and Layout */
-    --radius: 0.75rem;
+  /* Spacing and Layout */
+    --radius: 0.875rem;
     --radius-sm: 0.5rem;
-    --radius-lg: 1rem;
+    --radius-lg: 1.25rem;
     
     /* Smooth Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -161,6 +161,15 @@
     font-family: 'Cairo', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-feature-settings: "kern" 1, "liga" 1;
     letter-spacing: -0.01em;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior: none;
+    user-select: none;
+  }
+
+  /* Safe area for mobile devices */
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0);
   }
 
   /* Enhanced Typography */

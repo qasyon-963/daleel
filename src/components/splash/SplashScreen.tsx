@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { GraduationCap, BookOpen, FileCheck, Sparkles, ArrowLeft, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import daleelLogo from '@/assets/daleel-logo.png';
+import daleelLogo from '@/assets/daleel-logo-new.png';
+import splashBg from '@/assets/splash-bg.png';
 
 interface SplashScreenProps {
   onComplete: () => void;
@@ -9,45 +10,42 @@ interface SplashScreenProps {
 
 export function SplashScreen({ onComplete }: SplashScreenProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(true);
-  const [slideDirection, setSlideDirection] = useState<'next' | 'prev'>('next');
+  const [isEntering, setIsEntering] = useState(true);
+  const [isExiting, setIsExiting] = useState(false);
 
   const slides = [
     {
       icon: GraduationCap,
-      title: 'مرحباً بك في دليل',
-      description: 'دليلك الشامل للجامعات والتخصصات الأكاديمية في سوريا',
-      color: 'from-primary to-primary/80',
+      title: 'استكشف الجامعات السورية',
+      description: 'دليلك الشامل لجميع الجامعات والكليات والتخصصات الأكاديمية في سوريا',
     },
     {
       icon: FileCheck,
-      title: 'اكتشف المفاضلات',
+      title: 'المفاضلات والقبول الجامعي',
       description: 'تعرف على شروط القبول والحدود الدنيا لكل تخصص وجامعة حسب نوع شهادتك',
-      color: 'from-primary/90 to-primary/70',
     },
     {
       icon: Sparkles,
-      title: 'مساعدك الذكي',
-      description: 'استخدم Daleel AI للإجابة على جميع استفساراتك حول الجامعات والتخصصات',
-      color: 'from-primary/80 to-primary/60',
+      title: 'مساعدك الذكي Daleel AI',
+      description: 'اسأل أي سؤال عن الجامعات والتخصصات واحصل على إجابات دقيقة فوراً',
     },
   ];
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsAnimating(false);
-    }, 300);
+    const timer = setTimeout(() => setIsEntering(false), 600);
     return () => clearTimeout(timer);
   }, []);
 
   const handleSkip = () => {
-    localStorage.setItem('daleel_splash_seen', 'true');
-    onComplete();
+    setIsExiting(true);
+    setTimeout(() => {
+      localStorage.setItem('daleel_splash_seen', 'true');
+      onComplete();
+    }, 400);
   };
 
   const handleNext = () => {
     if (currentSlide < slides.length - 1) {
-      setSlideDirection('next');
       setCurrentSlide(currentSlide + 1);
     } else {
       handleSkip();
@@ -56,7 +54,6 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
 
   const handlePrev = () => {
     if (currentSlide > 0) {
-      setSlideDirection('prev');
       setCurrentSlide(currentSlide - 1);
     }
   };
@@ -64,91 +61,85 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
   const CurrentIcon = slides[currentSlide].icon;
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-background overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Floating circles */}
-        <div className="absolute top-20 right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-40 left-10 w-48 h-48 bg-primary/5 rounded-full blur-2xl animate-pulse delay-700" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/3 rounded-full blur-3xl" />
-        
-        {/* Grid pattern */}
-        <div 
-          className="absolute inset-0 opacity-[0.02]"
-          style={{
-            backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
-                              linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
-            backgroundSize: '50px 50px',
-          }}
+    <div 
+      className={`fixed inset-0 z-50 flex flex-col overflow-hidden transition-all duration-500 ${
+        isExiting ? 'opacity-0 scale-105' : 'opacity-100 scale-100'
+      }`}
+    >
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <img 
+          src={splashBg} 
+          alt="" 
+          className="w-full h-full object-cover"
         />
+        {/* Overlay for readability */}
+        <div className="absolute inset-0 bg-black/30" />
       </div>
 
       {/* Content */}
       <div className="relative flex-1 flex flex-col items-center justify-center px-6 text-center">
-        {/* Logo with animation */}
+        {/* Logo */}
         <div 
-          className={`mb-6 transition-all duration-500 ease-out ${
-            isAnimating ? 'opacity-0 scale-75 rotate-12' : 'opacity-100 scale-100 rotate-0'
+          className={`mb-10 transition-all duration-700 ease-out ${
+            isEntering ? 'opacity-0 scale-50 translate-y-8' : 'opacity-100 scale-100 translate-y-0'
           }`}
         >
           <div className="relative">
-            <div className="w-28 h-28 rounded-3xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-2xl overflow-hidden">
+            <div className="w-28 h-28 rounded-3xl bg-white/10 backdrop-blur-xl flex items-center justify-center shadow-2xl border border-white/20 overflow-hidden">
               <img 
                 src={daleelLogo} 
-                alt="Daleel" 
+                alt="دليل" 
                 className="w-24 h-24 object-contain"
               />
             </div>
-            {/* Decorative ring */}
-            <div className="absolute -inset-2 rounded-[1.75rem] border-2 border-primary/20 animate-pulse" />
+            {/* Glow effect */}
+            <div className="absolute -inset-4 rounded-[2rem] bg-primary/20 blur-2xl -z-10" />
           </div>
         </div>
 
-        {/* Slide Content with Animation */}
+        {/* Slide Content */}
         <div 
           key={currentSlide}
-          className={`transition-all duration-500 ease-out ${
-            slideDirection === 'next' 
-              ? 'animate-fade-in' 
-              : 'animate-fade-in'
-          }`}
+          className="animate-fade-in max-w-sm"
         >
-          {/* Icon Badge */}
-          <div className="mb-6 flex justify-center">
-            <div className={`p-4 rounded-2xl bg-gradient-to-br ${slides[currentSlide].color} shadow-lg`}>
-              <CurrentIcon className="h-8 w-8 text-primary-foreground" />
+          {/* Icon */}
+          <div className="mb-5 flex justify-center">
+            <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 shadow-lg">
+              <CurrentIcon className="h-7 w-7 text-white" />
             </div>
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+          <h1 className="text-3xl font-bold mb-4 text-white drop-shadow-lg">
             {slides[currentSlide].title}
           </h1>
 
           {/* Description */}
-          <p className="text-muted-foreground text-lg md:text-xl max-w-md leading-relaxed mx-auto">
+          <p className="text-white/80 text-base leading-relaxed mx-auto">
             {slides[currentSlide].description}
           </p>
         </div>
 
-        {/* Feature Cards - Only on first slide */}
+        {/* Feature pills - first slide only */}
         {currentSlide === 0 && (
           <div 
-            className={`mt-10 grid grid-cols-3 gap-3 max-w-sm transition-all duration-700 delay-500 ease-out ${
-              isAnimating ? 'opacity-0 translate-y-8' : 'opacity-100 translate-y-0'
+            className={`mt-10 flex flex-wrap justify-center gap-2 transition-all duration-700 delay-300 ${
+              isEntering ? 'opacity-0 translate-y-6' : 'opacity-100 translate-y-0'
             }`}
           >
             {[
               { icon: GraduationCap, label: 'الجامعات' },
               { icon: BookOpen, label: 'التخصصات' },
               { icon: FileCheck, label: 'المفاضلات' },
+              { icon: Sparkles, label: 'AI ذكي' },
             ].map((feature, i) => (
               <div 
                 key={i}
-                className="flex flex-col items-center gap-2 p-4 rounded-2xl bg-muted/50 border border-border"
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/15"
               >
-                <feature.icon className="h-6 w-6 text-primary" />
-                <span className="text-xs font-medium text-muted-foreground">{feature.label}</span>
+                <feature.icon className="h-4 w-4 text-white/90" />
+                <span className="text-xs font-medium text-white/90">{feature.label}</span>
               </div>
             ))}
           </div>
@@ -156,35 +147,32 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
       </div>
 
       {/* Bottom Section */}
-      <div className="relative px-6 pb-10 pt-6 space-y-4">
-        {/* Progress Bar */}
-        <div className="flex items-center justify-center gap-2 mb-6">
+      <div className="relative px-6 pb-8 pt-4 space-y-4">
+        {/* Progress Dots */}
+        <div className="flex items-center justify-center gap-2 mb-5">
           {slides.map((_, index) => (
             <button
               key={index}
-              onClick={() => {
-                setSlideDirection(index > currentSlide ? 'next' : 'prev');
-                setCurrentSlide(index);
-              }}
+              onClick={() => setCurrentSlide(index)}
               className={`h-1.5 rounded-full transition-all duration-500 ${
                 index === currentSlide 
-                  ? 'w-10 bg-primary' 
+                  ? 'w-10 bg-white' 
                   : index < currentSlide
-                    ? 'w-1.5 bg-primary/40'
-                    : 'w-1.5 bg-muted-foreground/20'
+                    ? 'w-1.5 bg-white/50'
+                    : 'w-1.5 bg-white/25'
               }`}
               aria-label={`الانتقال للشريحة ${index + 1}`}
             />
           ))}
         </div>
 
-        {/* Navigation Buttons */}
+        {/* Navigation */}
         <div className="flex items-center gap-3">
           {currentSlide > 0 && (
             <Button 
               onClick={handlePrev}
               variant="outline"
-              className="h-14 w-14 rounded-2xl"
+              className="h-14 w-14 rounded-2xl border-white/20 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 hover:text-white"
               size="icon"
             >
               <ChevronLeft className="h-5 w-5 rotate-180" />
@@ -193,7 +181,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
           
           <Button 
             onClick={handleNext}
-            className="flex-1 h-14 text-lg font-semibold rounded-2xl gap-2"
+            className="flex-1 h-14 text-lg font-semibold rounded-2xl gap-2 bg-gradient-to-l from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-xl shadow-primary/30 border-0"
             size="lg"
           >
             {currentSlide < slides.length - 1 ? (
@@ -202,16 +190,16 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                 <ArrowLeft className="h-5 w-5" />
               </>
             ) : (
-              'ابدأ الاستكشاف'
+              'ابدأ الاستكشاف 🚀'
             )}
           </Button>
         </div>
 
-        {/* Skip Button */}
+        {/* Skip */}
         {currentSlide < slides.length - 1 && (
           <button
             onClick={handleSkip}
-            className="w-full text-muted-foreground hover:text-foreground transition-colors py-2 text-sm"
+            className="w-full text-white/60 hover:text-white transition-colors py-2 text-sm"
           >
             تخطي المقدمة
           </button>

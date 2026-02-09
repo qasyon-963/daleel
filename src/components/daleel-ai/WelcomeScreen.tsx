@@ -1,6 +1,6 @@
 import { GraduationCap, Building2, BookOpen, MapPin, Sparkles, Brain } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import daleelLogo from "@/assets/daleel-logo.png";
+import daleelLogo from "@/assets/daleel-logo-new.png";
 
 interface WelcomeScreenProps {
   onSuggestionClick: (suggestion: string) => void;
