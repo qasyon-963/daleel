@@ -2,34 +2,40 @@ import { useState, useEffect } from 'react';
 import { GraduationCap, BookOpen, FileCheck, Sparkles, ArrowLeft, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import daleelLogo from '@/assets/daleel-logo-new.png';
-import splashBg from '@/assets/splash-bg.png';
 
 interface SplashScreenProps {
   onComplete: () => void;
 }
 
+const slides = [
+  {
+    icon: GraduationCap,
+    title: 'استكشف الجامعات السورية',
+    description: 'دليلك الشامل لجميع الجامعات والكليات والتخصصات الأكاديمية في سوريا',
+  },
+  {
+    icon: FileCheck,
+    title: 'المفاضلات والقبول الجامعي',
+    description: 'تعرف على شروط القبول والحدود الدنيا لكل تخصص وجامعة حسب نوع شهادتك',
+  },
+  {
+    icon: Sparkles,
+    title: 'مساعدك الذكي Daleel AI',
+    description: 'اسأل أي سؤال عن الجامعات والتخصصات واحصل على إجابات دقيقة فوراً',
+  },
+];
+
+const features = [
+  { icon: GraduationCap, label: 'الجامعات' },
+  { icon: BookOpen, label: 'التخصصات' },
+  { icon: FileCheck, label: 'المفاضلات' },
+  { icon: Sparkles, label: 'AI ذكي' },
+];
+
 export function SplashScreen({ onComplete }: SplashScreenProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isEntering, setIsEntering] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
-
-  const slides = [
-    {
-      icon: GraduationCap,
-      title: 'استكشف الجامعات السورية',
-      description: 'دليلك الشامل لجميع الجامعات والكليات والتخصصات الأكاديمية في سوريا',
-    },
-    {
-      icon: FileCheck,
-      title: 'المفاضلات والقبول الجامعي',
-      description: 'تعرف على شروط القبول والحدود الدنيا لكل تخصص وجامعة حسب نوع شهادتك',
-    },
-    {
-      icon: Sparkles,
-      title: 'مساعدك الذكي Daleel AI',
-      description: 'اسأل أي سؤال عن الجامعات والتخصصات واحصل على إجابات دقيقة فوراً',
-    },
-  ];
 
   useEffect(() => {
     const timer = setTimeout(() => setIsEntering(false), 600);
@@ -65,17 +71,13 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
       className={`fixed inset-0 z-50 flex flex-col overflow-hidden transition-all duration-500 ${
         isExiting ? 'opacity-0 scale-105' : 'opacity-100 scale-100'
       }`}
+      style={{
+        background: 'linear-gradient(160deg, hsl(270 55% 25%) 0%, hsl(270 42% 35%) 30%, hsl(280 45% 45%) 60%, hsl(270 40% 30%) 100%)',
+      }}
     >
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <img 
-          src={splashBg} 
-          alt="" 
-          className="w-full h-full object-cover"
-        />
-        {/* Overlay for readability */}
-        <div className="absolute inset-0 bg-black/30" />
-      </div>
+      {/* Decorative circles */}
+      <div className="absolute top-[-10%] right-[-15%] w-[50vw] h-[50vw] rounded-full bg-white/5 blur-3xl" />
+      <div className="absolute bottom-[-5%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-white/5 blur-3xl" />
 
       {/* Content */}
       <div className="relative flex-1 flex flex-col items-center justify-center px-6 text-center">
@@ -93,29 +95,20 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                 className="w-24 h-24 object-contain"
               />
             </div>
-            {/* Glow effect */}
-            <div className="absolute -inset-4 rounded-[2rem] bg-primary/20 blur-2xl -z-10" />
+            <div className="absolute -inset-4 rounded-[2rem] bg-white/10 blur-2xl -z-10" />
           </div>
         </div>
 
         {/* Slide Content */}
-        <div 
-          key={currentSlide}
-          className="animate-fade-in max-w-sm"
-        >
-          {/* Icon */}
+        <div key={currentSlide} className="animate-fade-in max-w-sm">
           <div className="mb-5 flex justify-center">
             <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 shadow-lg">
               <CurrentIcon className="h-7 w-7 text-white" />
             </div>
           </div>
-
-          {/* Title */}
           <h1 className="text-3xl font-bold mb-4 text-white drop-shadow-lg">
             {slides[currentSlide].title}
           </h1>
-
-          {/* Description */}
           <p className="text-white/80 text-base leading-relaxed mx-auto">
             {slides[currentSlide].description}
           </p>
@@ -128,12 +121,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
               isEntering ? 'opacity-0 translate-y-6' : 'opacity-100 translate-y-0'
             }`}
           >
-            {[
-              { icon: GraduationCap, label: 'الجامعات' },
-              { icon: BookOpen, label: 'التخصصات' },
-              { icon: FileCheck, label: 'المفاضلات' },
-              { icon: Sparkles, label: 'AI ذكي' },
-            ].map((feature, i) => (
+            {features.map((feature, i) => (
               <div 
                 key={i}
                 className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/15"
@@ -181,7 +169,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
           
           <Button 
             onClick={handleNext}
-            className="flex-1 h-14 text-lg font-semibold rounded-2xl gap-2 bg-gradient-to-l from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-xl shadow-primary/30 border-0"
+            className="flex-1 h-14 text-lg font-semibold rounded-2xl gap-2 bg-white text-primary hover:bg-white/90 shadow-xl border-0"
             size="lg"
           >
             {currentSlide < slides.length - 1 ? (

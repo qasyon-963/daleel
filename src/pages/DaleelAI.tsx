@@ -100,7 +100,7 @@ export const DaleelAI = () => {
               <Menu size={20} />
             </Button>
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
                 <img src={daleelLogo} alt="Daleel AI" className="w-6 h-6 object-contain" />
               </div>
               <div>
