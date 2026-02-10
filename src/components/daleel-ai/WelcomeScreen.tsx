@@ -34,17 +34,17 @@ export const WelcomeScreen = ({ onSuggestionClick }: WelcomeScreenProps) => {
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-8 text-center min-h-[70vh]">
-      {/* Logo with enhanced styling */}
+      {/* Logo */}
       <div className="relative mb-8 animate-fade-in">
-        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center overflow-hidden shadow-lg border border-primary/10">
+        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center overflow-hidden border border-primary/10">
           <img 
             src={daleelLogo} 
             alt="Daleel AI" 
-            className="w-20 h-20 sm:w-24 sm:h-24 object-contain"
+            className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
           />
         </div>
-        <div className="absolute -bottom-2 -left-2 w-8 h-8 bg-gradient-to-br from-primary to-primary/80 rounded-xl flex items-center justify-center shadow-md animate-pulse">
-          <Sparkles className="text-primary-foreground" size={16} />
+        <div className="absolute -bottom-2 -left-2 w-7 h-7 bg-primary rounded-lg flex items-center justify-center shadow-md">
+          <Sparkles className="text-primary-foreground" size={14} />
         </div>
       </div>
 

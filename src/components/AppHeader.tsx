@@ -45,7 +45,7 @@ export const AppHeader = ({
           <img 
             src={daleelLogo} 
             alt="دليل" 
-            className="h-9 w-auto"
+            className="h-8 w-8 object-contain"
           />
         </div>
 
