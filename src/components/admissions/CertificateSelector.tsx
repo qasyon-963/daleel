@@ -1,4 +1,4 @@
-import { FileText, Globe, Flag, ArrowLeft, Clock } from 'lucide-react';
+import { FileText, Globe, Flag, Building2, ArrowLeft, Clock } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { certificateTypes, type CertificateType } from '@/data/admission-requirements';
