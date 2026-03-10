@@ -12,6 +12,7 @@ const iconMap: Record<string, typeof FileText> = {
   'FileText': FileText,
   'Globe': Globe,
   'Flag': Flag,
+  'Building2': Building2,
 };
 
 export function CertificateSelector({ selectedId, onSelect }: CertificateSelectorProps) {
