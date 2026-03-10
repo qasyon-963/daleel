@@ -4,12 +4,14 @@
 // 2. أضف import و export هنا
 
 import { nonSyrianCertificate, type CertificateType, type AdmissionEntry } from './non-syrian-certificates';
+import { privateUniversitiesCertificate } from './private-universities-certificate';
 
 export type { CertificateType, AdmissionEntry };
 
 // قائمة جميع أنواع الشهادات المتاحة
 export const certificateTypes: CertificateType[] = [
   nonSyrianCertificate,
+  privateUniversitiesCertificate,
   // شهادات قادمة قريباً
   {
     id: 'arab-foreign',
