@@ -206,15 +206,15 @@ export const Majors = () => {
         
         <div className="p-4 space-y-6">
           {/* Header Section */}
-          <div className="relative overflow-hidden rounded-2xl bg-primary text-primary-foreground p-8 animate-fade-in">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-background/10 rounded-full -translate-y-1/2 translate-x-1/2" />
-            <div className="absolute bottom-0 left-0 w-24 h-24 bg-background/5 rounded-full translate-y-1/2 -translate-x-1/2" />
-            <div className="relative text-center">
-              <div className="w-14 h-14 bg-background/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <BookOpen className="text-primary-foreground" size={28} />
+          <div className="relative overflow-hidden rounded-2xl p-6 animate-fade-in" style={{ background: 'linear-gradient(135deg, hsl(270 42% 30%) 0%, hsl(275 45% 42%) 100%)' }}>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/[0.04] rounded-full -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-20 h-20 bg-white/[0.03] rounded-full translate-y-1/2 -translate-x-1/2" />
+            <div className="relative">
+              <div className="w-10 h-10 bg-white/[0.1] rounded-lg flex items-center justify-center mb-3">
+                <BookOpen className="text-white/80" size={20} />
               </div>
-              <h1 className="text-3xl font-bold mb-3">دليل التخصصات الجامعية</h1>
-              <p className="text-primary-foreground/80 text-sm">
+              <h1 className="text-2xl font-bold mb-2 text-white">دليل التخصصات الجامعية</h1>
+              <p className="text-white/60 text-sm">
                 اكتشف جميع التخصصات المتاحة في الجامعات السورية
               </p>
             </div>

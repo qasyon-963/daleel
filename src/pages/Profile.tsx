@@ -120,12 +120,10 @@ export const Profile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center pb-20">
-        <div className="text-center animate-fade-in">
-          <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse-glow">
-            <User className="text-white" size={32} />
-          </div>
-          <p className="text-lg text-muted-foreground">جاري تحميل الملف الشخصي...</p>
+      <div className="min-h-screen bg-background flex items-center justify-center pb-24">
+        <div className="text-center animate-fade-in flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+          <p className="text-muted-foreground text-sm">جاري تحميل الملف الشخصي...</p>
         </div>
       </div>
     );
@@ -137,18 +135,18 @@ export const Profile = () => {
       message="يرجى تسجيل الدخول لعرض ملفك الشخصي وإدارة معلوماتك الأكاديمية"
     >
       <div className="min-h-screen bg-background pb-20">
-        <AppHeader searchPlaceholder="البحث..." />
+        <AppHeader />
         
-        <div className="p-4 space-y-6">
+        <div className="p-4 space-y-5">
           {/* Header Section */}
-          <div className="text-center py-8 animate-fade-in">
-            <div className="w-24 h-24 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse-glow">
-              <User className="text-white" size={48} />
+          <div className="text-center py-6 animate-fade-in">
+            <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <User className="text-primary" size={36} />
             </div>
-            <h1 className="text-3xl font-bold gradient-text mb-3">
+            <h1 className="text-2xl font-bold text-foreground mb-2">
               الملف الشخصي
             </h1>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-muted-foreground text-sm">
               إدارة معلوماتك الشخصية والأكاديمية
             </p>
           </div>
@@ -157,8 +155,8 @@ export const Profile = () => {
           <Card className="card-modern animate-slide-up">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
-                  <Shield size={16} className="text-white" />
+                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <Shield size={16} className="text-primary" />
                 </div>
                 المعلومات الشخصية
               </CardTitle>
@@ -191,8 +189,8 @@ export const Profile = () => {
               <CardHeader>
                 <CardTitle className="text-lg flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-gradient-secondary rounded-full flex items-center justify-center">
-                      <GraduationCap size={16} className="text-white" />
+                    <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <GraduationCap size={16} className="text-primary" />
                     </div>
                     الرغبات الأكاديمية
                   </div>
@@ -200,9 +198,9 @@ export const Profile = () => {
                     variant="ghost" 
                     size="sm"
                     onClick={() => setShowAcademicForm(true)}
-                    className="hover:bg-secondary/10"
+                    className="hover:bg-muted"
                   >
-                    <Edit size={18} className="text-secondary" />
+                    <Edit size={18} className="text-muted-foreground" />
                   </Button>
                 </CardTitle>
               </CardHeader>
@@ -237,14 +235,14 @@ export const Profile = () => {
                   </div>
                 ) : (
                   <div className="text-center py-8">
-                    <div className="w-16 h-16 bg-gradient-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <GraduationCap className="text-secondary" size={32} />
+                    <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <GraduationCap className="text-primary" size={28} />
                     </div>
-                    <p className="text-muted-foreground mb-4 text-lg">لم تتم إضافة الرغبات الأكاديمية بعد</p>
+                    <p className="text-muted-foreground mb-3 text-base">لم تتم إضافة الرغبات الأكاديمية بعد</p>
                     <p className="text-sm text-muted-foreground mb-6">أضف رغباتك الأكاديمية للحصول على توصيات مخصصة</p>
                     <Button 
                       onClick={() => setShowAcademicForm(true)} 
-                      className="bg-gradient-primary hover:bg-gradient-primary/90 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 gap-2"
+                      className="bg-primary hover:bg-primary-dark text-primary-foreground border-0 shadow-md transition-all duration-200 gap-2"
                     >
                       <GraduationCap size={18} />
                       إضافة الرغبات الأكاديمية
@@ -276,26 +274,26 @@ export const Profile = () => {
           <Card className="card-modern animate-slide-up" style={{ animationDelay: '0.2s' }}>
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
-                <div className="w-8 h-8 bg-gradient-accent rounded-full flex items-center justify-center">
-                  <Settings size={16} className="text-white" />
+                <div className="w-8 h-8 bg-muted rounded-lg flex items-center justify-center">
+                  <Settings size={16} className="text-muted-foreground" />
                 </div>
                 الإعدادات والخيارات
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Button variant="ghost" className="w-full justify-start gap-3 text-right hover:bg-accent/10">
-                <Bell size={18} className="text-accent" />
+              <Button variant="ghost" className="w-full justify-start gap-3 text-right hover:bg-muted">
+                <Bell size={18} className="text-muted-foreground" />
                 <span>إعدادات الإشعارات</span>
               </Button>
-              <Button variant="ghost" className="w-full justify-start gap-3 text-right hover:bg-accent/10">
-                <BookOpen size={18} className="text-accent" />
+              <Button variant="ghost" className="w-full justify-start gap-3 text-right hover:bg-muted">
+                <BookOpen size={18} className="text-muted-foreground" />
                 <span>سجل القراءة</span>
               </Button>
-              <Button variant="ghost" className="w-full justify-start gap-3 text-right hover:bg-accent/10">
-                <Share2 size={18} className="text-accent" />
+              <Button variant="ghost" className="w-full justify-start gap-3 text-right hover:bg-muted">
+                <Share2 size={18} className="text-muted-foreground" />
                 <span>مشاركة التطبيق</span>
               </Button>
-              <div className="border-t border-border my-3"></div>
+              <div className="border-t border-border/50 my-3"></div>
               <Button 
                 variant="ghost" 
                 className="w-full justify-start gap-3 text-right text-destructive hover:text-destructive hover:bg-destructive/10"
@@ -309,8 +307,8 @@ export const Profile = () => {
 
           {/* App Info */}
           <div className="text-center py-6 space-y-3 animate-fade-in">
-            <div className="w-12 h-12 bg-gradient-primary/10 rounded-full flex items-center justify-center mx-auto">
-              <Heart className="text-primary" size={24} />
+            <div className="w-10 h-10 bg-primary/8 rounded-full flex items-center justify-center mx-auto">
+              <Heart className="text-primary" size={18} />
             </div>
             <p className="text-sm text-muted-foreground">
               دليل - دليل الطلاب الجامعي في سوريا
