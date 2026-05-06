@@ -98,28 +98,28 @@ export const Universities = () => {
         
         <div className="p-4 space-y-6">
           {/* Hero Section */}
-          <div className="relative overflow-hidden rounded-2xl bg-primary text-primary-foreground p-8 animate-fade-in">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-background/10 rounded-full -translate-y-1/2 translate-x-1/2" />
-            <div className="absolute bottom-0 left-0 w-24 h-24 bg-background/5 rounded-full translate-y-1/2 -translate-x-1/2" />
-            <div className="relative text-center">
-              <h1 className="text-3xl font-bold mb-3">
+          <div className="relative overflow-hidden rounded-2xl p-6 animate-fade-in" style={{ background: 'linear-gradient(135deg, hsl(270 42% 30%) 0%, hsl(275 45% 42%) 100%)' }}>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/[0.04] rounded-full -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-20 h-20 bg-white/[0.03] rounded-full translate-y-1/2 -translate-x-1/2" />
+            <div className="relative">
+              <h1 className="text-2xl font-bold mb-2 text-white">
                 دليل الجامعات السورية
               </h1>
-              <p className="text-primary-foreground/80 text-sm max-w-md mx-auto leading-relaxed">
+              <p className="text-white/60 text-sm max-w-md leading-relaxed">
                 منصتك الشاملة لاستكشاف الجامعات وجميع الكليات والتخصصات المتاحة
               </p>
             </div>
           </div>
 
           {/* Info Card */}
-          <div className="bg-muted/50 rounded-xl p-4 border border-border animate-slide-up">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center flex-shrink-0">
-                <BookOpen className="text-primary-foreground" size={20} />
+          <div className="bg-muted/30 rounded-xl p-3.5 border border-border/50 animate-slide-up">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                <BookOpen className="text-primary" size={18} />
               </div>
               <div>
-                <h3 className="font-semibold text-foreground text-sm">استكشف بحرية</h3>
-                <p className="text-xs text-muted-foreground">
+                <h3 className="font-medium text-foreground text-sm">استكشف بحرية</h3>
+                <p className="text-[11px] text-muted-foreground leading-relaxed">
                   تصفح الجامعات واستكشف المعلومات. سجّل دخولك للوصول الكامل
                 </p>
               </div>
@@ -127,18 +127,18 @@ export const Universities = () => {
           </div>
 
           {/* Universities Grid */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             {filteredUniversities.map((university, index) => (
               <Card 
                 key={university.id} 
-                className="group cursor-pointer border border-border bg-card hover:border-primary hover:shadow-lg transition-all duration-300 animate-slide-up overflow-hidden"
+                className="group cursor-pointer border border-border/60 bg-card hover:border-primary/40 hover:shadow-md transition-all duration-200 animate-slide-up overflow-hidden"
                 onClick={() => handleUniversityClick(university.id)}
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
-                <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between gap-3">
+                <CardHeader className="pb-2 px-4 pt-4">
+                  <div className="flex items-start justify-between gap-2">
                     <div className="space-y-1 flex-1">
-                      <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+                      <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors leading-tight">
                         {university.name}
                       </h3>
                       <p className="text-xs text-muted-foreground">
@@ -158,25 +158,25 @@ export const Universities = () => {
                   </div>
                 </CardHeader>
                 
-                <CardContent className="space-y-4 pt-0">
+                <CardContent className="space-y-3 pt-0 px-4 pb-4">
                   {/* Location and Year */}
-                  <div className="flex flex-wrap items-center gap-4 text-xs">
-                    <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 bg-muted rounded-lg flex items-center justify-center">
-                        <MapPin size={14} className="text-foreground" />
+                  <div className="flex flex-wrap items-center gap-3 text-xs">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-6 h-6 bg-muted/60 rounded-md flex items-center justify-center">
+                        <MapPin size={12} className="text-muted-foreground" />
                       </div>
                       <span className="font-medium text-foreground">{university.city}</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 bg-muted rounded-lg flex items-center justify-center">
-                        <Calendar size={14} className="text-foreground" />
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-6 h-6 bg-muted/60 rounded-md flex items-center justify-center">
+                        <Calendar size={12} className="text-muted-foreground" />
                       </div>
                       <span className="text-muted-foreground">تأسست {university.established}</span>
                     </div>
                   </div>
 
                   {/* Description */}
-                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                  <p className="text-[11px] text-muted-foreground leading-relaxed line-clamp-2">
                     {university.description}
                   </p>
 
@@ -184,8 +184,8 @@ export const Universities = () => {
                   <div className="flex items-center">
                     <span className={`text-xs font-medium px-3 py-1 rounded-full ${
                       university.type === 'private' 
-                        ? 'bg-muted text-foreground' 
-                        : 'bg-primary/10 text-primary'
+                        ? 'bg-muted/60 text-muted-foreground' 
+                        : 'bg-primary/8 text-primary'
                     }`}>
                       {university.type === 'private' ? 'جامعة خاصة' : 'جامعة حكومية'}
                     </span>
