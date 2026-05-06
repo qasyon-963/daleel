@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { GraduationCap, BookOpen, FileCheck, Sparkles, ArrowLeft, ChevronLeft } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { GraduationCap, BookOpen, FileCheck, Sparkles, ArrowLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import daleelLogo from '@/assets/daleel-logo-new.png';
 
@@ -36,80 +36,84 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isEntering, setIsEntering] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
+  const [slideDirection, setSlideDirection] = useState<'next' | 'prev'>('next');
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsEntering(false), 600);
+    const timer = setTimeout(() => setIsEntering(false), 400);
     return () => clearTimeout(timer);
   }, []);
 
-  const handleSkip = () => {
+  const handleSkip = useCallback(() => {
     setIsExiting(true);
     setTimeout(() => {
       localStorage.setItem('daleel_splash_seen', 'true');
       onComplete();
-    }, 400);
-  };
+    }, 350);
+  }, [onComplete]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (currentSlide < slides.length - 1) {
+      setSlideDirection('next');
       setCurrentSlide(currentSlide + 1);
     } else {
       handleSkip();
     }
-  };
+  }, [currentSlide, handleSkip]);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     if (currentSlide > 0) {
+      setSlideDirection('prev');
       setCurrentSlide(currentSlide - 1);
     }
-  };
+  }, [currentSlide]);
 
   const CurrentIcon = slides[currentSlide].icon;
 
   return (
     <div 
-      className={`fixed inset-0 z-50 flex flex-col overflow-hidden transition-all duration-500 ${
+      className={`fixed inset-0 z-50 flex flex-col overflow-hidden transition-all duration-400 ${
         isExiting ? 'opacity-0 scale-105' : 'opacity-100 scale-100'
       }`}
       style={{
-        background: 'linear-gradient(160deg, hsl(270 55% 25%) 0%, hsl(270 42% 35%) 30%, hsl(280 45% 45%) 60%, hsl(270 40% 30%) 100%)',
+        background: 'linear-gradient(160deg, hsl(270 50% 12%) 0%, hsl(270 42% 28%) 40%, hsl(275 45% 38%) 70%, hsl(270 40% 18%) 100%)',
       }}
     >
       {/* Decorative circles */}
-      <div className="absolute top-[-10%] right-[-15%] w-[50vw] h-[50vw] rounded-full bg-white/5 blur-3xl" />
-      <div className="absolute bottom-[-5%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-white/5 blur-3xl" />
+      <div className="absolute top-[-10%] right-[-15%] w-[50vw] h-[50vw] rounded-full bg-white/[0.03] blur-3xl" />
+      <div className="absolute bottom-[-5%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-white/[0.03] blur-3xl" />
+      <div className="absolute top-[30%] left-[20%] w-[25vw] h-[25vw] rounded-full bg-purple-400/[0.06] blur-3xl" />
 
       {/* Content */}
-      <div className="relative flex-1 flex flex-col items-center justify-center px-6 text-center">
+      <div className="relative flex-1 flex flex-col items-center justify-center px-8 text-center">
         {/* Logo */}
         <div 
-          className={`mb-10 transition-all duration-700 ease-out ${
-            isEntering ? 'opacity-0 scale-50 translate-y-8' : 'opacity-100 scale-100 translate-y-0'
+          className={`mb-12 transition-all duration-600 ease-out ${
+            isEntering ? 'opacity-0 scale-75 translate-y-6' : 'opacity-100 scale-100 translate-y-0'
           }`}
         >
           <div className="relative">
-            <div className="w-28 h-28 rounded-3xl bg-white/10 backdrop-blur-xl flex items-center justify-center shadow-2xl border border-white/20 overflow-hidden">
+            <div className="w-24 h-24 rounded-[1.25rem] bg-white/[0.12] backdrop-blur-xl flex items-center justify-center shadow-2xl border border-white/[0.15] overflow-hidden">
               <img 
                 src={daleelLogo} 
                 alt="دليل" 
-                className="w-24 h-24 object-contain"
+                className="w-20 h-20 object-contain"
               />
             </div>
-            <div className="absolute -inset-4 rounded-[2rem] bg-white/10 blur-2xl -z-10" />
+            <div className="absolute -inset-3 rounded-[2rem] bg-white/[0.06] blur-2xl -z-10" />
           </div>
         </div>
 
         {/* Slide Content */}
-        <div key={currentSlide} className="animate-fade-in max-w-sm">
-          <div className="mb-5 flex justify-center">
-            <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 shadow-lg">
-              <CurrentIcon className="h-7 w-7 text-white" />
+        <div key={currentSlide} className="animate-fade-in max-w-xs">
+          <div className="mb-6 flex justify-center">
+            <div className="p-3 rounded-xl bg-white/[0.08] backdrop-blur-sm border border-white/[0.1]">
+              <CurrentIcon className="h-6 w-6 text-white/90" />
             </div>
           </div>
-          <h1 className="text-3xl font-bold mb-4 text-white drop-shadow-lg">
+          <h1 className="text-2xl font-bold mb-3 text-white tracking-tight">
             {slides[currentSlide].title}
           </h1>
-          <p className="text-white/80 text-base leading-relaxed mx-auto">
+          <p className="text-white/60 text-sm leading-relaxed mx-auto">
             {slides[currentSlide].description}
           </p>
         </div>
@@ -117,17 +121,17 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
         {/* Feature pills - first slide only */}
         {currentSlide === 0 && (
           <div 
-            className={`mt-10 flex flex-wrap justify-center gap-2 transition-all duration-700 delay-300 ${
-              isEntering ? 'opacity-0 translate-y-6' : 'opacity-100 translate-y-0'
+            className={`mt-8 flex flex-wrap justify-center gap-2 transition-all duration-500 delay-200 ${
+              isEntering ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'
             }`}
           >
             {features.map((feature, i) => (
               <div 
                 key={i}
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/15"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.07] border border-white/[0.1] text-white/70"
               >
-                <feature.icon className="h-4 w-4 text-white/90" />
-                <span className="text-xs font-medium text-white/90">{feature.label}</span>
+                <feature.icon className="h-3.5 w-3.5" />
+                <span className="text-[11px] font-medium">{feature.label}</span>
               </div>
             ))}
           </div>
@@ -135,19 +139,19 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
       </div>
 
       {/* Bottom Section */}
-      <div className="relative px-6 pb-8 pt-4 space-y-4">
+      <div className="relative px-6 pb-10 pt-4 space-y-4 safe-area-bottom">
         {/* Progress Dots */}
-        <div className="flex items-center justify-center gap-2 mb-5">
+        <div className="flex items-center justify-center gap-2 mb-4">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`h-1.5 rounded-full transition-all duration-500 ${
+              className={`h-1 rounded-full transition-all duration-400 ${
                 index === currentSlide 
-                  ? 'w-10 bg-white' 
+                  ? 'w-8 bg-white' 
                   : index < currentSlide
-                    ? 'w-1.5 bg-white/50'
-                    : 'w-1.5 bg-white/25'
+                    ? 'w-1.5 bg-white/40'
+                    : 'w-1.5 bg-white/20'
               }`}
               aria-label={`الانتقال للشريحة ${index + 1}`}
             />
@@ -160,16 +164,16 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
             <Button 
               onClick={handlePrev}
               variant="outline"
-              className="h-14 w-14 rounded-2xl border-white/20 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 hover:text-white"
+              className="h-12 w-12 rounded-xl border-white/15 bg-white/[0.08] backdrop-blur-sm text-white hover:bg-white/15 hover:text-white"
               size="icon"
             >
-              <ChevronLeft className="h-5 w-5 rotate-180" />
+              <ChevronRight className="h-5 w-5" />
             </Button>
           )}
           
           <Button 
             onClick={handleNext}
-            className="flex-1 h-14 text-lg font-semibold rounded-2xl gap-2 bg-white text-primary hover:bg-white/90 shadow-xl border-0"
+            className="flex-1 h-12 text-base font-semibold rounded-xl gap-2 bg-white text-primary hover:bg-white/95 shadow-lg border-0"
             size="lg"
           >
             {currentSlide < slides.length - 1 ? (
@@ -187,7 +191,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
         {currentSlide < slides.length - 1 && (
           <button
             onClick={handleSkip}
-            className="w-full text-white/60 hover:text-white transition-colors py-2 text-sm"
+            className="w-full text-white/40 hover:text-white/70 transition-colors py-2 text-xs"
           >
             تخطي المقدمة
           </button>
