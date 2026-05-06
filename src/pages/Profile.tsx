@@ -211,7 +211,6 @@ export const Profile = () => {
                       <p className="text-sm text-muted-foreground font-medium">الجامعة</p>
                       <div className="flex items-center gap-2">
                         <CheckCircle size={16} className="text-secondary" />
-<!-- no change needed, but fix the empty academic section -->
                         <p className="font-medium text-foreground">{profile.university_name}</p>
                       </div>
                     </div>
