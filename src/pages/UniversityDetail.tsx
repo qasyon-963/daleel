@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getUniversityDetails, UniversityDetails } from "@/services/university";
+import { DepartmentsList } from "@/components/university/DepartmentsList";
 import defaultLogo from "@/assets/daleel-logo.png";
 
 // University logos are loaded from the database (logo_url field)
@@ -281,6 +282,7 @@ export const UniversityDetail = () => {
                         {faculty.name_en}
                       </p>
                     )}
+                    <DepartmentsList departments={faculty.departments} />
                   </div>
                 ))}
               </CardContent>
@@ -306,9 +308,12 @@ export const UniversityDetail = () => {
                     <h3 className="font-bold text-foreground text-lg mb-1">
                       {institute.name}
                     </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {institute.name_en}
-                    </p>
+                    {institute.name_en && (
+                      <p className="text-sm text-muted-foreground">
+                        {institute.name_en}
+                      </p>
+                    )}
+                    <DepartmentsList departments={institute.departments} />
                   </div>
                 ))}
               </CardContent>
@@ -334,9 +339,12 @@ export const UniversityDetail = () => {
                     <h3 className="font-bold text-foreground text-lg mb-1">
                       {institute.name}
                     </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {institute.name_en}
-                    </p>
+                    {institute.name_en && (
+                      <p className="text-sm text-muted-foreground">
+                        {institute.name_en}
+                      </p>
+                    )}
+                    <DepartmentsList departments={institute.departments} />
                   </div>
                 ))}
               </CardContent>
@@ -371,6 +379,7 @@ export const UniversityDetail = () => {
                             <div key={faculty.id} className="p-3 bg-gradient-primary/5 rounded-lg border border-primary/20">
                               <h5 className="font-medium">{faculty.name}</h5>
                               {faculty.name_en && <p className="text-sm text-muted-foreground">{faculty.name_en}</p>}
+                              <DepartmentsList departments={faculty.departments} compact />
                             </div>
                           ))}
                         </div>
@@ -389,6 +398,7 @@ export const UniversityDetail = () => {
                             <div key={institute.id} className="p-3 bg-gradient-secondary/5 rounded-lg border border-secondary/20">
                               <h5 className="font-medium">{institute.name}</h5>
                               {institute.name_en && <p className="text-sm text-muted-foreground">{institute.name_en}</p>}
+                              <DepartmentsList departments={institute.departments} compact />
                             </div>
                           ))}
                         </div>
