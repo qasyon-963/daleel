@@ -23,6 +23,15 @@ export interface Faculty {
   branch_id: string | null;
   category?: string | null;
   majors?: Major[];
+  departments?: Department[];
+}
+
+export interface Department {
+  id: string;
+  name: string;
+  name_en: string | null;
+  description?: string | null;
+  sort_order?: number | null;
 }
 
 export interface Major {
@@ -75,6 +84,13 @@ export const getUniversityDetails = async (universityId: string): Promise<Univer
           id,
           name,
           name_en
+        ),
+        departments (
+          id,
+          name,
+          name_en,
+          description,
+          sort_order
         )
       `)
       .eq('university_id', universityId)
@@ -100,6 +116,13 @@ export const getUniversityDetails = async (universityId: string): Promise<Univer
             id,
             name,
             name_en
+          ),
+          departments (
+            id,
+            name,
+            name_en,
+            description,
+            sort_order
           )
         )
       `)
@@ -114,10 +137,24 @@ export const getUniversityDetails = async (universityId: string): Promise<Univer
       console.error('Error fetching branches:', branchesError);
     }
 
+    const sortDepartments = (faculty: Faculty): Faculty => ({
+      ...faculty,
+      departments: (faculty.departments || [])
+        .slice()
+        .sort(
+          (a, b) =>
+            (a.sort_order ?? 0) - (b.sort_order ?? 0) ||
+            a.name.localeCompare(b.name, 'ar')
+        ),
+    });
+
     return {
       ...university,
-      faculties: (mainFaculties || []) as Faculty[],
-      branches: (branches || []) as Branch[]
+      faculties: ((mainFaculties || []) as Faculty[]).map(sortDepartments),
+      branches: ((branches || []) as Branch[]).map((branch) => ({
+        ...branch,
+        faculties: (branch.faculties || []).map(sortDepartments),
+      })),
     };
   } catch (error) {
     console.error('Error in getUniversityDetails:', error);
