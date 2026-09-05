@@ -134,6 +134,7 @@ export type Database = {
       }
       departments: {
         Row: {
+          code: string | null
           created_at: string
           description: string | null
           faculty_id: string
@@ -144,6 +145,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          code?: string | null
           created_at?: string
           description?: string | null
           faculty_id: string
@@ -154,6 +156,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          code?: string | null
           created_at?: string
           description?: string | null
           faculty_id?: string
@@ -177,6 +180,7 @@ export type Database = {
         Row: {
           branch_id: string | null
           category: string | null
+          code: string | null
           created_at: string
           id: string
           name: string
@@ -188,6 +192,7 @@ export type Database = {
         Insert: {
           branch_id?: string | null
           category?: string | null
+          code?: string | null
           created_at?: string
           id?: string
           name: string
@@ -199,6 +204,7 @@ export type Database = {
         Update: {
           branch_id?: string | null
           category?: string | null
+          code?: string | null
           created_at?: string
           id?: string
           name?: string
@@ -551,6 +557,8 @@ export type Database = {
     Functions: {
       get_current_user_role: { Args: never; Returns: string }
       is_admin: { Args: { user_id?: string }; Returns: boolean }
+      next_department_code: { Args: never; Returns: string }
+      next_faculty_code: { Args: never; Returns: string }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
