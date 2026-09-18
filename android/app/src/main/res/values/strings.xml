@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Daleel</string>
+    <string name="title_activity_main">Daleel</string>
+    <string name="package_name">com.syria.daleel</string>
+    <string name="custom_url_scheme">com.syria.daleel</string>
+</resources>
